@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="can_not_load_cocktails">Cannot load cocktails. Try again.</string>
+    <string name="cocktails">Cocktails</string>
+    <string name="can_not_load_cocktail_details">Cannot load cocktail details. Try again.</string>
+    <string name="cocktail_details">Cocktail details</string>
+</resources>
