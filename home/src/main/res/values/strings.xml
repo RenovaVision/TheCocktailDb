@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="show_categories">Show categories</string>
+    <string name="show_ingredients">Show ingredients</string>
+    <string name="show_alcoholic">Show alcoholic</string>
+</resources>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main_navigation"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.renovavision.thecocktaildb.home.HomeFragment"
+        android:label="Home">
+
+        <action
+            android:id="@+id/navigate_to_ingredients"
+            app:destination="@id/nav_ingredients"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+
+        <action
+            android:id="@+id/navigate_to_categories"
+            app:destination="@id/nav_categories"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_ingredients"
+        android:name="com.renovavision.thecocktaildb.ingredients.IngredientsFragment"
+        android:label="Ingredients">
+
+        <action
+            android:id="@+id/navigate_to_cocktails_list"
+            app:destination="@id/nav_cocktails_list"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_categories"
+        android:name="com.renovavision.thecocktaildb.category.CategoriesFragment"
+        android:label="Categories">
+
+        <action
+            android:id="@+id/navigate_to_cocktails_list"
+            app:destination="@id/nav_cocktails_list"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_cocktails_list"
+        android:name="com.renovavision.thecocktaildb.cocktails.list.CocktailsListFragment"
+        android:label="Cocktails">
+
+        <argument
+            android:name="ingredient"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+
+        <argument
+            android:name="category"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/navigate_to_cocktail_details"
+            app:destination="@id/nav_cocktail_details"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_cocktail_details"
+        android:name="com.renovavision.thecocktaildb.cocktails.details.CocktailDetailsFragment"
+        android:label="Cocktail details">
+
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+</navigation>

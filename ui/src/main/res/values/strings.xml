@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category">Category: %s</string>
+    <string name="alcoholic">Alcoholic: %s</string>
+    <string name="instruction">Instruction: %s</string>
+    <string name="retry">Retry</string>
+</resources>
