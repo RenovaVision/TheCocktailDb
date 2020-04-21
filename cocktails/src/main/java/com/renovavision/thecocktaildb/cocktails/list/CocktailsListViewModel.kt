@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.renovavision.thecocktaildb.cocktails.CocktailsUseCase
 import com.renovavision.thecocktaildb.network.CocktailsApi
+import com.renovavision.thecocktaildb.network.DrinksByQuery
 import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
 import com.renovavision.thecocktaildb.network.DrinksCategory
 import com.renovavision.thecocktaildb.network.DrinksCategory.*
@@ -17,11 +19,11 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class NavigateToCocktailDetails(val id: Int) : ViewEvent
+data class NavigateToCocktailDetails(val cocktail: Drink) : ViewEvent
 
 data class LoadCocktailsByIngredient(val ingredient: Ingredient) : Event
 data class LoadCocktailsByCategory(val category: Category) : Event
-data class CocktailClicked(val id: Int) : Event
+data class CocktailClicked(val cocktail: Drink) : Event
 
 data class State(
     val isLoading: Boolean,
@@ -30,7 +32,7 @@ data class State(
 )
 
 class CocktailsListViewModel @Inject constructor(
-    private val cocktailsApi: CocktailsApi
+    private val useCase: CocktailsUseCase
 ) : ViewModel() {
 
     private val loadCocktails = MutableLiveData<State>()
@@ -46,7 +48,7 @@ class CocktailsListViewModel @Inject constructor(
         when (dispatchable) {
             is LoadCocktailsByIngredient -> loadCocktailsListByIngredient(dispatchable.ingredient)
             is LoadCocktailsByCategory -> loadCocktailsListByCategory(dispatchable.category)
-            is CocktailClicked -> actions.value = NavigateToCocktailDetails(dispatchable.id)
+            is CocktailClicked -> actions.value = NavigateToCocktailDetails(dispatchable.cocktail)
         }
     }
 
@@ -56,7 +58,7 @@ class CocktailsListViewModel @Inject constructor(
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             loadCocktails.value = State(isLoading = false, showError = true)
         }) {
-            val cocktails = cocktailsApi.loadDrinksByIngredient(ingredient.strIngredient1)
+            val cocktails = useCase.invoke(ingredient) as DrinksByQuery
 
             when (cocktails.drinks.isEmpty()) {
                 true -> loadCocktails.value = State(isLoading = false, showError = true)
@@ -72,7 +74,7 @@ class CocktailsListViewModel @Inject constructor(
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             loadCocktails.value = State(isLoading = false, showError = true)
         }) {
-            val cocktails = cocktailsApi.loadDrinksByCategory(category.strCategory)
+            val cocktails = useCase.invoke(category) as DrinksByQuery
 
             when (cocktails.drinks.isEmpty()) {
                 true -> loadCocktails.value = State(isLoading = false, showError = true)

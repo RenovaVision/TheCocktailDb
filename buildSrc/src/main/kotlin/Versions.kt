@@ -18,8 +18,8 @@ object Deps {
             "com.google.dagger:dagger-android-processor:${Versions.dagger}"
     }
 
-    object Javax {
-        const val inject = "javax.inject:javax.inject:1"
+    object Kotlinx {
+        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5"
     }
 
     object Square {

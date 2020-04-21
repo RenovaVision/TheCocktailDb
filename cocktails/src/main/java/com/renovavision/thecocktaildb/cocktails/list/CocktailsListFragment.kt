@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailsListBinding
+import com.renovavision.thecocktaildb.network.DrinksByQuery
+import com.renovavision.thecocktaildb.network.DrinksByQuery.*
 import com.renovavision.thecocktaildb.network.DrinksCategory
 import com.renovavision.thecocktaildb.network.DrinksCategory.*
 import com.renovavision.thecocktaildb.network.DrinksIngredient.Ingredient
@@ -21,7 +23,7 @@ import javax.inject.Named
 class CocktailsListFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory,
     @Named("navCocktailsListToDetails")
-    private val navCocktailsListToDetails: (id: @JvmSuppressWildcards Int) -> Unit
+    private val navCocktailsListToDetails: (cocktail: @JvmSuppressWildcards Drink) -> Unit
 ) : Fragment(R.layout.fragment_cocktails_list) {
 
     private val viewModel: CocktailsListViewModel by viewModels { viewModelFactory }
@@ -69,7 +71,7 @@ class CocktailsListFragment @Inject constructor(
 
         viewModel.clickEvent.observe(this) {
             when (it) {
-                is NavigateToCocktailDetails -> navCocktailsListToDetails(it.id)
+                is NavigateToCocktailDetails -> navCocktailsListToDetails(it.cocktail)
             }
         }
     }

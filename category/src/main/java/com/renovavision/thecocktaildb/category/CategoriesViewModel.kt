@@ -28,7 +28,7 @@ data class State(
 )
 
 class CategoriesViewModel @Inject constructor(
-    private val coctailsApi: CocktailsApi
+    private val useCase: CategoryUseCase
 ) : ViewModel() {
 
     private val loadCategories = MutableLiveData<State>()
@@ -53,7 +53,7 @@ class CategoriesViewModel @Inject constructor(
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             loadCategories.value = State(isLoading = false, showError = true)
         }) {
-            val ingredients = coctailsApi.loadDrinksCategory()
+            val ingredients = useCase.invoke()
 
             when (ingredients.drinks.isEmpty()) {
                 true -> loadCategories.value = State(isLoading = false, showError = true)

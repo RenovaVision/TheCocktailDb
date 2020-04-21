@@ -84,7 +84,8 @@
         android:label="Cocktail details">
 
         <argument
-            android:name="id"
-            app:argType="integer" />
+            android:name="cocktail"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
     </fragment>
 </navigation>

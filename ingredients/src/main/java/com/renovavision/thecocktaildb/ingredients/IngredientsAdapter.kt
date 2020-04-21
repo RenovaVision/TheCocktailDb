@@ -20,7 +20,7 @@ class IngredientsAdapter(dispatch: Dispatch) :
     )
 
     override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient) =
-        oldItem.strIngredient1 == newItem.strIngredient1
+        oldItem.key == newItem.key
 
     inner class IngredientViewHolder(private val binding: ItemViewIngredientBinding) :
         BaseViewHolder<Ingredient>(binding.root) {
@@ -33,7 +33,7 @@ class IngredientsAdapter(dispatch: Dispatch) :
         }
 
         override fun onBind(item: Ingredient) {
-            binding.ingredientName.text = item.strIngredient1
+            binding.ingredientName.text = item.key
         }
     }
 }

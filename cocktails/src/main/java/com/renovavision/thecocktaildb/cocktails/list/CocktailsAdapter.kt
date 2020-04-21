@@ -21,7 +21,7 @@ class CocktailsAdapter(dispatch: Dispatch) :
         )
 
     override fun areItemsTheSame(oldItem: Drink, newItem: Drink) =
-        oldItem.idDrink == newItem.idDrink
+        oldItem.key == newItem.key
 
     inner class CocktailViewHolder(private val binding: ItemViewCocktailBinding) :
         BaseViewHolder<Drink>(binding.root) {
@@ -29,7 +29,7 @@ class CocktailsAdapter(dispatch: Dispatch) :
         override fun onCreate(dispatch: Dispatch) {
             super.onCreate(dispatch)
             itemView.setOnClickListener {
-                item.let { dispatch.invoke(CocktailClicked(item.idDrink)) }
+                item.let { dispatch.invoke(CocktailClicked(item)) }
             }
         }
 

@@ -9,10 +9,9 @@ import com.renovavision.thecocktaildb.cocktails.list.CocktailsListFragmentDirect
 import com.renovavision.thecocktaildb.home.HomeFragmentDirections
 import com.renovavision.thecocktaildb.ingredients.IngredientsFragmentDirections
 import com.renovavision.thecocktaildb.inject.FragmentKey
-import com.renovavision.thecocktaildb.network.DrinksCategory
-import com.renovavision.thecocktaildb.network.DrinksCategory.*
-import com.renovavision.thecocktaildb.network.DrinksIngredient
-import com.renovavision.thecocktaildb.network.DrinksIngredient.*
+import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
+import com.renovavision.thecocktaildb.network.DrinksCategory.Category
+import com.renovavision.thecocktaildb.network.DrinksIngredient.Ingredient
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -68,9 +67,9 @@ internal object NavigationModule {
 
     @Provides
     @Named("navCocktailsListToDetails")
-    fun navCocktailsListToDetails(mainActivity: MainActivity): (id: Int) -> Unit = {
+    fun navCocktailsListToDetails(mainActivity: MainActivity): (cocktail: Drink) -> Unit = {
         mainActivity.findNavController(R.id.navHostFragment).navigate(
-            CocktailsListFragmentDirections.navigateToCocktailDetails(id = it)
+            CocktailsListFragmentDirections.navigateToCocktailDetails(it)
         )
     }
 

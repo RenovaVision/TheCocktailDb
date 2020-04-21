@@ -20,7 +20,7 @@ class CategoriesAdapter(dispatch: Dispatch) :
     )
 
     override fun areItemsTheSame(oldItem: Category, newItem: Category) =
-        oldItem.strCategory == newItem.strCategory
+        oldItem.key == newItem.key
 
     inner class CategoryViewHolder(private val binding: ItemViewCategoryBinding) :
         BaseViewHolder<Category>(binding.root) {
@@ -33,7 +33,7 @@ class CategoriesAdapter(dispatch: Dispatch) :
         }
 
         override fun onBind(item: Category) {
-            binding.categoryName.text = item.strCategory
+            binding.categoryName.text = item.key
         }
     }
 }
