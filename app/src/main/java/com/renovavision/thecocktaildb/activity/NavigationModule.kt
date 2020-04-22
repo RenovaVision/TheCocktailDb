@@ -9,6 +9,8 @@ import com.renovavision.thecocktaildb.cocktails.list.CocktailsListFragmentDirect
 import com.renovavision.thecocktaildb.home.HomeFragmentDirections
 import com.renovavision.thecocktaildb.ingredients.IngredientsFragmentDirections
 import com.renovavision.thecocktaildb.inject.FragmentKey
+import com.renovavision.thecocktaildb.network.CocktailInfo
+import com.renovavision.thecocktaildb.network.CocktailInfo.*
 import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
 import com.renovavision.thecocktaildb.network.DrinksCategory.Category
 import com.renovavision.thecocktaildb.network.DrinksIngredient.Ingredient
@@ -38,6 +40,14 @@ internal object NavigationModule {
     fun navHomeToIngredientsList(mainActivity: MainActivity): () -> Unit = {
         mainActivity.findNavController(R.id.navHostFragment).navigate(
             HomeFragmentDirections.navigateToIngredients()
+        )
+    }
+
+    @Provides
+    @Named("navHomeToCocktailDetails")
+    fun navHomeToCocktailDetails(mainActivity: MainActivity): (cocktail: Drink) -> Unit = {
+        mainActivity.findNavController(R.id.navHostFragment).navigate(
+            HomeFragmentDirections.navigateToCocktailDetails(it)
         )
     }
 
