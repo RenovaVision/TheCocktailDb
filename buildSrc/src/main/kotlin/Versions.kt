@@ -18,10 +18,6 @@ object Deps {
             "com.google.dagger:dagger-android-processor:${Versions.dagger}"
     }
 
-    object Kotlinx {
-        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5"
-    }
-
     object Square {
         const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
         const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshi}"

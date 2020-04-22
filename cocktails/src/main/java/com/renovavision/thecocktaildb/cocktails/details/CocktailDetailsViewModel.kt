@@ -4,11 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.cocktails.CocktailsUseCase
-import com.renovavision.thecocktaildb.network.CocktailInfo
+import com.renovavision.thecocktaildb.cocktails.GetCocktails
 import com.renovavision.thecocktaildb.network.CocktailInfo.Cocktail
-import com.renovavision.thecocktaildb.network.CocktailsApi
-import com.renovavision.thecocktaildb.network.DrinksByQuery
 import com.renovavision.thecocktaildb.network.DrinksByQuery.*
 import com.renovavision.thecocktaildb.utils.Dispatchable
 import com.renovavision.thecocktaildb.utils.Event
@@ -25,7 +22,7 @@ data class State(
 )
 
 class CocktailDetailsViewModel @Inject constructor(
-    private val useCase: CocktailsUseCase
+    private val getCocktails: GetCocktails
 ) : ViewModel() {
 
     private val getCocktailInfo = MutableLiveData<State>()
@@ -38,13 +35,13 @@ class CocktailDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun loadCocktailInfo(drink: Drink) {
+    private fun loadCocktailInfo(cocktail: Drink) {
         getCocktailInfo.value = State(isLoading = true, showError = false)
 
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             getCocktailInfo.value = State(isLoading = false, showError = true)
         }) {
-            val cocktailInfo = useCase.invoke(drink) as CocktailInfo
+            val cocktailInfo = getCocktails.loadCocktailDetails(cocktail.key)
 
             when (cocktailInfo.drinks.isEmpty()) {
                 true -> getCocktailInfo.value = State(isLoading = false, showError = true)

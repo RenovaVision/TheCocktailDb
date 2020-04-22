@@ -1,6 +1,6 @@
 package com.renovavision.thecocktaildb.network
 
-import com.renovavision.thecocktaildb.network.data.Data
+import com.renovavision.thecocktaildb.network.data.Indexed
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import retrofit2.http.GET
@@ -39,7 +39,7 @@ data class DrinksCategory(
     @JsonClass(generateAdapter = true)
     data class Category(
         @field:Json(name = "strCategory") override val key: String
-    ) : Serializable, Data<String>
+    ) : Serializable, Indexed<String>
 }
 
 @JsonClass(generateAdapter = true)
@@ -50,7 +50,7 @@ data class DrinksIngredient(
     @JsonClass(generateAdapter = true)
     data class Ingredient(
         @field:Json(name = "strIngredient1") override val key: String
-    ) : Serializable, Data<String>
+    ) : Serializable, Indexed<String>
 }
 
 @JsonClass(generateAdapter = true)
@@ -63,7 +63,7 @@ data class DrinksByQuery(
         val strDrink: String,
         val strDrinkThumb: String,
         @field:Json(name = "idDrink") override val key: Int
-    ) : Serializable, Data<Int>
+    ) : Serializable, Indexed<Int>
 }
 
 @JsonClass(generateAdapter = true)
@@ -142,7 +142,7 @@ data class CocktailInfo(
         val strMeasure15: String?,
         val strCreativeCommonsConfirmed: String?,
         val dateModified: String?
-    ) : Serializable, Data<Int> {
+    ) : Serializable, Indexed<Int> {
 
         fun getIngredients(): String {
             val list = listOf(

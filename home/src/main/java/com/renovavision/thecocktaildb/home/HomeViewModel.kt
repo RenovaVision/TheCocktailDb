@@ -24,7 +24,7 @@ data class State(
     val cocktail: List<Drink> = emptyList()
 )
 
-class HomeViewModel @Inject constructor(private val useCase: HomeUseCase) : ViewModel() {
+class HomeViewModel @Inject constructor(private val useCase: SearchCocktails) : ViewModel() {
 
     private val loadCocktails = MutableLiveData<State>()
     private val actions = SingleLiveEvent<ViewEvent>()

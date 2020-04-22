@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.network.CocktailsApi
-import com.renovavision.thecocktaildb.network.DrinksCategory
 import com.renovavision.thecocktaildb.network.DrinksCategory.*
-import com.renovavision.thecocktaildb.network.DrinksIngredient.Ingredient
 import com.renovavision.thecocktaildb.utils.Dispatchable
 import com.renovavision.thecocktaildb.utils.Event
 import com.renovavision.thecocktaildb.utils.SingleLiveEvent
@@ -28,7 +25,7 @@ data class State(
 )
 
 class CategoriesViewModel @Inject constructor(
-    private val useCase: CategoryUseCase
+    private val getCategoriesList: GetCategoriesList
 ) : ViewModel() {
 
     private val loadCategories = MutableLiveData<State>()
@@ -53,7 +50,7 @@ class CategoriesViewModel @Inject constructor(
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             loadCategories.value = State(isLoading = false, showError = true)
         }) {
-            val ingredients = useCase.invoke()
+            val ingredients = getCategoriesList.invoke()
 
             when (ingredients.drinks.isEmpty()) {
                 true -> loadCategories.value = State(isLoading = false, showError = true)

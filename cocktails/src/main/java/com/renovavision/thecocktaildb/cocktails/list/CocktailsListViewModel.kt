@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.cocktails.CocktailsUseCase
-import com.renovavision.thecocktaildb.network.CocktailsApi
+import com.renovavision.thecocktaildb.cocktails.GetCocktails
 import com.renovavision.thecocktaildb.network.DrinksByQuery
 import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
-import com.renovavision.thecocktaildb.network.DrinksCategory
 import com.renovavision.thecocktaildb.network.DrinksCategory.*
 import com.renovavision.thecocktaildb.network.DrinksIngredient.*
 import com.renovavision.thecocktaildb.utils.Dispatchable
@@ -32,7 +30,7 @@ data class State(
 )
 
 class CocktailsListViewModel @Inject constructor(
-    private val useCase: CocktailsUseCase
+    private val getCocktails: GetCocktails
 ) : ViewModel() {
 
     private val loadCocktails = MutableLiveData<State>()
@@ -58,7 +56,7 @@ class CocktailsListViewModel @Inject constructor(
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             loadCocktails.value = State(isLoading = false, showError = true)
         }) {
-            val cocktails = useCase.invoke(ingredient) as DrinksByQuery
+            val cocktails = getCocktails.loadCocktailsListByIngredient(ingredient.key)
 
             when (cocktails.drinks.isEmpty()) {
                 true -> loadCocktails.value = State(isLoading = false, showError = true)
@@ -74,7 +72,7 @@ class CocktailsListViewModel @Inject constructor(
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             loadCocktails.value = State(isLoading = false, showError = true)
         }) {
-            val cocktails = useCase.invoke(category) as DrinksByQuery
+            val cocktails = getCocktails.loadCocktailsListByCategory(category.key)
 
             when (cocktails.drinks.isEmpty()) {
                 true -> loadCocktails.value = State(isLoading = false, showError = true)

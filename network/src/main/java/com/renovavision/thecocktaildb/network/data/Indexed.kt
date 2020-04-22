@@ -1,5 +1,5 @@
 package com.renovavision.thecocktaildb.network.data
 
-interface Data<T>{
+interface Indexed<T>{
     val key: T
 }

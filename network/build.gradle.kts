@@ -10,7 +10,6 @@ dependencies {
     implementation(Deps.Square.moshi)
     implementation(Deps.Square.moshiAdapters)
     implementation(Deps.Google.dagger)
-    implementation(Deps.Kotlinx.coroutines)
     kapt(Deps.Google.daggerCompiler)
     kapt(Deps.Square.moshiKotlinCodegen)
 }
