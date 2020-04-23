@@ -1,4 +1,4 @@
-package com.renovavision.scorebat.inject
+package com.renovavision.thecocktaildb.inject
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.renovavision.scorebat.inject.test", appContext.packageName)
+        assertEquals("com.renovavision.thecocktaildb.inject.test", appContext.packageName)
     }
 }

@@ -1,4 +1,4 @@
-package com.renovavision.scorebat.inject
+package com.renovavision.thecocktaildb.inject
 
 import org.junit.Test
 
