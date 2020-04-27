@@ -1,6 +1,5 @@
-package com.renovavision.scorebat.network
+package com.renovavision.thecocktaildb.network
 
-import com.renovavision.thecocktaildb.network.CocktailsApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache

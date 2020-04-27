@@ -1,7 +1,7 @@
 package com.renovavision.thecocktaildb.app
 
 import android.app.Application
-import com.renovavision.scorebat.network.NetworkModule
+import com.renovavision.thecocktaildb.network.NetworkModule
 import com.renovavision.thecocktaildb.activity.MainActivityModule
 import dagger.BindsInstance
 import dagger.Component

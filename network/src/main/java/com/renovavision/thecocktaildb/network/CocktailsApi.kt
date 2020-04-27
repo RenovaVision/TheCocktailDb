@@ -21,9 +21,6 @@ interface CocktailsApi {
     @GET("filter.php")
     suspend fun loadDrinksByIngredient(@Query("i") ingredient: String): DrinksByQuery
 
-    @GET("search.php")
-    suspend fun loadIngredientInfo(@Query("i") ingredient: String): IngredientInfo
-
     @GET("lookup.php")
     suspend fun loadCocktailInfoById(@Query("i") id: Int): CocktailInfo
 
@@ -64,22 +61,6 @@ data class DrinksByQuery(
         val strDrinkThumb: String,
         @field:Json(name = "idDrink") override val key: Int
     ) : Serializable, Indexed<Int>
-}
-
-@JsonClass(generateAdapter = true)
-data class IngredientInfo(
-    val ingredients: List<Info>
-) : Serializable {
-
-    @JsonClass(generateAdapter = true)
-    data class Info(
-        val idIngredient: Int,
-        val strIngredient: String,
-        val strDescription: String?,
-        val strType: String?,
-        val strAlcohol: Boolean?,
-        val strABV: Int?
-    ) : Serializable
 }
 
 @JsonClass(generateAdapter = true)
