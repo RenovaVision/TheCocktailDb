@@ -9,6 +9,8 @@ android {
     defaultConfig {
         minSdkVersion(AndroidConfig.minSdkVersion)
         targetSdkVersion(AndroidConfig.targetSdkVersion)
+
+        testInstrumentationRunner = Deps.Test.testInstrumentationRunner
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -27,4 +29,8 @@ dependencies {
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Google.dagger)
     kapt(Deps.Google.daggerCompiler)
+
+    testImplementation(Deps.Test.junit)
+    androidTestImplementation(Deps.Test.junitExt)
+    androidTestImplementation(Deps.Test.espresso)
 }

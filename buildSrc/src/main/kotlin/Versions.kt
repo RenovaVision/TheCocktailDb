@@ -28,6 +28,13 @@ object Deps {
             "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
         const val picasso = "com.squareup.picasso:picasso:2.71828"
     }
+
+    object Test {
+        const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        const val junit = "junit:junit:4.12"
+        const val junitExt = "androidx.test.ext:junit:1.1.1"
+        const val espresso = "androidx.test.espresso:espresso-core:3.2.0"
+    }
 }
 
 object PluginVersions {

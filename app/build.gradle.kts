@@ -17,6 +17,8 @@ android {
             "API_URL",
             "\"https://www.thecocktaildb.com/api/json/v1/1/\""
         )
+
+        testInstrumentationRunner = Deps.Test.testInstrumentationRunner
     }
     buildTypes {
         getByName("release") {
@@ -59,4 +61,8 @@ dependencies {
     kapt(Deps.Google.daggerAndroidProcessor)
 
     implementation(Deps.Square.retrofit)
+
+    testImplementation(Deps.Test.junit)
+    androidTestImplementation(Deps.Test.junitExt)
+    androidTestImplementation(Deps.Test.espresso)
 }
