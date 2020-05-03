@@ -1,5 +1,6 @@
 package com.renovavision.thecocktaildb.network
 
+import com.renovavision.thecocktaildb.network.data.Indexed
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import retrofit2.http.GET
@@ -14,23 +15,17 @@ interface CocktailsApi {
     @GET("list.php?i=list")
     suspend fun loadDrinksIngredient(): DrinksIngredient
 
-    @GET("list.php?a=list")
-    suspend fun loadDrinksAlcoholic(): DrinksAlcoholic
-
     @GET("filter.php")
     suspend fun loadDrinksByCategory(@Query("c") category: String): DrinksByQuery
 
     @GET("filter.php")
     suspend fun loadDrinksByIngredient(@Query("i") ingredient: String): DrinksByQuery
 
-    @GET("filter.php")
-    suspend fun loadDrinksByAlcoholic(@Query("a") alcoholic: String): DrinksByQuery
-
-    @GET("search.php")
-    suspend fun loadIngredientInfo(@Query("i") ingredient: String): IngredientInfo
-
     @GET("lookup.php")
     suspend fun loadCocktailInfoById(@Query("i") id: Int): CocktailInfo
+
+    @GET("search.php")
+    suspend fun searchCocktails(@Query("s") query: String): CocktailInfo
 }
 
 @JsonClass(generateAdapter = true)
@@ -40,8 +35,8 @@ data class DrinksCategory(
 
     @JsonClass(generateAdapter = true)
     data class Category(
-        val strCategory: String
-    ) : Serializable
+        @field:Json(name = "strCategory") override val key: String
+    ) : Serializable, Indexed<String>
 }
 
 @JsonClass(generateAdapter = true)
@@ -51,19 +46,8 @@ data class DrinksIngredient(
 
     @JsonClass(generateAdapter = true)
     data class Ingredient(
-        val strIngredient1: String
-    ) : Serializable
-}
-
-@JsonClass(generateAdapter = true)
-data class DrinksAlcoholic(
-    val drinks: List<Alcoholic>
-) : Serializable {
-
-    @JsonClass(generateAdapter = true)
-    data class Alcoholic(
-        val strAlcoholic: String
-    ) : Serializable
+        @field:Json(name = "strIngredient1") override val key: String
+    ) : Serializable, Indexed<String>
 }
 
 @JsonClass(generateAdapter = true)
@@ -75,24 +59,8 @@ data class DrinksByQuery(
     data class Drink(
         val strDrink: String,
         val strDrinkThumb: String,
-        val idDrink: Int
-    ) : Serializable
-}
-
-@JsonClass(generateAdapter = true)
-data class IngredientInfo(
-    val ingredients: List<Info>
-) : Serializable {
-
-    @JsonClass(generateAdapter = true)
-    data class Info(
-        val idIngredient: Int,
-        val strIngredient: String,
-        val strDescription: String?,
-        val strType: String?,
-        val strAlcohol: Boolean?,
-        val strABV: Int?
-    ) : Serializable
+        @field:Json(name = "idDrink") override val key: Int
+    ) : Serializable, Indexed<Int>
 }
 
 @JsonClass(generateAdapter = true)
@@ -102,7 +70,7 @@ data class CocktailInfo(
 
     @JsonClass(generateAdapter = true)
     data class Cocktail(
-        val idDrink: Int,
+        @field:Json(name = "idDrink") override val key: Int,
         val strDrink: String,
         val strDrinkAlternate: String?,
         val strDrinkES: String?,
@@ -155,7 +123,7 @@ data class CocktailInfo(
         val strMeasure15: String?,
         val strCreativeCommonsConfirmed: String?,
         val dateModified: String?
-    ) : Serializable {
+    ) : Serializable, Indexed<Int> {
 
         fun getIngredients(): String {
             val list = listOf(

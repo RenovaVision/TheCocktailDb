@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.network.CocktailsApi
 import com.renovavision.thecocktaildb.network.DrinksIngredient.Ingredient
 import com.renovavision.thecocktaildb.utils.Dispatchable
 import com.renovavision.thecocktaildb.utils.Event
@@ -26,7 +25,7 @@ data class State(
 )
 
 class IngredientsViewModel @Inject constructor(
-    private val coctailsApi: CocktailsApi
+    private val getIngredientsList: GetIngredientsList
 ) : ViewModel() {
 
     private val loadIngredients = MutableLiveData<State>()
@@ -51,7 +50,7 @@ class IngredientsViewModel @Inject constructor(
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             loadIngredients.value = State(isLoading = false, showError = true)
         }) {
-            val ingredients = coctailsApi.loadDrinksIngredient()
+            val ingredients = getIngredientsList.invoke()
 
             when (ingredients.drinks.isEmpty()) {
                 true -> loadIngredients.value = State(isLoading = false, showError = true)

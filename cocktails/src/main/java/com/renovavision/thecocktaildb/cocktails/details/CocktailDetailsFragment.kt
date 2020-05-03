@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailDetailsBinding
+import com.renovavision.thecocktaildb.network.DrinksByQuery
+import com.renovavision.thecocktaildb.network.DrinksByQuery.*
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
@@ -23,7 +25,7 @@ class CocktailDetailsFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val cocktailId = arguments?.getInt("id")
+        val cocktail = arguments?.getSerializable("cocktail") as Drink
 
         onViewLifecycle({ binding.toolbar },
             {
@@ -34,19 +36,14 @@ class CocktailDetailsFragment @Inject constructor(
         onViewLifecycle({ binding.errorContainer },
             {
                 errorMessage = getString(R.string.can_not_load_cocktail_details)
-                clickListener = View.OnClickListener {
-                    cocktailId?.let { id ->
-                        viewModel.dispatch(LoadCocktailInfo(id))
-                    }
-                }
+                clickListener =
+                    View.OnClickListener { viewModel.dispatch(LoadCocktailInfo(cocktail)) }
             }, {
                 clickListener = null
             }
         )
 
-        cocktailId?.let { id ->
-            viewModel.dispatch(LoadCocktailInfo(id))
-        }
+        viewModel.dispatch(LoadCocktailInfo(cocktail))
     }
 
     override fun onStart() {

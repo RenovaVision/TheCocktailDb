@@ -1,29 +1,29 @@
-package com.renovavision.thecocktaildb.cocktails.list
+package com.renovavision.thecocktaildb.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.renovavision.thecocktaildb.cocktails.databinding.ItemViewCocktailBinding
+import com.renovavision.thecocktaildb.home.SearchResultAdapter.SearchResultViewHolder
+import com.renovavision.thecocktaildb.home.databinding.SearchItemBinding
 import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
 import com.renovavision.thecocktaildb.utils.BaseAdapter
 import com.renovavision.thecocktaildb.utils.BaseViewHolder
 import com.renovavision.thecocktaildb.utils.Dispatch
 
-class CocktailsAdapter(dispatch: Dispatch) :
-    BaseAdapter<Drink, CocktailsAdapter.CocktailViewHolder>(dispatch) {
+class SearchResultAdapter(dispatch: Dispatch) :
+    BaseAdapter<Drink, SearchResultViewHolder>(dispatch) {
 
-    override fun buildViewHolder(parent: ViewGroup, viewType: Int) =
-        CocktailViewHolder(
-            ItemViewCocktailBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+    override fun buildViewHolder(parent: ViewGroup, viewType: Int) = SearchResultViewHolder(
+        SearchItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
+    )
 
     override fun areItemsTheSame(oldItem: Drink, newItem: Drink) =
         oldItem.key == newItem.key
 
-    inner class CocktailViewHolder(private val binding: ItemViewCocktailBinding) :
+    inner class SearchResultViewHolder(private val binding: SearchItemBinding) :
         BaseViewHolder<Drink>(binding.root) {
 
         override fun onCreate(dispatch: Dispatch) {
@@ -34,9 +34,7 @@ class CocktailsAdapter(dispatch: Dispatch) :
         }
 
         override fun onBind(item: Drink) {
-            super.onBind(item)
-
-            binding.cocktailInfo.cocktail = item
+            binding.cocktailText.text = item.strDrink
         }
     }
 }

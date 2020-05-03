@@ -24,6 +24,14 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
+
+        <action
+            android:id="@+id/navigate_to_cocktail_details"
+            app:destination="@id/nav_cocktail_details"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
     </fragment>
 
     <fragment
@@ -84,7 +92,8 @@
         android:label="Cocktail details">
 
         <argument
-            android:name="id"
-            app:argType="integer" />
+            android:name="cocktail"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
     </fragment>
 </navigation>

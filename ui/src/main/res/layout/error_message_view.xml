@@ -4,15 +4,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/error_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:padding="8dp"
-        android:visibility="gone" />
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/error_message_view"
         android:layout_width="wrap_content"
