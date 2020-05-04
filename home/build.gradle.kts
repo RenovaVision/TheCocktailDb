@@ -22,7 +22,7 @@ dependencies {
     implementation(project(":style"))
     implementation(project(":inject"))
     implementation(project(":utils"))
-    implementation(project(":network"))
+    implementation(project(":domain"))
     implementation(Deps.Androidx.material)
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Androidx.constraintlayout)

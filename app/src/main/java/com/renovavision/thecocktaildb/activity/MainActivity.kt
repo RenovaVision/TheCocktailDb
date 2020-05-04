@@ -2,7 +2,6 @@ package com.renovavision.thecocktaildb.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.renovavision.thecocktaildb.R
 import com.renovavision.thecocktaildb.inject.DaggerFragmentFactory
 import dagger.android.AndroidInjection

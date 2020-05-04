@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.renovavision.thecocktaildb.category.databinding.FragmentCategoryListBinding
-import com.renovavision.thecocktaildb.network.DrinksCategory
-import com.renovavision.thecocktaildb.network.DrinksCategory.*
+import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
@@ -19,7 +18,7 @@ import javax.inject.Named
 class CategoriesFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory,
     @Named("navCategoriesToCocktailsList")
-    private val navCategoriesToCocktailsList: (category: @JvmSuppressWildcards Category) -> Unit
+    private val navCategoriesToCocktailsList: (category: @JvmSuppressWildcards CategoryEntity) -> Unit
 ) : Fragment(R.layout.fragment_category_list) {
 
     private val viewModel: CategoriesViewModel by viewModels { viewModelFactory }

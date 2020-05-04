@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.cocktails.GetCocktails
-import com.renovavision.thecocktaildb.network.DrinksByQuery
-import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
-import com.renovavision.thecocktaildb.network.DrinksCategory.*
-import com.renovavision.thecocktaildb.network.DrinksIngredient.*
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
+import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
+import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
+import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
 import com.renovavision.thecocktaildb.utils.Dispatchable
 import com.renovavision.thecocktaildb.utils.Event
 import com.renovavision.thecocktaildb.utils.SingleLiveEvent
@@ -17,16 +16,16 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class NavigateToCocktailDetails(val cocktail: Drink) : ViewEvent
+data class NavigateToCocktailDetails(val cocktail: DrinkEntity) : ViewEvent
 
-data class LoadCocktailsByIngredient(val ingredient: Ingredient) : Event
-data class LoadCocktailsByCategory(val category: Category) : Event
-data class CocktailClicked(val cocktail: Drink) : Event
+data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) : Event
+data class LoadCocktailsByCategory(val category: CategoryEntity) : Event
+data class CocktailClicked(val cocktail: DrinkEntity) : Event
 
 data class State(
     val isLoading: Boolean,
     val showError: Boolean,
-    val cocktails: List<Drink> = emptyList()
+    val cocktails: List<DrinkEntity> = emptyList()
 )
 
 class CocktailsListViewModel @Inject constructor(
@@ -50,7 +49,7 @@ class CocktailsListViewModel @Inject constructor(
         }
     }
 
-    private fun loadCocktailsListByIngredient(ingredient: Ingredient) {
+    private fun loadCocktailsListByIngredient(ingredient: IngredientEntity) {
         loadCocktails.value = State(isLoading = true, showError = false)
 
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
@@ -58,15 +57,15 @@ class CocktailsListViewModel @Inject constructor(
         }) {
             val cocktails = getCocktails.loadCocktailsListByIngredient(ingredient.key)
 
-            when (cocktails.drinks.isEmpty()) {
+            when (cocktails.isEmpty()) {
                 true -> loadCocktails.value = State(isLoading = false, showError = true)
                 else -> loadCocktails.value =
-                    State(isLoading = false, showError = false, cocktails = cocktails.drinks)
+                    State(isLoading = false, showError = false, cocktails = cocktails)
             }
         }
     }
 
-    private fun loadCocktailsListByCategory(category: Category) {
+    private fun loadCocktailsListByCategory(category: CategoryEntity) {
         loadCocktails.value = State(isLoading = true, showError = false)
 
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
@@ -74,10 +73,10 @@ class CocktailsListViewModel @Inject constructor(
         }) {
             val cocktails = getCocktails.loadCocktailsListByCategory(category.key)
 
-            when (cocktails.drinks.isEmpty()) {
+            when (cocktails.isEmpty()) {
                 true -> loadCocktails.value = State(isLoading = false, showError = true)
                 else -> loadCocktails.value =
-                    State(isLoading = false, showError = false, cocktails = cocktails.drinks)
+                    State(isLoading = false, showError = false, cocktails = cocktails)
             }
         }
     }

@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.network.DrinksIngredient.Ingredient
+import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
+import com.renovavision.thecocktaildb.domain.usecases.GetIngredientsList
 import com.renovavision.thecocktaildb.utils.Dispatchable
 import com.renovavision.thecocktaildb.utils.Event
 import com.renovavision.thecocktaildb.utils.SingleLiveEvent
@@ -13,15 +14,15 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class NavigateToCocktailsList(val ingredient: Ingredient) : ViewEvent
+data class NavigateToCocktailsList(val ingredient: IngredientEntity) : ViewEvent
 
 object LoadIngredients : Event
-data class IngredientClicked(val ingredient: Ingredient) : Event
+data class IngredientClicked(val ingredient: IngredientEntity) : Event
 
 data class State(
     val isLoading: Boolean,
     val showError: Boolean,
-    val ingredients: List<Ingredient> = emptyList()
+    val ingredients: List<IngredientEntity> = emptyList()
 )
 
 class IngredientsViewModel @Inject constructor(
@@ -52,12 +53,12 @@ class IngredientsViewModel @Inject constructor(
         }) {
             val ingredients = getIngredientsList.invoke()
 
-            when (ingredients.drinks.isEmpty()) {
+            when (ingredients.isEmpty()) {
                 true -> loadIngredients.value = State(isLoading = false, showError = true)
                 else -> loadIngredients.value = State(
                     isLoading = false,
                     showError = false,
-                    ingredients = ingredients.drinks
+                    ingredients = ingredients
                 )
             }
         }

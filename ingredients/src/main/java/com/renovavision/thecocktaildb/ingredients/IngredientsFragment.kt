@@ -7,8 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.ingredients.databinding.FragmentIngredientsListBinding
-import com.renovavision.thecocktaildb.network.DrinksIngredient.Ingredient
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
@@ -18,7 +18,7 @@ import javax.inject.Named
 class IngredientsFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory,
     @Named("navIngredientsToCocktailsList")
-    private val navIngredientsToCocktailsList: (ingredient: @JvmSuppressWildcards Ingredient) -> Unit
+    private val navIngredientsToCocktailsList: (ingredient: @JvmSuppressWildcards IngredientEntity) -> Unit
 ) : Fragment(R.layout.fragment_ingredients_list) {
 
     private val viewModel: IngredientsViewModel by viewModels { viewModelFactory }

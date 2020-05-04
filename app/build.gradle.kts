@@ -43,7 +43,8 @@ android {
 
 dependencies {
     implementation(project(":inject"))
-    implementation(project(":network"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
     implementation(project(":home"))
     implementation(project(":category"))
     implementation(project(":ingredients"))

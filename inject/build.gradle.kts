@@ -25,7 +25,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":style"))
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Google.dagger)
     kapt(Deps.Google.daggerCompiler)

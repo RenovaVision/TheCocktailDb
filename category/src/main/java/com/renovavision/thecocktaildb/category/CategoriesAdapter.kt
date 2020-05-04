@@ -3,13 +3,13 @@ package com.renovavision.thecocktaildb.category
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.renovavision.thecocktaildb.category.databinding.ItemViewCategoryBinding
-import com.renovavision.thecocktaildb.network.DrinksCategory.Category
+import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.utils.BaseAdapter
 import com.renovavision.thecocktaildb.utils.BaseViewHolder
 import com.renovavision.thecocktaildb.utils.Dispatch
 
 class CategoriesAdapter(dispatch: Dispatch) :
-    BaseAdapter<Category, CategoriesAdapter.CategoryViewHolder>(dispatch) {
+    BaseAdapter<CategoryEntity, CategoriesAdapter.CategoryViewHolder>(dispatch) {
 
     override fun buildViewHolder(parent: ViewGroup, viewType: Int) = CategoryViewHolder(
         ItemViewCategoryBinding.inflate(
@@ -19,11 +19,11 @@ class CategoriesAdapter(dispatch: Dispatch) :
         )
     )
 
-    override fun areItemsTheSame(oldItem: Category, newItem: Category) =
+    override fun areItemsTheSame(oldItem: CategoryEntity, newItem: CategoryEntity) =
         oldItem.key == newItem.key
 
     inner class CategoryViewHolder(private val binding: ItemViewCategoryBinding) :
-        BaseViewHolder<Category>(binding.root) {
+        BaseViewHolder<CategoryEntity>(binding.root) {
 
         override fun onCreate(dispatch: Dispatch) {
             super.onCreate(dispatch)
@@ -32,7 +32,7 @@ class CategoriesAdapter(dispatch: Dispatch) :
             }
         }
 
-        override fun onBind(item: Category) {
+        override fun onBind(item: CategoryEntity) {
             binding.categoryName.text = item.key
         }
     }

@@ -20,7 +20,7 @@ dependencies {
     implementation(project(":inject"))
     implementation(project(":utils"))
     implementation(project(":ui"))
-    implementation(project(":network"))
+    implementation(project(":domain"))
     implementation(Deps.Androidx.material)
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Androidx.recyclerview)

@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
+import com.renovavision.thecocktaildb.domain.usecases.GetSearchCocktails
 import com.renovavision.thecocktaildb.utils.Dispatchable
 import com.renovavision.thecocktaildb.utils.Event
 import com.renovavision.thecocktaildb.utils.SingleLiveEvent
@@ -13,18 +14,18 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class NavigateToCocktailDetails(val cocktail: Drink) : ViewEvent
+data class NavigateToCocktailDetails(val cocktail: DrinkEntity) : ViewEvent
 
 data class LoadCocktails(val query: String) : Event
-data class CocktailClicked(val cocktail: Drink) : Event
+data class CocktailClicked(val cocktail: DrinkEntity) : Event
 
 data class State(
     val isLoading: Boolean,
     val showError: Boolean,
-    val cocktail: List<Drink> = emptyList()
+    val cocktail: List<DrinkEntity> = emptyList()
 )
 
-class HomeViewModel @Inject constructor(private val useCase: SearchCocktails) : ViewModel() {
+class HomeViewModel @Inject constructor(private val useCase: GetSearchCocktails) : ViewModel() {
 
     private val loadCocktails = MutableLiveData<State>()
     private val actions = SingleLiveEvent<ViewEvent>()

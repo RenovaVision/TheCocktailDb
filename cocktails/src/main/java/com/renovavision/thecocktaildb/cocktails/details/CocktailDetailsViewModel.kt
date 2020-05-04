@@ -4,21 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.cocktails.GetCocktails
-import com.renovavision.thecocktaildb.network.CocktailInfo.Cocktail
-import com.renovavision.thecocktaildb.network.DrinksByQuery.*
+import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
+import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
 import com.renovavision.thecocktaildb.utils.Dispatchable
 import com.renovavision.thecocktaildb.utils.Event
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoadCocktailInfo(val drink: Drink) : Event
+data class LoadCocktailInfo(val drink: DrinkEntity) : Event
 
 data class State(
     val isLoading: Boolean,
     val showError: Boolean,
-    val cocktailInfo: Cocktail? = null
+    val cocktailInfo: CocktailEntity? = null
 )
 
 class CocktailDetailsViewModel @Inject constructor(
@@ -35,7 +35,7 @@ class CocktailDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun loadCocktailInfo(cocktail: Drink) {
+    private fun loadCocktailInfo(cocktail: DrinkEntity) {
         getCocktailInfo.value = State(isLoading = true, showError = false)
 
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
@@ -43,12 +43,12 @@ class CocktailDetailsViewModel @Inject constructor(
         }) {
             val cocktailInfo = getCocktails.loadCocktailDetails(cocktail.key)
 
-            when (cocktailInfo.drinks.isEmpty()) {
+            when (cocktailInfo.isEmpty()) {
                 true -> getCocktailInfo.value = State(isLoading = false, showError = true)
                 else -> getCocktailInfo.value = State(
                     isLoading = false,
                     showError = false,
-                    cocktailInfo = cocktailInfo.drinks.first()
+                    cocktailInfo = cocktailInfo.first()
                 )
             }
         }

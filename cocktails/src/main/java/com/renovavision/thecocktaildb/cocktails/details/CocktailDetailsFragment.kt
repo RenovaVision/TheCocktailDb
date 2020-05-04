@@ -7,8 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailDetailsBinding
-import com.renovavision.thecocktaildb.network.DrinksByQuery
-import com.renovavision.thecocktaildb.network.DrinksByQuery.*
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
@@ -25,7 +24,7 @@ class CocktailDetailsFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val cocktail = arguments?.getSerializable("cocktail") as Drink
+        val cocktail = arguments?.getSerializable("cocktail") as DrinkEntity
 
         onViewLifecycle({ binding.toolbar },
             {

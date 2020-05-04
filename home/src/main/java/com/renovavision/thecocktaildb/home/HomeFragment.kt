@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.home.databinding.FragmentHomeBinding
-import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
@@ -24,7 +24,7 @@ class HomeFragment @Inject constructor(
     @Named("navHomeToCategoryList")
     private val navHomeToCategoryList: () -> Unit,
     @Named("navHomeToCocktailDetails")
-    private val navHomeToCocktailDetails: (cocktail: @JvmSuppressWildcards Drink) -> Unit
+    private val navHomeToCocktailDetails: (cocktail: @JvmSuppressWildcards DrinkEntity) -> Unit
 ) : Fragment(R.layout.fragment_home) {
 
     private val viewModel: HomeViewModel by viewModels { viewModelFactory }

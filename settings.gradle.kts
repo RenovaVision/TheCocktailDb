@@ -22,7 +22,8 @@ include(
     ":category",
     ":ingredients",
     ":cocktails",
-    ":network",
+    ":data",
+    ":domain",
     ":utils",
     ":ui",
     ":style"
