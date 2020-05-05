@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.ingredients
+package com.renovavision.thecocktaildb.home.ingredients
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -41,25 +41,39 @@ class IngredientsViewModel @Inject constructor(
     fun dispatch(dispatchable: Dispatchable) {
         when (dispatchable) {
             is LoadIngredients -> loadIngredientsList()
-            is IngredientClicked -> actions.value = NavigateToCocktailsList(dispatchable.ingredient)
+            is IngredientClicked -> actions.value =
+                NavigateToCocktailsList(
+                    dispatchable.ingredient
+                )
         }
     }
 
     private fun loadIngredientsList() {
-        loadIngredients.value = State(isLoading = true, showError = false)
+        loadIngredients.value = State(
+            isLoading = true,
+            showError = false
+        )
 
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-            loadIngredients.value = State(isLoading = false, showError = true)
+            loadIngredients.value = State(
+                isLoading = false,
+                showError = true
+            )
         }) {
             val ingredients = getIngredientsList.invoke()
 
             when (ingredients.isEmpty()) {
-                true -> loadIngredients.value = State(isLoading = false, showError = true)
-                else -> loadIngredients.value = State(
-                    isLoading = false,
-                    showError = false,
-                    ingredients = ingredients
-                )
+                true -> loadIngredients.value =
+                    State(
+                        isLoading = false,
+                        showError = true
+                    )
+                else -> loadIngredients.value =
+                    State(
+                        isLoading = false,
+                        showError = false,
+                        ingredients = ingredients
+                    )
             }
         }
     }

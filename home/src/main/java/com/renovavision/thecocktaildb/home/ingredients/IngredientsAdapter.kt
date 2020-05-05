@@ -1,9 +1,9 @@
-package com.renovavision.thecocktaildb.ingredients
+package com.renovavision.thecocktaildb.home.ingredients
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
-import com.renovavision.thecocktaildb.ingredients.databinding.ItemViewIngredientBinding
+import com.renovavision.thecocktaildb.home.databinding.ItemViewIngredientBinding
 import com.renovavision.thecocktaildb.utils.BaseAdapter
 import com.renovavision.thecocktaildb.utils.BaseViewHolder
 import com.renovavision.thecocktaildb.utils.Dispatch
@@ -28,7 +28,11 @@ class IngredientsAdapter(dispatch: Dispatch) :
         override fun onCreate(dispatch: Dispatch) {
             super.onCreate(dispatch)
             itemView.setOnClickListener {
-                item.let { dispatch.invoke(IngredientClicked(item)) }
+                item.let { dispatch.invoke(
+                    IngredientClicked(
+                        item
+                    )
+                ) }
             }
         }
 

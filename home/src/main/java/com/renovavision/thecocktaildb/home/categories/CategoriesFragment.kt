@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.ingredients
+package com.renovavision.thecocktaildb.home.categories
 
 import android.os.Bundle
 import android.view.View
@@ -7,33 +7,30 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
-import com.renovavision.thecocktaildb.ingredients.databinding.FragmentIngredientsListBinding
+import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
+import com.renovavision.thecocktaildb.home.R
+import com.renovavision.thecocktaildb.home.databinding.FragmentCategoryListBinding
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
 import javax.inject.Inject
 import javax.inject.Named
 
-class IngredientsFragment @Inject constructor(
+class CategoriesFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory,
-    @Named("navIngredientsToCocktailsList")
-    private val navIngredientsToCocktailsList: (ingredient: @JvmSuppressWildcards IngredientEntity) -> Unit
-) : Fragment(R.layout.fragment_ingredients_list) {
+    @Named("navCategoriesToCocktailsList")
+    private val navCategoriesToCocktailsList: (category: @JvmSuppressWildcards CategoryEntity) -> Unit
+) : Fragment(R.layout.fragment_category_list) {
 
-    private val viewModel: IngredientsViewModel by viewModels { viewModelFactory }
+    private val viewModel: CategoriesViewModel by viewModels { viewModelFactory }
 
-    private val binding by bindingDelegate(FragmentIngredientsListBinding::bind)
+    private val binding by bindingDelegate(FragmentCategoryListBinding::bind)
 
-    private val ingredientsAdapter = IngredientsAdapter { viewModel.dispatch(it) }
+    private val ingredientsAdapter = CategoriesAdapter { viewModel.dispatch(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        onViewLifecycle({ binding.toolbar },
-            {
-                title = context.getString(R.string.ingredients)
-            })
         onViewLifecycle({ binding.recyclerView },
             {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -41,20 +38,20 @@ class IngredientsFragment @Inject constructor(
             })
         onViewLifecycle({ binding.errorContainer },
             {
-                errorMessage = getString(R.string.can_not_load_ingredients)
-                clickListener = View.OnClickListener { viewModel.dispatch(LoadIngredients) }
+                errorMessage = getString(R.string.can_not_load_categories)
+                clickListener = View.OnClickListener { viewModel.dispatch(LoadCategories) }
             }, {
                 clickListener = null
             })
 
-        viewModel.dispatch(LoadIngredients)
+        viewModel.dispatch(LoadCategories)
     }
 
     override fun onStart() {
         super.onStart()
 
         viewModel.state.observe(this) {
-            ingredientsAdapter.updateItems(it.ingredients)
+            ingredientsAdapter.updateItems(it.categories)
             binding.recyclerView.visibility = if (!it.showError) View.VISIBLE else View.GONE
             binding.errorContainer.visibility = if (it.showError) View.VISIBLE else View.GONE
             binding.progress.visibility = if (it.isLoading) View.VISIBLE else View.GONE
@@ -63,7 +60,7 @@ class IngredientsFragment @Inject constructor(
         viewModel.clickEvent.observe(this) {
             when (it) {
                 is NavigateToCocktailsList -> {
-                    navIngredientsToCocktailsList(it.ingredient)
+                    navCategoriesToCocktailsList(it.category)
                 }
             }
         }

@@ -2,15 +2,17 @@ package com.renovavision.thecocktaildb.activity
 
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import com.renovavision.thecocktaildb.R
-import com.renovavision.thecocktaildb.category.CategoriesFragmentDirections
 import com.renovavision.thecocktaildb.cocktails.list.CocktailsListFragmentDirections
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.home.HomeFragmentDirections
-import com.renovavision.thecocktaildb.ingredients.IngredientsFragmentDirections
+import com.renovavision.thecocktaildb.home.categories.CategoriesFragmentDirections
+import com.renovavision.thecocktaildb.home.ingredients.IngredientsFragmentDirections
+import com.renovavision.thecocktaildb.home.search.SearchFragmentDirections
 import com.renovavision.thecocktaildb.inject.FragmentKey
 import dagger.Module
 import dagger.Provides
@@ -26,26 +28,10 @@ internal object NavigationModule {
     fun navHostFragment(): Fragment = NavHostFragment()
 
     @Provides
-    @Named("navHomeToCategoryList")
-    fun navHomeToCategoriesList(mainActivity: MainActivity): () -> Unit = {
+    @Named("navHomeToSearch")
+    fun navHomeToSearch(mainActivity: MainActivity): () -> Unit = {
         mainActivity.findNavController(R.id.navHostFragment).navigate(
-            HomeFragmentDirections.navigateToCategories()
-        )
-    }
-
-    @Provides
-    @Named("navHomeToIngredientList")
-    fun navHomeToIngredientsList(mainActivity: MainActivity): () -> Unit = {
-        mainActivity.findNavController(R.id.navHostFragment).navigate(
-            HomeFragmentDirections.navigateToIngredients()
-        )
-    }
-
-    @Provides
-    @Named("navHomeToCocktailDetails")
-    fun navHomeToCocktailDetails(mainActivity: MainActivity): (cocktail: DrinkEntity) -> Unit = {
-        mainActivity.findNavController(R.id.navHostFragment).navigate(
-            HomeFragmentDirections.navigateToCocktailDetails(it)
+            HomeFragmentDirections.navigateToSearch()
         )
     }
 
@@ -74,10 +60,18 @@ internal object NavigationModule {
         }
 
     @Provides
+    @Named("navSearchToCocktailDetails")
+    fun navSearchToCocktailDetails(mainActivity: MainActivity): (cocktail: DrinkEntity) -> Unit = {
+        mainActivity.findNavController(R.id.navHostFragment).navigate(
+            SearchFragmentDirections.navigateToCocktailDetails(it)
+        )
+    }
+
+    @Provides
     @Named("navCocktailsListToDetails")
     fun navCocktailsListToDetails(mainActivity: MainActivity): (cocktail: DrinkEntity) -> Unit = {
         mainActivity.findNavController(R.id.navHostFragment).navigate(
-            CocktailsListFragmentDirections.navigateToCocktailDetails(it)
+            CocktailsListFragmentDirections.navigateToCocktailDetails(it), FragmentNavigatorExtras()
         )
     }
 

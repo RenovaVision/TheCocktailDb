@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.category
+package com.renovavision.thecocktaildb.home.categories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -8,6 +8,7 @@ import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkE
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
+import com.renovavision.thecocktaildb.ui.CocktailView
 import com.renovavision.thecocktaildb.utils.Dispatchable
 import com.renovavision.thecocktaildb.utils.Event
 import com.renovavision.thecocktaildb.utils.SingleLiveEvent

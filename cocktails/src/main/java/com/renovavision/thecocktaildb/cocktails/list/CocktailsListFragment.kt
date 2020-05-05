@@ -69,7 +69,9 @@ class CocktailsListFragment @Inject constructor(
 
         viewModel.clickEvent.observe(this) {
             when (it) {
-                is NavigateToCocktailDetails -> navCocktailsListToDetails(it.cocktail)
+                is NavigateToCocktailDetails -> {
+                    navCocktailsListToDetails(it.cocktail)
+                }
             }
         }
     }

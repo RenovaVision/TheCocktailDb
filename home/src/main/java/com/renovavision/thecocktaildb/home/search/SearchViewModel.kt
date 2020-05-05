@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.home
+package com.renovavision.thecocktaildb.home.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,7 +25,7 @@ data class State(
     val cocktail: List<DrinkEntity> = emptyList()
 )
 
-class HomeViewModel @Inject constructor(private val useCase: GetSearchCocktails) : ViewModel() {
+class SearchViewModel @Inject constructor(private val useCase: GetSearchCocktails) : ViewModel() {
 
     private val loadCocktails = MutableLiveData<State>()
     private val actions = SingleLiveEvent<ViewEvent>()
@@ -39,33 +39,33 @@ class HomeViewModel @Inject constructor(private val useCase: GetSearchCocktails)
     fun dispatch(dispatchable: Dispatchable) {
         when (dispatchable) {
             is LoadCocktails -> loadCocktailsInfo(dispatchable.query)
-            is CocktailClicked -> actions.value = NavigateToCocktailDetails(dispatchable.cocktail)
+            is CocktailClicked -> actions.value =
+                NavigateToCocktailDetails(
+                    dispatchable.cocktail
+                )
         }
     }
 
     private fun loadCocktailsInfo(query: String) {
         loadCocktails.value = State(isLoading = true, showError = false)
 
-        when {
-            query.length < 3 -> {
+        if (query.length >= 3) {
+            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
                 loadCocktails.value = State(isLoading = false, showError = true)
-            }
-            else -> {
-                viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-                    loadCocktails.value = State(isLoading = false, showError = true)
-                }) {
-                    val cocktails = useCase.invoke(query)
+            }) {
+                val cocktails = useCase.invoke(query)
 
-                    when (cocktails.isEmpty()) {
-                        true -> loadCocktails.value = State(isLoading = false, showError = true)
-                        else -> loadCocktails.value = State(
-                            isLoading = false,
-                            showError = false,
-                            cocktail = cocktails
-                        )
-                    }
+                when (cocktails.isEmpty()) {
+                    true -> loadCocktails.value = State(isLoading = false, showError = false)
+                    else -> loadCocktails.value = State(
+                        isLoading = false,
+                        showError = false,
+                        cocktail = cocktails
+                    )
                 }
             }
+        } else {
+            loadCocktails.value = State(isLoading = false, showError = true)
         }
     }
 }

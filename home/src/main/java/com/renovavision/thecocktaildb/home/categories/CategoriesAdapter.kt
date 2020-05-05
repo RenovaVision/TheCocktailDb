@@ -1,9 +1,9 @@
-package com.renovavision.thecocktaildb.category
+package com.renovavision.thecocktaildb.home.categories
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.renovavision.thecocktaildb.category.databinding.ItemViewCategoryBinding
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
+import com.renovavision.thecocktaildb.home.databinding.ItemViewCategoryBinding
 import com.renovavision.thecocktaildb.utils.BaseAdapter
 import com.renovavision.thecocktaildb.utils.BaseViewHolder
 import com.renovavision.thecocktaildb.utils.Dispatch

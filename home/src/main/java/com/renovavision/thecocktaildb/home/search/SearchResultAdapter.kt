@@ -1,9 +1,9 @@
-package com.renovavision.thecocktaildb.home
+package com.renovavision.thecocktaildb.home.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
-import com.renovavision.thecocktaildb.home.SearchResultAdapter.SearchResultViewHolder
+import com.renovavision.thecocktaildb.home.search.SearchResultAdapter.SearchResultViewHolder
 import com.renovavision.thecocktaildb.home.databinding.SearchItemBinding
 import com.renovavision.thecocktaildb.utils.BaseAdapter
 import com.renovavision.thecocktaildb.utils.BaseViewHolder
@@ -29,7 +29,11 @@ class SearchResultAdapter(dispatch: Dispatch) :
         override fun onCreate(dispatch: Dispatch) {
             super.onCreate(dispatch)
             itemView.setOnClickListener {
-                item.let { dispatch.invoke(CocktailClicked(item)) }
+                item.let { dispatch.invoke(
+                    CocktailClicked(
+                        item
+                    )
+                ) }
             }
         }
 

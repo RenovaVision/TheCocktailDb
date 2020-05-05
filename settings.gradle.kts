@@ -19,8 +19,6 @@ include(
     ":app",
     ":inject",
     ":home",
-    ":category",
-    ":ingredients",
     ":cocktails",
     ":data",
     ":domain",
