@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.ui.databinding.CocktailViewBinding
 import com.squareup.picasso.Picasso
 
@@ -17,7 +17,7 @@ class CocktailView @JvmOverloads constructor(
     private val binding = CocktailViewBinding.inflate(LayoutInflater.from(context), this)
 
     @get:JvmSynthetic
-    var cocktail: Drink
+    var cocktail: DrinkEntity
         get() = throw UnsupportedOperationException()
         set(value) {
             binding.cocktailName.text = value.strDrink

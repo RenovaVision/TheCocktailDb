@@ -3,13 +3,13 @@ package com.renovavision.thecocktaildb.cocktails.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.renovavision.thecocktaildb.cocktails.databinding.ItemViewCocktailBinding
-import com.renovavision.thecocktaildb.network.DrinksByQuery.Drink
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.utils.BaseAdapter
 import com.renovavision.thecocktaildb.utils.BaseViewHolder
 import com.renovavision.thecocktaildb.utils.Dispatch
 
 class CocktailsAdapter(dispatch: Dispatch) :
-    BaseAdapter<Drink, CocktailsAdapter.CocktailViewHolder>(dispatch) {
+    BaseAdapter<DrinkEntity, CocktailsAdapter.CocktailViewHolder>(dispatch) {
 
     override fun buildViewHolder(parent: ViewGroup, viewType: Int) =
         CocktailViewHolder(
@@ -20,11 +20,11 @@ class CocktailsAdapter(dispatch: Dispatch) :
             )
         )
 
-    override fun areItemsTheSame(oldItem: Drink, newItem: Drink) =
+    override fun areItemsTheSame(oldItem: DrinkEntity, newItem: DrinkEntity) =
         oldItem.key == newItem.key
 
     inner class CocktailViewHolder(private val binding: ItemViewCocktailBinding) :
-        BaseViewHolder<Drink>(binding.root) {
+        BaseViewHolder<DrinkEntity>(binding.root) {
 
         override fun onCreate(dispatch: Dispatch) {
             super.onCreate(dispatch)
@@ -33,7 +33,7 @@ class CocktailsAdapter(dispatch: Dispatch) :
             }
         }
 
-        override fun onBind(item: Drink) {
+        override fun onBind(item: DrinkEntity) {
             super.onBind(item)
 
             binding.cocktailInfo.cocktail = item

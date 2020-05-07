@@ -19,7 +19,7 @@ android {
 
 dependencies {
     implementation(project(":style"))
-    implementation(project(":network"))
+    implementation(project(":domain"))
     implementation(Deps.Androidx.material)
     implementation(Deps.Androidx.constraintlayout)
     implementation(Deps.Square.picasso)

@@ -1,8 +1,9 @@
 package com.renovavision.thecocktaildb.app
 
 import android.app.Application
-import com.renovavision.thecocktaildb.network.NetworkModule
 import com.renovavision.thecocktaildb.activity.MainActivityModule
+import com.renovavision.thecocktaildb.data.NetworkModule
+import com.renovavision.thecocktaildb.data.RepositoryModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -14,6 +15,7 @@ import javax.inject.Singleton
     modules = [
         AndroidInjectionModule::class,
         MainActivityModule::class,
+        RepositoryModule::class,
         NetworkModule::class
     ]
 )

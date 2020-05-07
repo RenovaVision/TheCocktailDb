@@ -10,56 +10,62 @@
         android:label="Home">
 
         <action
-            android:id="@+id/navigate_to_ingredients"
-            app:destination="@id/nav_ingredients"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            android:id="@+id/navigate_to_search"
+            app:destination="@id/nav_search"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
-            android:id="@+id/navigate_to_categories"
-            app:destination="@id/nav_categories"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
-
-        <action
-            android:id="@+id/navigate_to_cocktail_details"
-            app:destination="@id/nav_cocktail_details"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            android:id="@+id/navigate_to_cocktails_list"
+            app:destination="@id/nav_cocktails_list"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_ingredients"
-        android:name="com.renovavision.thecocktaildb.ingredients.IngredientsFragment"
+        android:name="com.renovavision.thecocktaildb.home.ingredients.IngredientsFragment"
         android:label="Ingredients">
 
         <action
             android:id="@+id/navigate_to_cocktails_list"
             app:destination="@id/nav_cocktails_list"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_categories"
-        android:name="com.renovavision.thecocktaildb.category.CategoriesFragment"
+        android:name="com.renovavision.thecocktaildb.home.categories.CategoriesFragment"
         android:label="Categories">
 
         <action
             android:id="@+id/navigate_to_cocktails_list"
             app:destination="@id/nav_cocktails_list"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.renovavision.thecocktaildb.home.search.SearchFragment"
+        android:label="Search">
+
+        <action
+            android:id="@+id/navigate_to_cocktail_details"
+            app:destination="@id/nav_cocktail_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -80,10 +86,10 @@
         <action
             android:id="@+id/navigate_to_cocktail_details"
             app:destination="@id/nav_cocktail_details"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment

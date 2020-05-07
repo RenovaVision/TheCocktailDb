@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailsListBinding
-import com.renovavision.thecocktaildb.network.DrinksByQuery
-import com.renovavision.thecocktaildb.network.DrinksByQuery.*
-import com.renovavision.thecocktaildb.network.DrinksCategory
-import com.renovavision.thecocktaildb.network.DrinksCategory.*
-import com.renovavision.thecocktaildb.network.DrinksIngredient.Ingredient
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
+import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
+import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
@@ -23,7 +21,7 @@ import javax.inject.Named
 class CocktailsListFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory,
     @Named("navCocktailsListToDetails")
-    private val navCocktailsListToDetails: (cocktail: @JvmSuppressWildcards Drink) -> Unit
+    private val navCocktailsListToDetails: (cocktail: @JvmSuppressWildcards DrinkEntity) -> Unit
 ) : Fragment(R.layout.fragment_cocktails_list) {
 
     private val viewModel: CocktailsListViewModel by viewModels { viewModelFactory }
@@ -35,8 +33,8 @@ class CocktailsListFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val ingredient = arguments?.getSerializable("ingredient")?.let { it as Ingredient }
-        val category = arguments?.getSerializable("category")?.let { it as Category }
+        val ingredient = arguments?.getSerializable("ingredient")?.let { it as IngredientEntity }
+        val category = arguments?.getSerializable("category")?.let { it as CategoryEntity }
 
         onViewLifecycle({ binding.toolbar },
             {
@@ -71,12 +69,14 @@ class CocktailsListFragment @Inject constructor(
 
         viewModel.clickEvent.observe(this) {
             when (it) {
-                is NavigateToCocktailDetails -> navCocktailsListToDetails(it.cocktail)
+                is NavigateToCocktailDetails -> {
+                    navCocktailsListToDetails(it.cocktail)
+                }
             }
         }
     }
 
-    private fun loadCocktailsList(ingredient: Ingredient?, category: Category?) {
+    private fun loadCocktailsList(ingredient: IngredientEntity?, category: CategoryEntity?) {
         when {
             ingredient != null -> viewModel.dispatch(LoadCocktailsByIngredient(ingredient))
             category != null -> viewModel.dispatch(LoadCocktailsByCategory(category))

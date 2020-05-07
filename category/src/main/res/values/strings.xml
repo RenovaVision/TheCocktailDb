@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="can_not_load_categories">Cannot load categories. Try again.</string>
-    <string name="categories">Categories</string>
-</resources>

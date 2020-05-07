@@ -39,7 +39,7 @@ object Deps {
 
 object PluginVersions {
     const val kotlin = "1.3.71"
-    const val nav = "2.2.1"
+    const val nav = "2.2.2"
 }
 
 object AndroidConfig {

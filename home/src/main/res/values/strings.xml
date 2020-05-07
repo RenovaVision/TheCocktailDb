@@ -5,4 +5,12 @@
 
     <string name="search_query_hint">Enter search here…</string>
     <string name="dark_mode">Dark mode</string>
+
+    <string name="can_not_load_ingredients">Cannot load ingredients. Try again.</string>
+    <string name="ingredients">Ingredients</string>
+
+    <string name="can_not_load_categories">Cannot load categories. Try again.</string>
+    <string name="categories">Categories</string>
+    <string name="no_items">No items</string>
+    <string name="home">Home</string>
 </resources>
