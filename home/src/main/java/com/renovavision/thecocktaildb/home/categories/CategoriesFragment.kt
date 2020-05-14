@@ -7,19 +7,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.home.R
 import com.renovavision.thecocktaildb.home.databinding.FragmentCategoryListBinding
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
 import javax.inject.Inject
-import javax.inject.Named
 
 class CategoriesFragment @Inject constructor(
-    private val viewModelFactory: ViewModelProvider.Factory,
-    @Named("navCategoriesToCocktailsList")
-    private val navCategoriesToCocktailsList: (category: @JvmSuppressWildcards CategoryEntity) -> Unit
+    private val viewModelFactory: ViewModelProvider.Factory
 ) : Fragment(R.layout.fragment_category_list) {
 
     private val viewModel: CategoriesViewModel by viewModels { viewModelFactory }
@@ -55,14 +51,6 @@ class CategoriesFragment @Inject constructor(
             binding.recyclerView.visibility = if (!it.showError) View.VISIBLE else View.GONE
             binding.errorContainer.visibility = if (it.showError) View.VISIBLE else View.GONE
             binding.progress.visibility = if (it.isLoading) View.VISIBLE else View.GONE
-        }
-
-        viewModel.clickEvent.observe(this) {
-            when (it) {
-                is NavigateToCocktailsList -> {
-                    navCategoriesToCocktailsList(it.category)
-                }
-            }
         }
     }
 }

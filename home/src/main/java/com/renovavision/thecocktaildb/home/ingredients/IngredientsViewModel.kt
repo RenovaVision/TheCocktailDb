@@ -6,18 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetIngredientsList
+import com.renovavision.thecocktaildb.home.HomeNavigator
 import com.renovavision.thecocktaildb.utils.Dispatchable
-import com.renovavision.thecocktaildb.utils.Event
-import com.renovavision.thecocktaildb.utils.SingleLiveEvent
-import com.renovavision.thecocktaildb.utils.ViewEvent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class NavigateToCocktailsList(val ingredient: IngredientEntity) : ViewEvent
-
-object LoadIngredients : Event
-data class IngredientClicked(val ingredient: IngredientEntity) : Event
+object LoadIngredients : Dispatchable
+data class IngredientClicked(val ingredient: IngredientEntity) : Dispatchable
 
 data class State(
     val isLoading: Boolean,
@@ -26,25 +22,19 @@ data class State(
 )
 
 class IngredientsViewModel @Inject constructor(
-    private val getIngredientsList: GetIngredientsList
+    private val getIngredientsList: GetIngredientsList,
+    private val homeNavigator: HomeNavigator
 ) : ViewModel() {
 
     private val loadIngredients = MutableLiveData<State>()
-    private val actions = SingleLiveEvent<ViewEvent>()
 
     val state: LiveData<State>
         get() = loadIngredients
 
-    val clickEvent: LiveData<ViewEvent>
-        get() = actions
-
     fun dispatch(dispatchable: Dispatchable) {
         when (dispatchable) {
             is LoadIngredients -> loadIngredientsList()
-            is IngredientClicked -> actions.value =
-                NavigateToCocktailsList(
-                    dispatchable.ingredient
-                )
+            is IngredientClicked -> homeNavigator.navIngredientsToCocktailsList(dispatchable.ingredient)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.ui
+package com.renovavision.thecocktaildb.ui.views
 
 import android.content.Context
 import android.util.AttributeSet

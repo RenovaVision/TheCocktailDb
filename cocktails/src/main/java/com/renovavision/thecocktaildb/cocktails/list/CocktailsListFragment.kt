@@ -9,19 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailsListBinding
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
 import javax.inject.Inject
-import javax.inject.Named
 
 class CocktailsListFragment @Inject constructor(
-    private val viewModelFactory: ViewModelProvider.Factory,
-    @Named("navCocktailsListToDetails")
-    private val navCocktailsListToDetails: (cocktail: @JvmSuppressWildcards DrinkEntity) -> Unit
+    private val viewModelFactory: ViewModelProvider.Factory
 ) : Fragment(R.layout.fragment_cocktails_list) {
 
     private val viewModel: CocktailsListViewModel by viewModels { viewModelFactory }
@@ -59,20 +55,11 @@ class CocktailsListFragment @Inject constructor(
 
     override fun onStart() {
         super.onStart()
-
         viewModel.state.observe(this) {
             cocktailsAdapter.updateItems(it.cocktails)
             binding.recyclerView.visibility = if (!it.showError) View.VISIBLE else View.GONE
             binding.errorContainer.visibility = if (it.showError) View.VISIBLE else View.GONE
             binding.progress.visibility = if (it.isLoading) View.VISIBLE else View.GONE
-        }
-
-        viewModel.clickEvent.observe(this) {
-            when (it) {
-                is NavigateToCocktailDetails -> {
-                    navCocktailsListToDetails(it.cocktail)
-                }
-            }
         }
     }
 

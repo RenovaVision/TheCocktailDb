@@ -4,24 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.renovavision.thecocktaildb.cocktails.CocktailsNavigator
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
-import com.renovavision.thecocktaildb.ui.CocktailView
 import com.renovavision.thecocktaildb.utils.Dispatchable
-import com.renovavision.thecocktaildb.utils.Event
-import com.renovavision.thecocktaildb.utils.SingleLiveEvent
-import com.renovavision.thecocktaildb.utils.ViewEvent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class NavigateToCocktailDetails(val cocktail: DrinkEntity) : ViewEvent
-
-data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) : Event
-data class LoadCocktailsByCategory(val category: CategoryEntity) : Event
-data class CocktailClicked(val cocktail: DrinkEntity) : Event
+data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) : Dispatchable
+data class LoadCocktailsByCategory(val category: CategoryEntity) : Dispatchable
+data class CocktailClicked(val cocktail: DrinkEntity) : Dispatchable
 
 data class State(
     val isLoading: Boolean,
@@ -30,23 +25,20 @@ data class State(
 )
 
 class CocktailsListViewModel @Inject constructor(
-    private val getCocktails: GetCocktails
+    private val getCocktails: GetCocktails,
+    private val cocktailsNavigator: CocktailsNavigator
 ) : ViewModel() {
 
     private val loadCocktails = MutableLiveData<State>()
-    private val actions = SingleLiveEvent<ViewEvent>()
 
     val state: LiveData<State>
         get() = loadCocktails
-
-    val clickEvent: LiveData<ViewEvent>
-        get() = actions
 
     fun dispatch(dispatchable: Dispatchable) {
         when (dispatchable) {
             is LoadCocktailsByIngredient -> loadCocktailsListByIngredient(dispatchable.ingredient)
             is LoadCocktailsByCategory -> loadCocktailsListByCategory(dispatchable.category)
-            is CocktailClicked -> actions.value = NavigateToCocktailDetails(dispatchable.cocktail)
+            is CocktailClicked -> cocktailsNavigator.navCocktailsListToDetails(dispatchable.cocktail)
         }
     }
 

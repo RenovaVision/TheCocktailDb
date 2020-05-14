@@ -6,18 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCategoriesList
+import com.renovavision.thecocktaildb.home.HomeNavigator
 import com.renovavision.thecocktaildb.utils.Dispatchable
-import com.renovavision.thecocktaildb.utils.Event
-import com.renovavision.thecocktaildb.utils.SingleLiveEvent
-import com.renovavision.thecocktaildb.utils.ViewEvent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class NavigateToCocktailsList(val category: CategoryEntity) : ViewEvent
-
-object LoadCategories : Event
-data class CategoryClicked(val category: CategoryEntity) : Event
+object LoadCategories : Dispatchable
+data class CategoryClicked(val category: CategoryEntity) : Dispatchable
 
 data class State(
     val isLoading: Boolean,
@@ -26,22 +22,19 @@ data class State(
 )
 
 class CategoriesViewModel @Inject constructor(
-    private val getCategoriesList: GetCategoriesList
+    private val getCategoriesList: GetCategoriesList,
+    private val homeNavigator: HomeNavigator
 ) : ViewModel() {
 
     private val loadCategories = MutableLiveData<State>()
-    private val actions = SingleLiveEvent<ViewEvent>()
 
     val state: LiveData<State>
         get() = loadCategories
 
-    val clickEvent: LiveData<ViewEvent>
-        get() = actions
-
     fun dispatch(dispatchable: Dispatchable) {
         when (dispatchable) {
             is LoadCategories -> loadIngredientsList()
-            is CategoryClicked -> actions.value = NavigateToCocktailsList(dispatchable.category)
+            is CategoryClicked -> homeNavigator.navCategoriesToCocktailsList(dispatchable.category)
         }
     }
 

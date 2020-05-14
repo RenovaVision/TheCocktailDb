@@ -18,7 +18,7 @@ interface MainActivityModule {
         modules = [
             HomeModule::class,
             CocktailsModule::class,
-            NavigationModule::class
+            NavHostFragmentModule::class
         ]
     )
     fun mainActivity(): MainActivity
