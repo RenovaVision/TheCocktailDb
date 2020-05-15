@@ -9,6 +9,12 @@ import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity
 
+typealias FunctionMapper<F, T> = ((from: F) -> T)
+
+internal val drinksCategoryToEntityMapper:
+        FunctionMapper<DrinksCategory.Category, DrinksCategoryEntity.CategoryEntity> =
+    { DrinksCategoryEntity.CategoryEntity(key = it.strCategory) }
+
 class Mapper {
 
     fun mapCategoryToEntity(data: DrinksCategory.Category): DrinksCategoryEntity.CategoryEntity =
