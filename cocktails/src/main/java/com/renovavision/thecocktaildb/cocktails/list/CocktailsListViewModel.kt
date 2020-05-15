@@ -1,25 +1,25 @@
 package com.renovavision.thecocktaildb.cocktails.list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.cocktails.CocktailsNavigator
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
-import com.renovavision.thecocktaildb.ui.utils.Dispatchable
+import com.renovavision.thecocktaildb.ui.utils.Action
+import com.renovavision.thecocktaildb.ui.utils.AsyncAction
+import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) :
-    Dispatchable
-data class LoadCocktailsByCategory(val category: CategoryEntity) :
-    Dispatchable
-data class CocktailClicked(val cocktail: DrinkEntity) :
-    Dispatchable
+data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) : AsyncAction
+data class LoadCocktailsByCategory(val category: CategoryEntity) : AsyncAction
+data class CocktailClicked(val cocktail: DrinkEntity) : AsyncAction
+
+object LoadCocktailsStarted : Action
+object LoadCocktailsFailed : Action
+data class LoadCocktailsSuccess(val cocktails: List<DrinkEntity>) : Action
 
 data class State(
     val isLoading: Boolean,
@@ -30,49 +30,59 @@ data class State(
 class CocktailsListViewModel @Inject constructor(
     private val getCocktails: GetCocktails,
     private val cocktailsNavigator: CocktailsNavigator
-) : ViewModel() {
+) : UniViewModel<State>() {
 
-    private val loadCocktails = MutableLiveData<State>()
+    override fun initState() = State(isLoading = true, showError = false)
 
-    val state: LiveData<State>
-        get() = loadCocktails
+    override fun reduce(state: State, action: Action): State =
+        when (action) {
+            is LoadCocktailsStarted -> state.copy(isLoading = true)
+            is LoadCocktailsFailed -> state.copy(isLoading = false, showError = true)
+            is LoadCocktailsSuccess -> state.copy(isLoading = false, cocktails = action.cocktails)
+            else -> state
+        }
 
-    fun dispatch(dispatchable: Dispatchable) {
-        when (dispatchable) {
-            is LoadCocktailsByIngredient -> loadCocktailsListByIngredient(dispatchable.ingredient)
-            is LoadCocktailsByCategory -> loadCocktailsListByCategory(dispatchable.category)
-            is CocktailClicked -> cocktailsNavigator.navCocktailsListToDetails(dispatchable.cocktail)
+    override fun async(state: State, asyncAction: AsyncAction) {
+        when (asyncAction) {
+            is CocktailClicked -> cocktailsNavigator.navCocktailsListToDetails(asyncAction.cocktail)
+            is LoadCocktailsByIngredient -> loadCocktailsListByIngredient(
+                state,
+                asyncAction.ingredient
+            )
+            is LoadCocktailsByCategory -> loadCocktailsListByCategory(state, asyncAction.category)
         }
     }
 
-    private fun loadCocktailsListByIngredient(ingredient: IngredientEntity) {
-        loadCocktails.value = State(isLoading = true, showError = false)
+    private fun loadCocktailsListByIngredient(state: State, ingredient: IngredientEntity) {
+        if (state.cocktails.isEmpty()) {
+            dispatch(LoadCocktailsStarted)
 
-        viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-            loadCocktails.value = State(isLoading = false, showError = true)
-        }) {
-            val cocktails = getCocktails.loadCocktailsListByIngredient(ingredient.key)
+            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
+                dispatch(LoadCocktailsFailed)
+            }) {
+                val cocktails = getCocktails.loadCocktailsListByIngredient(ingredient.key)
 
-            when (cocktails.isEmpty()) {
-                true -> loadCocktails.value = State(isLoading = false, showError = true)
-                else -> loadCocktails.value =
-                    State(isLoading = false, showError = false, cocktails = cocktails)
+                when (cocktails.isEmpty()) {
+                    true -> dispatch(LoadCocktailsFailed)
+                    else -> dispatch(LoadCocktailsSuccess(cocktails))
+                }
             }
         }
     }
 
-    private fun loadCocktailsListByCategory(category: CategoryEntity) {
-        loadCocktails.value = State(isLoading = true, showError = false)
+    private fun loadCocktailsListByCategory(state: State, category: CategoryEntity) {
+        if (state.cocktails.isEmpty()) {
+            dispatch(LoadCocktailsStarted)
 
-        viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-            loadCocktails.value = State(isLoading = false, showError = true)
-        }) {
-            val cocktails = getCocktails.loadCocktailsListByCategory(category.key)
+            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
+                dispatch(LoadCocktailsFailed)
+            }) {
+                val cocktails = getCocktails.loadCocktailsListByCategory(category.key)
 
-            when (cocktails.isEmpty()) {
-                true -> loadCocktails.value = State(isLoading = false, showError = true)
-                else -> loadCocktails.value =
-                    State(isLoading = false, showError = false, cocktails = cocktails)
+                when (cocktails.isEmpty()) {
+                    true -> dispatch(LoadCocktailsFailed)
+                    else -> dispatch(LoadCocktailsSuccess(cocktails))
+                }
             }
         }
     }

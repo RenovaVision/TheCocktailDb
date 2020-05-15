@@ -1,76 +1,69 @@
 package com.renovavision.thecocktaildb.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetSearchCocktails
-import com.renovavision.thecocktaildb.ui.utils.Dispatchable
+import com.renovavision.thecocktaildb.ui.utils.Action
+import com.renovavision.thecocktaildb.ui.utils.AsyncAction
+import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoadCocktails(val query: String) : Dispatchable
+data class LoadCocktails(val query: String) : AsyncAction
+data class CocktailClicked(val cocktail: DrinkEntity) : AsyncAction
 
-data class CocktailClicked(val cocktail: DrinkEntity) : Dispatchable
+object LoadCocktailsStarted : Action
+object LoadCocktailsFailed : Action
+data class LoadCocktailsSuccess(val cocktails: List<DrinkEntity>) : Action
 
 data class State(
     val isLoading: Boolean,
     val showError: Boolean,
-    val cocktail: List<DrinkEntity> = emptyList()
+    val cocktails: List<DrinkEntity> = emptyList()
 )
 
 class SearchViewModel @Inject constructor(
     private val useCase: GetSearchCocktails,
     private val homeNavigator: SearchNavigator
-) : ViewModel() {
+) : UniViewModel<State>() {
 
-    private val loadCocktails = MutableLiveData<State>()
+    override fun initState() = State(isLoading = true, showError = false)
 
-    val state: LiveData<State>
-        get() = loadCocktails
+    override fun reduce(state: State, action: Action): State =
+        when (action) {
+            is LoadCocktailsStarted -> state.copy(isLoading = true)
+            is LoadCocktailsFailed -> state.copy(isLoading = false, showError = true)
+            is LoadCocktailsSuccess -> state.copy(
+                isLoading = false,
+                showError = false,
+                cocktails = action.cocktails
+            )
+            else -> state
+        }
 
-    fun dispatch(dispatchable: Dispatchable) {
-        when (dispatchable) {
-            is LoadCocktails -> loadCocktailsInfo(dispatchable.query)
-            is CocktailClicked -> homeNavigator.navSearchToCocktailDetails(dispatchable.cocktail)
+    override fun async(state: State, asyncAction: AsyncAction) {
+        when (asyncAction) {
+            is CocktailClicked -> homeNavigator.navSearchToCocktailDetails(asyncAction.cocktail)
+            is LoadCocktails -> loadCocktailsInfo(asyncAction.query)
         }
     }
 
     private fun loadCocktailsInfo(query: String) {
-        loadCocktails.value = State(
-            isLoading = true,
-            showError = false
-        )
         if (query.length >= 3) {
+            dispatch(LoadCocktailsStarted)
+
             viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-                loadCocktails.value =
-                    State(
-                        isLoading = false,
-                        showError = true
-                    )
+                dispatch(LoadCocktailsFailed)
             }) {
                 val cocktails = useCase.invoke(query)
                 when (cocktails.isEmpty()) {
-                    true -> loadCocktails.value =
-                        State(
-                            isLoading = false,
-                            showError = false
-                        )
-                    else -> loadCocktails.value =
-                        State(
-                            isLoading = false,
-                            showError = false,
-                            cocktail = cocktails
-                        )
+                    true -> dispatch(LoadCocktailsFailed)
+                    else -> dispatch(LoadCocktailsSuccess(cocktails))
                 }
             }
         } else {
-            loadCocktails.value = State(
-                isLoading = false,
-                showError = true
-            )
+            dispatch(LoadCocktailsFailed)
         }
     }
 }

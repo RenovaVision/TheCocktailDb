@@ -1,19 +1,21 @@
 package com.renovavision.thecocktaildb.cocktails.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
-import com.renovavision.thecocktaildb.ui.utils.Dispatchable
+import com.renovavision.thecocktaildb.ui.utils.Action
+import com.renovavision.thecocktaildb.ui.utils.AsyncAction
+import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoadCocktailInfo(val drink: DrinkEntity) :
-    Dispatchable
+data class LoadCocktailInfo(val drink: DrinkEntity) : AsyncAction
+
+object LoadCocktailInfoStarted : Action
+object LoadCocktailInfoFailed : Action
+data class LoadCocktailInfoSuccess(val cocktailInfo: CocktailEntity) : Action
 
 data class State(
     val isLoading: Boolean,
@@ -23,32 +25,40 @@ data class State(
 
 class CocktailDetailsViewModel @Inject constructor(
     private val getCocktails: GetCocktails
-) : ViewModel() {
+) : UniViewModel<State>() {
 
-    private val getCocktailInfo = MutableLiveData<State>()
-    val state: LiveData<State>
-        get() = getCocktailInfo
+    override fun initState() = State(isLoading = true, showError = false)
 
-    fun dispatch(dispatchable: Dispatchable) {
-        when (dispatchable) {
-            is LoadCocktailInfo -> loadCocktailInfo(dispatchable.drink)
+    override fun reduce(state: State, action: Action): State =
+        when (action) {
+            is LoadCocktailInfoStarted -> state.copy(isLoading = true)
+            is LoadCocktailInfoFailed -> state.copy(isLoading = false, showError = false)
+            is LoadCocktailInfoSuccess -> state.copy(
+                isLoading = false,
+                cocktailInfo = action.cocktailInfo
+            )
+            else -> state
+        }
+
+    override fun async(state: State, asyncAction: AsyncAction) {
+        when (asyncAction) {
+            is LoadCocktailInfo -> loadCocktailInfo(state, asyncAction.drink)
         }
     }
 
-    private fun loadCocktailInfo(cocktail: DrinkEntity) {
-        getCocktailInfo.value = State(isLoading = true, showError = false)
-        viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-            getCocktailInfo.value = State(isLoading = false, showError = true)
-        }) {
-            val cocktailInfo = getCocktails.loadCocktailDetails(cocktail.key)
+    private fun loadCocktailInfo(state: State, cocktail: DrinkEntity) {
+        if (state.cocktailInfo == null) {
+            dispatch(LoadCocktailInfoStarted)
 
-            when (cocktailInfo.isEmpty()) {
-                true -> getCocktailInfo.value = State(isLoading = false, showError = true)
-                else -> getCocktailInfo.value = State(
-                    isLoading = false,
-                    showError = false,
-                    cocktailInfo = cocktailInfo.first()
-                )
+            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
+                dispatch(LoadCocktailInfoFailed)
+            }) {
+                val cocktailInfo = getCocktails.loadCocktailDetails(cocktail.key)
+
+                when (cocktailInfo.isEmpty()) {
+                    true -> dispatch(LoadCocktailInfoFailed)
+                    else -> dispatch(LoadCocktailInfoSuccess(cocktailInfo.first()))
+                }
             }
         }
     }
