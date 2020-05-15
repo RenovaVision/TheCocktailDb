@@ -8,19 +8,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.home.R
 import com.renovavision.thecocktaildb.home.databinding.FragmentSearchBinding
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.observe
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
 import javax.inject.Inject
-import javax.inject.Named
 
 class SearchFragment @Inject constructor(
-    private val viewModelFactory: ViewModelProvider.Factory,
-    @Named("navSearchToCocktailDetails")
-    private val navSearchToCocktailDetails: (cocktail: @JvmSuppressWildcards DrinkEntity) -> Unit
+    private val viewModelFactory: ViewModelProvider.Factory
 ): Fragment(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by viewModels { viewModelFactory }
@@ -57,12 +53,6 @@ class SearchFragment @Inject constructor(
             binding.searchResult.visibility = if (!it.showError) View.VISIBLE else View.GONE
             binding.emptyResult.visibility = if (it.showError) View.VISIBLE else View.GONE
             binding.progress.visibility = if (it.isLoading) View.VISIBLE else View.GONE
-        }
-
-        viewModel.clickEvent.observe(this) {
-            when (it) {
-                is NavigateToCocktailDetails -> navSearchToCocktailDetails(it.cocktail)
-            }
         }
     }
 }

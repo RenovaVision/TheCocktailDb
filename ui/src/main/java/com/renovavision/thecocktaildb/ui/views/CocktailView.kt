@@ -1,10 +1,11 @@
-package com.renovavision.thecocktaildb.ui
+package com.renovavision.thecocktaildb.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
+import com.renovavision.thecocktaildb.ui.R
 import com.renovavision.thecocktaildb.ui.databinding.CocktailViewBinding
 import com.squareup.picasso.Picasso
 

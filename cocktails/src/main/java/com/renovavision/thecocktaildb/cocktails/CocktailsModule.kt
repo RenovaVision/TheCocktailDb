@@ -10,7 +10,6 @@ import com.renovavision.thecocktaildb.inject.FragmentKey
 import com.renovavision.thecocktaildb.inject.ViewModelKey
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.multibindings.IntoMap
 
 @Module

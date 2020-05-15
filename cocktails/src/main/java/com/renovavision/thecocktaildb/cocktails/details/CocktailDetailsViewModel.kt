@@ -8,12 +8,11 @@ import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.Cocktai
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
 import com.renovavision.thecocktaildb.utils.Dispatchable
-import com.renovavision.thecocktaildb.utils.Event
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoadCocktailInfo(val drink: DrinkEntity) : Event
+data class LoadCocktailInfo(val drink: DrinkEntity) : Dispatchable
 
 data class State(
     val isLoading: Boolean,
@@ -37,7 +36,6 @@ class CocktailDetailsViewModel @Inject constructor(
 
     private fun loadCocktailInfo(cocktail: DrinkEntity) {
         getCocktailInfo.value = State(isLoading = true, showError = false)
-
         viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
             getCocktailInfo.value = State(isLoading = false, showError = true)
         }) {

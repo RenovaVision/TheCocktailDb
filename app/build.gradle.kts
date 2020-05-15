@@ -47,6 +47,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":home"))
     implementation(project(":cocktails"))
+    implementation(project(":ui"))
     implementation(Deps.Androidx.activity)
     implementation(Deps.Androidx.appcompat)
     implementation(Deps.Androidx.core)

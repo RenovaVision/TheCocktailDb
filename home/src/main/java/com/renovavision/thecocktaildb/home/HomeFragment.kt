@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.home.categories.CategoriesFragment
 import com.renovavision.thecocktaildb.home.databinding.FragmentHomeBinding
 import com.renovavision.thecocktaildb.home.ingredients.IngredientsFragment
@@ -13,16 +11,10 @@ import com.renovavision.thecocktaildb.utils.TabAdapter
 import com.renovavision.thecocktaildb.utils.bindingDelegate
 import com.renovavision.thecocktaildb.utils.onViewLifecycle
 import javax.inject.Inject
-import javax.inject.Named
 
 class HomeFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory,
-    @Named("navHomeToSearch")
-    private val navHomeToSearch: () -> Unit,
-    @Named("navCategoriesToCocktailsList")
-    private val navCategoriesToCocktailsList: (category: @JvmSuppressWildcards CategoryEntity) -> Unit,
-    @Named("navIngredientsToCocktailsList")
-    private val navIngredientsToCocktailsList: (ingredient: @JvmSuppressWildcards IngredientEntity) -> Unit
+    private val homeNavigator: HomeNavigator
 ) : Fragment(R.layout.fragment_home) {
 
     private val binding by bindingDelegate(FragmentHomeBinding::bind)
@@ -42,18 +34,8 @@ class HomeFragment @Inject constructor(
 
         val tabAdapter = TabAdapter(childFragmentManager)
 
-        tabAdapter.addFragment(
-            IngredientsFragment(
-                viewModelFactory,
-                navIngredientsToCocktailsList
-            ), getString(R.string.ingredients)
-        )
-        tabAdapter.addFragment(
-            CategoriesFragment(
-                viewModelFactory,
-                navCategoriesToCocktailsList
-            ), getString(R.string.categories)
-        )
+        tabAdapter.addFragment(IngredientsFragment(viewModelFactory), getString(R.string.ingredients))
+        tabAdapter.addFragment(CategoriesFragment(viewModelFactory), getString(R.string.categories))
 
         onViewLifecycle({ binding.toolbar }, {
             title = getString(R.string.home)
@@ -80,7 +62,7 @@ class HomeFragment @Inject constructor(
                         true
                     }
                     R.id.action_search -> {
-                        navHomeToSearch()
+                        homeNavigator.navHomeToSearch()
 
                         true
                     }

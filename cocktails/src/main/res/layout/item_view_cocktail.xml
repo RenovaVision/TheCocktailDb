@@ -6,7 +6,7 @@
     android:layout_margin="5dp"
     app:cardBackgroundColor="@color/background_color">
 
-    <com.renovavision.thecocktaildb.ui.CocktailView
+    <com.renovavision.thecocktaildb.ui.views.CocktailView
         android:id="@+id/cocktailInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
