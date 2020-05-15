@@ -18,11 +18,12 @@ rootProject.name = "TheCocktailDb"
 include(
     ":app",
     ":inject",
-    ":home",
     ":cocktails",
+    ":categories",
+    ":ingredients",
+    ":search",
     ":data",
     ":domain",
-    ":utils",
     ":ui",
     ":style"
 )

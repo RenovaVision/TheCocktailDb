@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/nav_ingredients"
-        android:name="com.renovavision.thecocktaildb.home.ingredients.IngredientsFragment"
+        android:name="com.renovavision.thecocktaildb.ingredients.IngredientsFragment"
         android:label="Ingredients">
 
         <action
@@ -42,7 +42,7 @@
 
     <fragment
         android:id="@+id/nav_categories"
-        android:name="com.renovavision.thecocktaildb.home.categories.CategoriesFragment"
+        android:name="com.renovavision.thecocktaildb.categories.CategoriesFragment"
         android:label="Categories">
 
         <action
@@ -56,7 +56,7 @@
 
     <fragment
         android:id="@+id/nav_search"
-        android:name="com.renovavision.thecocktaildb.home.search.SearchFragment"
+        android:name="com.renovavision.thecocktaildb.search.SearchFragment"
         android:label="Search">
 
         <action
