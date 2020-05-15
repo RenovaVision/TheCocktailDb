@@ -8,6 +8,7 @@ object Deps {
         const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
         const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
         const val navFrag = "androidx.navigation:navigation-fragment-ktx:${PluginVersions.nav}"
+        const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     }
 
     object Google {
@@ -34,6 +35,11 @@ object Deps {
         const val junit = "junit:junit:4.12"
         const val junitExt = "androidx.test.ext:junit:1.1.1"
         const val espresso = "androidx.test.espresso:espresso-core:3.2.0"
+    }
+
+    object Kotlin {
+        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+        const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     }
 }
 
@@ -62,4 +68,5 @@ private object Versions {
     const val fragment = "1.2.3"
     const val okhttp = "4.4.1"
     const val retrofit = "2.8.1"
+    const val coroutines = "1.3.6"
 }
