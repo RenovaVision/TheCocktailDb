@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.renovavision.thecocktaildb.cocktails.databinding.ItemViewCocktailBinding
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
-import com.renovavision.thecocktaildb.utils.BaseAdapter
-import com.renovavision.thecocktaildb.utils.BaseViewHolder
-import com.renovavision.thecocktaildb.utils.Dispatch
+import com.renovavision.thecocktaildb.ui.utils.BaseAdapter
+import com.renovavision.thecocktaildb.ui.utils.BaseViewHolder
+import com.renovavision.thecocktaildb.ui.utils.Dispatch
 
 class CocktailsAdapter(dispatch: Dispatch) :
     BaseAdapter<DrinkEntity, CocktailsAdapter.CocktailViewHolder>(dispatch) {

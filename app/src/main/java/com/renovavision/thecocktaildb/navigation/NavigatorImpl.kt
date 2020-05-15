@@ -4,6 +4,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.renovavision.thecocktaildb.R
 import com.renovavision.thecocktaildb.activity.MainActivity
+import com.renovavision.thecocktaildb.categories.CategoriesFragmentDirections
 import com.renovavision.thecocktaildb.cocktails.CocktailsNavigator
 import com.renovavision.thecocktaildb.cocktails.list.CocktailsListFragmentDirections
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity
@@ -11,15 +12,18 @@ import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity
 import com.renovavision.thecocktaildb.home.HomeFragmentDirections
 import com.renovavision.thecocktaildb.home.HomeNavigator
-import com.renovavision.thecocktaildb.home.categories.CategoriesFragmentDirections
-import com.renovavision.thecocktaildb.home.ingredients.IngredientsFragmentDirections
-import com.renovavision.thecocktaildb.home.search.SearchFragmentDirections
+import com.renovavision.thecocktaildb.categories.CategoriesNavigator
+import com.renovavision.thecocktaildb.ingredients.IngredientsFragmentDirections
+import com.renovavision.thecocktaildb.ingredients.IngredientsNavigator
+import com.renovavision.thecocktaildb.search.SearchFragmentDirections
+import com.renovavision.thecocktaildb.search.SearchNavigator
 import com.renovavision.thecocktaildb.ui.navigation.Navigator
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator, HomeNavigator {
+class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator,
+    HomeNavigator, CategoriesNavigator, IngredientsNavigator, SearchNavigator {
 
     private var activity: MainActivity? = null
 

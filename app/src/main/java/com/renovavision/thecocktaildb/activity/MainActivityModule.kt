@@ -1,8 +1,8 @@
 package com.renovavision.thecocktaildb.activity
 
 import androidx.lifecycle.ViewModelProvider
-import com.renovavision.thecocktaildb.cocktails.CocktailsModule
-import com.renovavision.thecocktaildb.home.HomeModule
+import com.renovavision.thecocktaildb.FragmentsModule
+import com.renovavision.thecocktaildb.ViewModelsModule
 import com.renovavision.thecocktaildb.inject.ViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -16,8 +16,8 @@ interface MainActivityModule {
 
     @ContributesAndroidInjector(
         modules = [
-            HomeModule::class,
-            CocktailsModule::class,
+            FragmentsModule::class,
+            ViewModelsModule::class,
             NavHostFragmentModule::class
         ]
     )

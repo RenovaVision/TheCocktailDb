@@ -9,14 +9,17 @@ import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkE
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
-import com.renovavision.thecocktaildb.utils.Dispatchable
+import com.renovavision.thecocktaildb.ui.utils.Dispatchable
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) : Dispatchable
-data class LoadCocktailsByCategory(val category: CategoryEntity) : Dispatchable
-data class CocktailClicked(val cocktail: DrinkEntity) : Dispatchable
+data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) :
+    Dispatchable
+data class LoadCocktailsByCategory(val category: CategoryEntity) :
+    Dispatchable
+data class CocktailClicked(val cocktail: DrinkEntity) :
+    Dispatchable
 
 data class State(
     val isLoading: Boolean,

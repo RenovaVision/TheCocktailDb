@@ -7,12 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
-import com.renovavision.thecocktaildb.utils.Dispatchable
+import com.renovavision.thecocktaildb.ui.utils.Dispatchable
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoadCocktailInfo(val drink: DrinkEntity) : Dispatchable
+data class LoadCocktailInfo(val drink: DrinkEntity) :
+    Dispatchable
 
 data class State(
     val isLoading: Boolean,

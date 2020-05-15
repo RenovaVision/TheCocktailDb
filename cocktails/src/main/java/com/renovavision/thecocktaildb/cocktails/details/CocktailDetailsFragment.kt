@@ -9,9 +9,9 @@ import androidx.transition.TransitionInflater
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailDetailsBinding
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
-import com.renovavision.thecocktaildb.utils.bindingDelegate
-import com.renovavision.thecocktaildb.utils.observe
-import com.renovavision.thecocktaildb.utils.onViewLifecycle
+import com.renovavision.thecocktaildb.ui.utils.bindingDelegate
+import com.renovavision.thecocktaildb.ui.utils.observe
+import com.renovavision.thecocktaildb.ui.utils.onViewLifecycle
 import javax.inject.Inject
 
 class CocktailDetailsFragment @Inject constructor(

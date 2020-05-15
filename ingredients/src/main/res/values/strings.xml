@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="can_not_load_ingredients">Cannot load ingredients. Try again.</string>
+    <string name="ingredients">Ingredients</string>
+</resources>

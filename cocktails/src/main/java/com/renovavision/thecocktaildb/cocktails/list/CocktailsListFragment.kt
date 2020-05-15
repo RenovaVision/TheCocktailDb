@@ -11,9 +11,9 @@ import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailsListBinding
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
-import com.renovavision.thecocktaildb.utils.bindingDelegate
-import com.renovavision.thecocktaildb.utils.observe
-import com.renovavision.thecocktaildb.utils.onViewLifecycle
+import com.renovavision.thecocktaildb.ui.utils.bindingDelegate
+import com.renovavision.thecocktaildb.ui.utils.observe
+import com.renovavision.thecocktaildb.ui.utils.onViewLifecycle
 import javax.inject.Inject
 
 class CocktailsListFragment @Inject constructor(
