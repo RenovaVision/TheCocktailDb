@@ -1,19 +1,21 @@
 package com.renovavision.thecocktaildb.ingredients
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetIngredientsList
-import com.renovavision.thecocktaildb.ui.utils.Dispatchable
+import com.renovavision.thecocktaildb.ui.utils.Action
+import com.renovavision.thecocktaildb.ui.utils.AsyncAction
+import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-object LoadIngredients : Dispatchable
-data class IngredientClicked(val ingredient: IngredientEntity) :
-    Dispatchable
+object LoadIngredients : AsyncAction
+data class IngredientClicked(val ingredient: IngredientEntity) : AsyncAction
+
+object LoadIngredientsStarted : Action
+object LoadIngredientsFailed : Action
+data class LoadIngredientsSuccess(val ingredients: List<IngredientEntity>) : Action
 
 data class State(
     val isLoading: Boolean,
@@ -24,47 +26,41 @@ data class State(
 class IngredientsViewModel @Inject constructor(
     private val getIngredientsList: GetIngredientsList,
     private val homeNavigator: IngredientsNavigator
-) : ViewModel() {
+) : UniViewModel<State>() {
 
-    private val loadIngredients = MutableLiveData<State>()
+    override fun initState() = State(isLoading = true, showError = false)
 
-    val state: LiveData<State>
-        get() = loadIngredients
+    override fun reduce(state: State, action: Action): State =
+        when (action) {
+            is LoadIngredientsStarted -> state.copy(isLoading = true)
+            is LoadIngredientsFailed -> state.copy(isLoading = false, showError = true)
+            is LoadIngredientsSuccess -> state.copy(
+                isLoading = false,
+                ingredients = action.ingredients
+            )
+            else -> state
+        }
 
-    fun dispatch(dispatchable: Dispatchable) {
-        when (dispatchable) {
-            is LoadIngredients -> loadIngredientsList()
-            is IngredientClicked -> homeNavigator.navIngredientsToCocktailsList(dispatchable.ingredient)
+    override fun async(state: State, asyncAction: AsyncAction) {
+        when (asyncAction) {
+            is IngredientClicked -> homeNavigator.navIngredientsToCocktailsList(asyncAction.ingredient)
+            is LoadIngredients -> loadIngredients(state)
         }
     }
 
-    private fun loadIngredientsList() {
-        loadIngredients.value = State(
-            isLoading = true,
-            showError = false
-        )
+    private fun loadIngredients(state: State) {
+        if (state.ingredients.isEmpty()) {
+            dispatch(LoadIngredientsStarted)
 
-        viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-            loadIngredients.value =
-                State(
-                    isLoading = false,
-                    showError = true
-                )
-        }) {
-            val ingredients = getIngredientsList.invoke()
+            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
+                dispatch(LoadIngredientsFailed)
+            }) {
+                val ingredients = getIngredientsList.invoke()
 
-            when (ingredients.isEmpty()) {
-                true -> loadIngredients.value =
-                    State(
-                        isLoading = false,
-                        showError = true
-                    )
-                else -> loadIngredients.value =
-                    State(
-                        isLoading = false,
-                        showError = false,
-                        ingredients = ingredients
-                    )
+                when (ingredients.isEmpty()) {
+                    true -> dispatch(LoadIngredientsFailed)
+                    else -> dispatch(LoadIngredientsSuccess(ingredients))
+                }
             }
         }
     }

@@ -48,7 +48,7 @@ class SearchFragment @Inject constructor(
         super.onStart()
 
         viewModel.state.observe(this) {
-            searchAdapter.updateItems(it.cocktail)
+            searchAdapter.updateItems(it.cocktails)
             binding.searchResult.visibility = if (!it.showError) View.VISIBLE else View.GONE
             binding.emptyResult.visibility = if (it.showError) View.VISIBLE else View.GONE
             binding.progress.visibility = if (it.isLoading) View.VISIBLE else View.GONE
