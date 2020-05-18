@@ -1,7 +1,6 @@
 package com.renovavision.thecocktaildb.data.repositories
 
 import com.renovavision.thecocktaildb.data.api.CocktailsApi
-import com.renovavision.thecocktaildb.data.mapper.Mapper
 import com.renovavision.thecocktaildb.data.mapper.drinksCategoryToEntityMapper
 import com.renovavision.thecocktaildb.domain.repositories.CategoryRepository
 import javax.inject.Inject

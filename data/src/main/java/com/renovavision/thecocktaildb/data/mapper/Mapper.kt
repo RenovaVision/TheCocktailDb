@@ -1,93 +1,86 @@
 package com.renovavision.thecocktaildb.data.mapper
 
-import com.renovavision.thecocktaildb.data.entities.CocktailInfo
-import com.renovavision.thecocktaildb.data.entities.DrinksByQuery
-import com.renovavision.thecocktaildb.data.entities.DrinksCategory
-import com.renovavision.thecocktaildb.data.entities.DrinksIngredient
-import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity
+import com.renovavision.thecocktaildb.data.entities.CocktailInfo.Cocktail
+import com.renovavision.thecocktaildb.data.entities.DrinksByQuery.Drink
+import com.renovavision.thecocktaildb.data.entities.DrinksCategory.Category
+import com.renovavision.thecocktaildb.data.entities.DrinksIngredient.Ingredient
+import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
+import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
+import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
+import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 
 typealias FunctionMapper<F, T> = ((from: F) -> T)
 
-internal val drinksCategoryToEntityMapper:
-        FunctionMapper<DrinksCategory.Category, DrinksCategoryEntity.CategoryEntity> =
-    { DrinksCategoryEntity.CategoryEntity(key = it.strCategory) }
+internal val drinksCategoryToEntityMapper: FunctionMapper<Category, CategoryEntity> = {
+    CategoryEntity(key = it.strCategory)
+}
 
-class Mapper {
+internal val drinksIngredientToEntityMapper: FunctionMapper<Ingredient, IngredientEntity> = {
+    IngredientEntity(key = it.strIngredient1)
+}
 
-    fun mapCategoryToEntity(data: DrinksCategory.Category): DrinksCategoryEntity.CategoryEntity =
-        DrinksCategoryEntity.CategoryEntity(
-            key = data.strCategory
-        )
+internal val drinksToEntityMapper: FunctionMapper<Drink, DrinkEntity> = {
+    DrinkEntity(
+        strDrink = it.strDrink,
+        strDrinkThumb = it.strDrinkThumb,
+        key = it.idDrink
+    )
+}
 
-    fun mapIngredientToEntity(data: DrinksIngredient.Ingredient): DrinksIngredientEntity.IngredientEntity =
-        DrinksIngredientEntity.IngredientEntity(
-            key = data.strIngredient1
-        )
-
-    fun mapDrinkToEntity(data: DrinksByQuery.Drink): DrinksByQueryEntity.DrinkEntity =
-        DrinksByQueryEntity.DrinkEntity(
-            strDrink = data.strDrink,
-            strDrinkThumb = data.strDrinkThumb,
-            key = data.idDrink
-        )
-
-    fun mapCocktailToEntity(data: CocktailInfo.Cocktail): CocktailInfoEntity.CocktailEntity =
-        CocktailInfoEntity.CocktailEntity(
-            key = data.idDrink,
-            strDrink = data.strDrink,
-            strDrinkAlternate = data.strDrinkAlternate,
-            strDrinkES = data.strDrinkES,
-            strDrinkDE = data.strDrinkDE,
-            strDrinkFR = data.strDrinkFR,
-            strDrinkZH_HANS = data.strDrinkZH_HANS,
-            strDrinkZH_HANT = data.strDrinkZH_HANT,
-            strTags = data.strTags,
-            strVideo = data.strVideo,
-            strCategory = data.strCategory,
-            strIBA = data.strIBA,
-            strAlcoholic = data.strAlcoholic,
-            strGlass = data.strGlass,
-            strInstructions = data.strInstructions,
-            strInstructionsES = data.strInstructionsES,
-            strInstructionsDE = data.strInstructionsDE,
-            strInstructionsFR = data.strInstructionsFR,
-            strInstructionsZH_HANS = data.strInstructionsZH_HANS,
-            strInstructionsZH_HANT = data.strInstructionsZH_HANT,
-            strDrinkThumb = data.strDrinkThumb,
-            strIngredient1 = data.strIngredient1,
-            strIngredient2 = data.strIngredient2,
-            strIngredient3 = data.strIngredient3,
-            strIngredient4 = data.strIngredient4,
-            strIngredient5 = data.strIngredient5,
-            strIngredient6 = data.strIngredient6,
-            strIngredient7 = data.strIngredient7,
-            strIngredient8 = data.strIngredient8,
-            strIngredient9 = data.strIngredient9,
-            strIngredient10 = data.strIngredient10,
-            strIngredient11 = data.strIngredient11,
-            strIngredient12 = data.strIngredient12,
-            strIngredient13 = data.strIngredient13,
-            strIngredient14 = data.strIngredient14,
-            strIngredient15 = data.strIngredient15,
-            strMeasure1 = data.strMeasure1,
-            strMeasure2 = data.strMeasure2,
-            strMeasure3 = data.strMeasure3,
-            strMeasure4 = data.strMeasure4,
-            strMeasure5 = data.strMeasure5,
-            strMeasure6 = data.strMeasure6,
-            strMeasure7 = data.strMeasure7,
-            strMeasure8 = data.strMeasure8,
-            strMeasure9 = data.strMeasure9,
-            strMeasure10 = data.strMeasure10,
-            strMeasure11 = data.strMeasure11,
-            strMeasure12 = data.strMeasure12,
-            strMeasure13 = data.strMeasure13,
-            strMeasure14 = data.strMeasure14,
-            strMeasure15 = data.strMeasure15,
-            strCreativeCommonsConfirmed = data.strCreativeCommonsConfirmed,
-            dateModified = data.dateModified
-        )
+internal val cocktailInfoToEntityMapper: FunctionMapper<Cocktail, CocktailEntity> = {
+    CocktailEntity(
+        key = it.idDrink,
+        strDrink = it.strDrink,
+        strDrinkAlternate = it.strDrinkAlternate,
+        strDrinkES = it.strDrinkES,
+        strDrinkDE = it.strDrinkDE,
+        strDrinkFR = it.strDrinkFR,
+        strDrinkZH_HANS = it.strDrinkZH_HANS,
+        strDrinkZH_HANT = it.strDrinkZH_HANT,
+        strTags = it.strTags,
+        strVideo = it.strVideo,
+        strCategory = it.strCategory,
+        strIBA = it.strIBA,
+        strAlcoholic = it.strAlcoholic,
+        strGlass = it.strGlass,
+        strInstructions = it.strInstructions,
+        strInstructionsES = it.strInstructionsES,
+        strInstructionsDE = it.strInstructionsDE,
+        strInstructionsFR = it.strInstructionsFR,
+        strInstructionsZH_HANS = it.strInstructionsZH_HANS,
+        strInstructionsZH_HANT = it.strInstructionsZH_HANT,
+        strDrinkThumb = it.strDrinkThumb,
+        strIngredient1 = it.strIngredient1,
+        strIngredient2 = it.strIngredient2,
+        strIngredient3 = it.strIngredient3,
+        strIngredient4 = it.strIngredient4,
+        strIngredient5 = it.strIngredient5,
+        strIngredient6 = it.strIngredient6,
+        strIngredient7 = it.strIngredient7,
+        strIngredient8 = it.strIngredient8,
+        strIngredient9 = it.strIngredient9,
+        strIngredient10 = it.strIngredient10,
+        strIngredient11 = it.strIngredient11,
+        strIngredient12 = it.strIngredient12,
+        strIngredient13 = it.strIngredient13,
+        strIngredient14 = it.strIngredient14,
+        strIngredient15 = it.strIngredient15,
+        strMeasure1 = it.strMeasure1,
+        strMeasure2 = it.strMeasure2,
+        strMeasure3 = it.strMeasure3,
+        strMeasure4 = it.strMeasure4,
+        strMeasure5 = it.strMeasure5,
+        strMeasure6 = it.strMeasure6,
+        strMeasure7 = it.strMeasure7,
+        strMeasure8 = it.strMeasure8,
+        strMeasure9 = it.strMeasure9,
+        strMeasure10 = it.strMeasure10,
+        strMeasure11 = it.strMeasure11,
+        strMeasure12 = it.strMeasure12,
+        strMeasure13 = it.strMeasure13,
+        strMeasure14 = it.strMeasure14,
+        strMeasure15 = it.strMeasure15,
+        strCreativeCommonsConfirmed = it.strCreativeCommonsConfirmed,
+        dateModified = it.dateModified
+    )
 }
