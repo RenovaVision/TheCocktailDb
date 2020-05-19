@@ -6,6 +6,9 @@ plugins {
 
 android {
     compileSdkVersion(AndroidConfig.compileSdkVersion)
+    defaultConfig {
+        minSdkVersion(AndroidConfig.minSdkVersion)
+    }
     kotlinOptions {
         jvmTarget = "1.8"
     }

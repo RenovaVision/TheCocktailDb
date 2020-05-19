@@ -1,5 +1,6 @@
 package com.renovavision.thecocktaildb.navigation
 
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.renovavision.thecocktaildb.R
@@ -18,6 +19,7 @@ import com.renovavision.thecocktaildb.ingredients.IngredientsNavigator
 import com.renovavision.thecocktaildb.search.SearchFragmentDirections
 import com.renovavision.thecocktaildb.search.SearchNavigator
 import com.renovavision.thecocktaildb.ui.navigation.Navigator
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -43,13 +45,21 @@ class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator,
         }
     }
 
-    override fun navCocktailsListToDetails(cocktail: DrinksByQueryEntity.DrinkEntity) {
+    override fun navCocktailsListToDetails(
+        cocktail: DrinksByQueryEntity.DrinkEntity,
+        imageView: WeakReference<AppCompatImageView>
+    ) {
         activity?.apply {
             runOnUiThread {
-                findNavController(R.id.navHostFragment).navigate(
-                    CocktailsListFragmentDirections.navigateToCocktailDetails(cocktail),
-                    FragmentNavigatorExtras()
-                )
+                val extras =
+                    imageView.get()?.let { FragmentNavigatorExtras(it to cocktail.strDrinkThumb) }
+
+                extras?.let {
+                    findNavController(R.id.navHostFragment).navigate(
+                        CocktailsListFragmentDirections.navigateToCocktailDetails(cocktail),
+                        it
+                    )
+                }
             }
         }
     }

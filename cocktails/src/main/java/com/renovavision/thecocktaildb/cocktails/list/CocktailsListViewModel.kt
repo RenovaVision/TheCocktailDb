@@ -1,5 +1,6 @@
 package com.renovavision.thecocktaildb.cocktails.list
 
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.cocktails.CocktailsNavigator
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
@@ -11,11 +12,15 @@ import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) : AsyncAction
 data class LoadCocktailsByCategory(val category: CategoryEntity) : AsyncAction
-data class CocktailClicked(val cocktail: DrinkEntity) : AsyncAction
+class CocktailClicked(
+    val cocktail: DrinkEntity,
+    val imageView: WeakReference<AppCompatImageView>
+) : AsyncAction
 
 object LoadCocktailsStarted : Action
 object LoadCocktailsFailed : Action
@@ -44,7 +49,7 @@ class CocktailsListViewModel @Inject constructor(
 
     override fun async(state: State, asyncAction: AsyncAction) {
         when (asyncAction) {
-            is CocktailClicked -> cocktailsNavigator.navCocktailsListToDetails(asyncAction.cocktail)
+            is CocktailClicked -> cocktailsNavigator.navCocktailsListToDetails(asyncAction.cocktail, asyncAction.imageView)
             is LoadCocktailsByIngredient -> loadCocktailsListByIngredient(
                 state,
                 asyncAction.ingredient
