@@ -13,4 +13,8 @@ dependencies {
     implementation(Deps.Google.dagger)
     kapt(Deps.Google.daggerCompiler)
     kapt(Deps.Square.moshiKotlinCodegen)
+
+    testImplementation(Deps.Kotlin.coroutinesTest)
+    testImplementation(Deps.Test.mockWebServer)
+    testImplementation(Deps.Test.junit)
 }

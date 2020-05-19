@@ -31,6 +31,7 @@ object Deps {
     }
 
     object Test {
+        const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
         const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         const val junit = "junit:junit:4.12"
         const val junitExt = "androidx.test.ext:junit:1.1.1"
@@ -40,6 +41,7 @@ object Deps {
     object Kotlin {
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
         const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     }
 }
 
