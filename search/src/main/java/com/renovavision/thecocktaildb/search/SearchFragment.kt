@@ -30,18 +30,21 @@ class SearchFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        onViewLifecycle({ binding.searchResult },
-            {
-                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-                adapter = searchAdapter
-            })
-
         onViewLifecycle({ binding.searchText },
             {
                 doAfterTextChanged { editable ->
                     viewModel.dispatch(LoadCocktails(editable.toString()))
                 }
             })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<RecyclerView>(R.id.searchResult).apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = searchAdapter
+        }
     }
 
     override fun onStart() {

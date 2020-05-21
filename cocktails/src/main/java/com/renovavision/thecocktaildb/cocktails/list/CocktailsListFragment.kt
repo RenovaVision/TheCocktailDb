@@ -2,6 +2,7 @@ package com.renovavision.thecocktaildb.cocktails.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -36,11 +37,6 @@ class CocktailsListFragment @Inject constructor(
             {
                 title = context.getString(R.string.cocktails)
             })
-        onViewLifecycle({ binding.recyclerView },
-            {
-                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-                adapter = cocktailsAdapter
-            })
         onViewLifecycle({ binding.errorContainer },
             {
                 errorMessage = getString(R.string.can_not_load_cocktails)
@@ -51,6 +47,21 @@ class CocktailsListFragment @Inject constructor(
             })
 
         loadCocktailsList(ingredient, category)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<RecyclerView>(R.id.recycler_view).apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            setHasFixedSize(true)
+            adapter = cocktailsAdapter
+
+            postponeEnterTransition()
+            doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+        }
     }
 
     override fun onStart() {
