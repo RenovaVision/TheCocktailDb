@@ -7,6 +7,7 @@ import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkE
 import com.renovavision.thecocktaildb.ui.utils.BaseAdapter
 import com.renovavision.thecocktaildb.ui.utils.BaseViewHolder
 import com.renovavision.thecocktaildb.ui.utils.Dispatch
+import java.lang.ref.WeakReference
 
 class CocktailsAdapter(dispatch: Dispatch) :
     BaseAdapter<DrinkEntity, CocktailsAdapter.CocktailViewHolder>(dispatch) {
@@ -29,7 +30,14 @@ class CocktailsAdapter(dispatch: Dispatch) :
         override fun onCreate(dispatch: Dispatch) {
             super.onCreate(dispatch)
             itemView.setOnClickListener {
-                item.let { dispatch.invoke(CocktailClicked(item)) }
+                item.let {
+                    dispatch.invoke(
+                        CocktailClicked(
+                            item,
+                            WeakReference(binding.cocktailInfo.posterView)
+                        )
+                    )
+                }
             }
         }
 

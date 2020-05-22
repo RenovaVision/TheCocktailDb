@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.TransitionInflater
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailDetailsBinding
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
@@ -24,6 +25,9 @@ class CocktailDetailsFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+
         val cocktail = arguments?.getSerializable("cocktail") as DrinkEntity
 
         onViewLifecycle({ binding.toolbar },
@@ -31,7 +35,9 @@ class CocktailDetailsFragment @Inject constructor(
                 title = context.getString(R.string.cocktail_details)
             }
         )
-
+        onViewLifecycle({ binding.cocktailInfoView }, {
+            cocktailPoster = cocktail.strDrinkThumb
+        })
         onViewLifecycle({ binding.errorContainer },
             {
                 errorMessage = getString(R.string.can_not_load_cocktail_details)

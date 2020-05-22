@@ -9,6 +9,15 @@ object Deps {
         const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
         const val navFrag = "androidx.navigation:navigation-fragment-ktx:${PluginVersions.nav}"
         const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+        const val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
+        const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+        const val testCore = "androidx.test:core-ktx:${Versions.androidTest}"
+        const val testMonitor = "androidx.test:monitor:${Versions.androidTest}"
+        const val junitKtx = "androidx.test.ext:junit-ktx:1.1.1"
+        const val testRules = "androidx.test:rules:${Versions.androidTest}"
+        const val testRunner = "androidx.test:runner:${Versions.androidTest}"
+        const val testOrchestrator = "androidx.test:orchestrator:${Versions.androidTest}"
+        const val coreTesting = "androidx.arch.core:core-testing:2.1.0"
     }
 
     object Google {
@@ -32,10 +41,13 @@ object Deps {
 
     object Test {
         const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
-        const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         const val junit = "junit:junit:4.12"
         const val junitExt = "androidx.test.ext:junit:1.1.1"
-        const val espresso = "androidx.test.espresso:espresso-core:3.2.0"
+        const val mockito = "org.mockito:mockito-core:3.0.0"
+        const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+        const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${PluginVersions.kotlin}"
+        const val robolectric = "org.robolectric:robolectric:4.3.1"
+        const val podam = "uk.co.jemos.podam:podam:7.2.3.RELEASE"
     }
 
     object Kotlin {
@@ -71,4 +83,6 @@ private object Versions {
     const val okhttp = "4.4.1"
     const val retrofit = "2.8.1"
     const val coroutines = "1.3.6"
+    const val espresso = "3.2.0"
+    const val androidTest = "1.2.0"
 }

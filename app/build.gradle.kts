@@ -17,8 +17,7 @@ android {
             "API_URL",
             "\"https://www.thecocktaildb.com/api/json/v1/1/\""
         )
-
-        testInstrumentationRunner = Deps.Test.testInstrumentationRunner
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         getByName("release") {
@@ -38,6 +37,11 @@ android {
     }
     viewBinding {
         isEnabled = true
+    }
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+        animationsDisabled = true
+        unitTests.isIncludeAndroidResources = true
     }
 }
 
@@ -64,7 +68,11 @@ dependencies {
 
     implementation(Deps.Square.retrofit)
 
-    testImplementation(Deps.Test.junit)
     androidTestImplementation(Deps.Test.junitExt)
-    androidTestImplementation(Deps.Test.espresso)
+    androidTestImplementation(Deps.Androidx.espressoContrib)
+    androidTestImplementation(Deps.Androidx.espressoCore)
+    androidTestImplementation(Deps.Androidx.junitKtx)
+    androidTestImplementation(Deps.Androidx.testRules)
+    androidTestImplementation(Deps.Androidx.testRunner)
+    androidTestUtil(Deps.Androidx.testOrchestrator)
 }

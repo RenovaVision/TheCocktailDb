@@ -29,11 +29,6 @@ class CategoriesFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        onViewLifecycle({ binding.recyclerView },
-            {
-                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-                adapter = ingredientsAdapter
-            })
         onViewLifecycle({ binding.errorContainer },
             {
                 errorMessage = getString(R.string.can_not_load_categories)
@@ -43,6 +38,15 @@ class CategoriesFragment @Inject constructor(
             })
 
         viewModel.dispatch(LoadCategories)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<RecyclerView>(R.id.recycler_view).apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = ingredientsAdapter
+        }
     }
 
     override fun onStart() {

@@ -33,20 +33,12 @@ class HomeFragment @Inject constructor(
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        val tabAdapter = TabAdapter(
-            childFragmentManager
-        )
-
+        val tabAdapter = TabAdapter(childFragmentManager)
         tabAdapter.addFragment(
-            IngredientsFragment(
-                viewModelFactory
-            ), getString(R.string.ingredients)
+            IngredientsFragment(viewModelFactory),
+            getString(R.string.ingredients)
         )
-        tabAdapter.addFragment(
-            CategoriesFragment(
-                viewModelFactory
-            ), getString(R.string.categories)
-        )
+        tabAdapter.addFragment(CategoriesFragment(viewModelFactory), getString(R.string.categories))
 
         onViewLifecycle({ binding.toolbar }, {
             title = getString(R.string.home)
@@ -59,22 +51,18 @@ class HomeFragment @Inject constructor(
                             if (isNightModeOn == false) {
                                 sharedPrefsEdit?.putBoolean("NightMode", true)
                                 sharedPrefsEdit?.apply()
-
                                 AppCompatDelegate.MODE_NIGHT_YES
                             } else {
                                 sharedPrefsEdit?.putBoolean("NightMode", false)
                                 sharedPrefsEdit?.apply()
-
                                 AppCompatDelegate.MODE_NIGHT_NO
                             }
 
                         AppCompatDelegate.setDefaultNightMode(mode)
-
                         true
                     }
                     R.id.action_search -> {
                         homeNavigator.navHomeToSearch()
-
                         true
                     }
 

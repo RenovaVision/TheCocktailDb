@@ -17,4 +17,5 @@ dependencies {
     testImplementation(Deps.Kotlin.coroutinesTest)
     testImplementation(Deps.Test.mockWebServer)
     testImplementation(Deps.Test.junit)
+    testImplementation(Deps.Test.kotlinTest)
 }

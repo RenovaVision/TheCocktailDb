@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.renovavision.ui.testutils">
+
+    <application>
+        <activity
+            android:name=".view.ViewTestActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+    </application>
+
+</manifest>
