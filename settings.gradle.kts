@@ -25,5 +25,6 @@ include(
     ":data",
     ":domain",
     ":ui",
+    ":ui-testutils",
     ":style"
 )
