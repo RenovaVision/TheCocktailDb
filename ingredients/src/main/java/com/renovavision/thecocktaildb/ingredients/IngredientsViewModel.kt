@@ -3,10 +3,12 @@ package com.renovavision.thecocktaildb.ingredients
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetIngredientsList
+import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,10 +25,12 @@ data class State(
     val ingredients: List<IngredientEntity> = emptyList()
 )
 
+@ExperimentalCoroutinesApi
 class IngredientsViewModel @Inject constructor(
     private val getIngredientsList: GetIngredientsList,
-    private val homeNavigator: IngredientsNavigator
-) : UniViewModel<State>() {
+    private val homeNavigator: IngredientsNavigator,
+    provider: CoroutineDispatcherProvider
+) : UniViewModel<State>(provider.ioDispatcher()) {
 
     override fun initState() = State(isLoading = true, showError = false)
 

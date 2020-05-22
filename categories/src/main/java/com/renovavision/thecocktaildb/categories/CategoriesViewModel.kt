@@ -3,10 +3,12 @@ package com.renovavision.thecocktaildb.categories
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCategoriesList
+import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,10 +29,12 @@ data class State(
 )
 
 // View model
+@ExperimentalCoroutinesApi
 class CategoriesViewModel @Inject constructor(
     private val getCategoriesList: GetCategoriesList,
-    private val homeNavigator: CategoriesNavigator
-) : UniViewModel<State>() {
+    private val homeNavigator: CategoriesNavigator,
+    provider: CoroutineDispatcherProvider
+) : UniViewModel<State>(provider.ioDispatcher()) {
 
     override fun initState() = State(isLoading = true, showError = false)
 

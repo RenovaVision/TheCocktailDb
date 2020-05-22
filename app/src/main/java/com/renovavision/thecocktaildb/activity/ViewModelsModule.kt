@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb
+package com.renovavision.thecocktaildb.activity
 
 import androidx.lifecycle.ViewModel
 import com.renovavision.thecocktaildb.cocktails.details.CocktailDetailsViewModel

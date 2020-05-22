@@ -3,8 +3,8 @@ package com.renovavision.thecocktaildb.ui.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
@@ -37,21 +37,22 @@ typealias Dispatch = (dispatchable: Dispatchable) -> Unit
  * Store class, based on AndroidX ViewModel.
  * Contains State, Reducer and Middleware
  */
-abstract class UniViewModel<S> : ViewModel() {
+@ExperimentalCoroutinesApi
+abstract class UniViewModel<S>(dispatcher: CoroutineDispatcher) :
+    ViewModel() {
 
     private var _state: S
     private val actionsChannel = Channel<Dispatchable>(Channel.UNLIMITED)
     private val stateChannel = Channel<S>(Channel.CONFLATED)
 
-    protected open val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    private val scope = CoroutineScope(dispatcher)
+
     open val dispatch: Dispatch = { actionsChannel.offer(it) }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     val state: LiveData<S> = stateChannel.receiveAsFlow().asLiveData()
 
     init {
         _state = initState()
-        @OptIn(ExperimentalCoroutinesApi::class)
         scope.launch {
             actionsChannel.consumeEach {
                 when (it) {

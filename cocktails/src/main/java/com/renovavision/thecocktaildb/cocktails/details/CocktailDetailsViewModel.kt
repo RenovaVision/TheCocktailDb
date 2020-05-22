@@ -4,10 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
+import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,18 +25,21 @@ data class State(
     val cocktailInfo: CocktailEntity? = null
 )
 
+@ExperimentalCoroutinesApi
 class CocktailDetailsViewModel @Inject constructor(
-    private val getCocktails: GetCocktails
-) : UniViewModel<State>() {
+    private val getCocktails: GetCocktails,
+    provider: CoroutineDispatcherProvider
+) : UniViewModel<State>(provider.ioDispatcher()) {
 
     override fun initState() = State(isLoading = true, showError = false)
 
     override fun reduce(state: State, action: Action): State =
         when (action) {
             is LoadCocktailInfoStarted -> state.copy(isLoading = true)
-            is LoadCocktailInfoFailed -> state.copy(isLoading = false, showError = false)
+            is LoadCocktailInfoFailed -> state.copy(isLoading = false, showError = true)
             is LoadCocktailInfoSuccess -> state.copy(
                 isLoading = false,
+                showError = false,
                 cocktailInfo = action.cocktailInfo
             )
             else -> state
@@ -49,12 +54,10 @@ class CocktailDetailsViewModel @Inject constructor(
     private fun loadCocktailInfo(state: State, cocktail: DrinkEntity) {
         if (state.cocktailInfo == null) {
             dispatch(LoadCocktailInfoStarted)
-
             viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
                 dispatch(LoadCocktailInfoFailed)
             }) {
                 val cocktailInfo = getCocktails.loadCocktailDetails(cocktail.key)
-
                 when (cocktailInfo.isEmpty()) {
                     true -> dispatch(LoadCocktailInfoFailed)
                     else -> dispatch(LoadCocktailInfoSuccess(cocktailInfo.first()))

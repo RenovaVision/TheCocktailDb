@@ -1,8 +1,6 @@
 package com.renovavision.thecocktaildb.activity
 
 import androidx.lifecycle.ViewModelProvider
-import com.renovavision.thecocktaildb.FragmentsModule
-import com.renovavision.thecocktaildb.ViewModelsModule
 import com.renovavision.thecocktaildb.inject.ViewModelFactory
 import dagger.Binds
 import dagger.Module

@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb
+package com.renovavision.thecocktaildb.activity
 
 import androidx.fragment.app.Fragment
 import com.renovavision.thecocktaildb.categories.CategoriesFragment
