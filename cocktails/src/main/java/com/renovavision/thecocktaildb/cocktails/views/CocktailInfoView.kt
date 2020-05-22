@@ -1,13 +1,13 @@
-package com.renovavision.thecocktaildb.ui.views
+package com.renovavision.thecocktaildb.cocktails.views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
+import com.renovavision.thecocktaildb.cocktails.R
+import com.renovavision.thecocktaildb.cocktails.databinding.CocktailInfoViewBinding
 import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
-import com.renovavision.thecocktaildb.ui.R
-import com.renovavision.thecocktaildb.ui.databinding.CocktailInfoViewBinding
 import com.squareup.picasso.Picasso
 
 class CocktailInfoView @JvmOverloads constructor(
