@@ -8,6 +8,7 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
@@ -15,11 +16,9 @@ import com.google.android.material.tabs.TabLayout
 import com.renovavision.thecocktaildb.activity.MainActivity
 import org.hamcrest.CoreMatchers
 import org.hamcrest.core.IsAnything.anything
-
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Rule
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -31,8 +30,9 @@ class AppTest {
 
     @Test
     fun endToEndTest() {
-        Thread.sleep(2000)
-        onView(ViewMatchers.withText("Categories")).check(matches(anything()))
+        Thread.sleep(1000)
+        onView(withText("Categories")).check(matches(anything()))
+        onView(withText("Ingredients")).check(matches(anything()))
         onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(1))
     }
 }
