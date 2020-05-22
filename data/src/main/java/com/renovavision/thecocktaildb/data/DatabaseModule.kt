@@ -1,7 +1,7 @@
 package com.renovavision.thecocktaildb.data
 
 import android.app.Application
-import com.renovavision.thecocktaildb.data.local.AppDatabase
+import com.renovavision.thecocktaildb.data.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

@@ -3,7 +3,7 @@ package com.renovavision.thecocktaildb.ingredients
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetIngredientsList
-import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
+import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel

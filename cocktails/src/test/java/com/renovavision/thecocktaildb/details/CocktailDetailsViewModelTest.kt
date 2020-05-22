@@ -13,7 +13,7 @@ import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity
 import com.renovavision.thecocktaildb.domain.repositories.CocktailsRepository
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
-import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
+import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow

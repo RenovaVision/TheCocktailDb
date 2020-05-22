@@ -1,6 +1,5 @@
 package com.renovavision.thecocktaildb.domain.entities
 
-import com.renovavision.thecocktaildb.domain.Indexed
 import java.io.Serializable
 
 data class DrinksCategoryEntity(
@@ -9,5 +8,6 @@ data class DrinksCategoryEntity(
 
     data class CategoryEntity(
         override val key: String
-    ) : Serializable, Indexed<String>
+    ) : Serializable,
+        Indexed<String>
 }

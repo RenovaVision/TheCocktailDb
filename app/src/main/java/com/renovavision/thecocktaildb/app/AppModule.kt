@@ -1,6 +1,6 @@
 package com.renovavision.thecocktaildb.app
 
-import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
+import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
 import dagger.Binds
 import dagger.Module
 

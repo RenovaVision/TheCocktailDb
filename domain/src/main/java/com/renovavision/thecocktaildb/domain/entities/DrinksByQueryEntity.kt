@@ -1,6 +1,5 @@
 package com.renovavision.thecocktaildb.domain.entities
 
-import com.renovavision.thecocktaildb.domain.Indexed
 import java.io.Serializable
 
 data class DrinksByQueryEntity(

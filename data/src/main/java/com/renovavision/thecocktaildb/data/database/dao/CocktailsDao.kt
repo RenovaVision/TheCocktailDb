@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.data.local.dao
+package com.renovavision.thecocktaildb.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
