@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.renovavision.thecocktaildb.R
 import com.renovavision.thecocktaildb.inject.DaggerFragmentFactory
-import com.renovavision.thecocktaildb.navigation.NavigatorImpl
+import com.renovavision.thecocktaildb.activity.navigation.NavigatorImpl
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 

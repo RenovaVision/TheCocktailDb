@@ -5,7 +5,7 @@ import com.renovavision.thecocktaildb.activity.MainActivityModule
 import com.renovavision.thecocktaildb.data.DatabaseModule
 import com.renovavision.thecocktaildb.data.NetworkModule
 import com.renovavision.thecocktaildb.data.RepositoryModule
-import com.renovavision.thecocktaildb.navigation.NavigationModule
+import com.renovavision.thecocktaildb.activity.navigation.NavigationModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -18,6 +18,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
+        AppModule::class,
         MainActivityModule::class,
         RepositoryModule::class,
         DatabaseModule::class,

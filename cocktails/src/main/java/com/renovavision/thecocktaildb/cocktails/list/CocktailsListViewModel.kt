@@ -7,6 +7,7 @@ import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkE
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
+import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
@@ -37,8 +38,9 @@ data class State(
 @ExperimentalCoroutinesApi
 class CocktailsListViewModel @Inject constructor(
     private val getCocktails: GetCocktails,
-    private val cocktailsNavigator: CocktailsNavigator
-) : UniViewModel<State>() {
+    private val cocktailsNavigator: CocktailsNavigator,
+    provider: CoroutineDispatcherProvider
+) : UniViewModel<State>(provider.ioDispatcher()) {
 
     override fun initState() = State(isLoading = true, showError = false)
 

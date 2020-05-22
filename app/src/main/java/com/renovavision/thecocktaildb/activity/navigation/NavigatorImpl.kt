@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.navigation
+package com.renovavision.thecocktaildb.activity.navigation
 
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.navigation.findNavController

@@ -1,0 +1,39 @@
+{
+  "drinks": [
+    {
+      "strDrink": "'57 Chevy with a White License Plate",
+      "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/qyyvtu1468878544.jpg",
+      "idDrink": "14029"
+    },
+    {
+      "strDrink": "155 Belmont",
+      "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/yqvvqs1475667388.jpg",
+      "idDrink": "15346"
+    },
+    {
+      "strDrink": "501 Blue",
+      "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/ywxwqs1461867097.jpg",
+      "idDrink": "17105"
+    },
+    {
+      "strDrink": "747 Drink",
+      "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/i9suxb1582474926.jpg",
+      "idDrink": "178318"
+    },
+    {
+      "strDrink": "A Gilligan's Island",
+      "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/wysqut1461867176.jpg",
+      "idDrink": "16943"
+    },
+    {
+      "strDrink": "A midsummernight dream",
+      "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/ysqvqp1461867292.jpg",
+      "idDrink": "15675"
+    },
+    {
+      "strDrink": "A.D.M. (After Dinner Mint)",
+      "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/ruxuvp1472669600.jpg",
+      "idDrink": "14560"
+    }
+  ]
+}

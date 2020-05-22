@@ -31,6 +31,8 @@ dependencies {
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Androidx.recyclerview)
     implementation(Deps.Androidx.constraintlayout)
+    implementation(Deps.Kotlin.coroutines)
+    implementation(Deps.Kotlin.coroutinesAndroid)
     implementation(Deps.Square.picasso)
     implementation(Deps.Google.dagger)
     kapt(Deps.Google.daggerCompiler)
@@ -46,4 +48,7 @@ dependencies {
     testImplementation(Deps.Androidx.testRunner)
     testImplementation(Deps.Test.robolectric)
     testImplementation(Deps.Test.podam)
+    testImplementation(Deps.Test.mockito)
+    testImplementation(Deps.Test.mockitoKotlin)
+    testImplementation(Deps.Kotlin.coroutinesTest)
 }

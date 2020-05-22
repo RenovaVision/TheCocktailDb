@@ -11,8 +11,6 @@ object Deps {
         const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
         const val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
         const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
-        const val testCore = "androidx.test:core-ktx:${Versions.androidTest}"
-        const val testMonitor = "androidx.test:monitor:${Versions.androidTest}"
         const val junitKtx = "androidx.test.ext:junit-ktx:1.1.1"
         const val testRules = "androidx.test:rules:${Versions.androidTest}"
         const val testRunner = "androidx.test:runner:${Versions.androidTest}"
@@ -40,6 +38,7 @@ object Deps {
     }
 
     object Test {
+        const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
         const val junit = "junit:junit:4.12"
         const val junitExt = "androidx.test.ext:junit:1.1.1"
         const val mockito = "org.mockito:mockito-core:3.0.0"
@@ -54,6 +53,8 @@ object Deps {
             "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
         const val coroutinesAndroid =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+        const val coroutinesTest =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     }
 
     object Database {

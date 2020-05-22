@@ -3,6 +3,7 @@ package com.renovavision.thecocktaildb.search
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetSearchCocktails
+import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
@@ -25,8 +26,9 @@ data class State(
 
 class SearchViewModel @Inject constructor(
     private val useCase: GetSearchCocktails,
-    private val homeNavigator: SearchNavigator
-) : UniViewModel<State>() {
+    private val homeNavigator: SearchNavigator,
+    provider: CoroutineDispatcherProvider
+) : UniViewModel<State>(provider.ioDispatcher()) {
 
     override fun initState() = State(isLoading = true, showError = false)
 
