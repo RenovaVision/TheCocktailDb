@@ -16,6 +16,7 @@ import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
 import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
@@ -57,7 +58,9 @@ class CocktailDetailsViewModelTest {
     fun `success scenario`() {
         runBlockingTest {
             val entity = entityFactory(1)
-            `when`(cocktailsRepo.loadCocktailDetails(1)).thenReturn(listOf(entity))
+            `when`(cocktailsRepo.loadCocktailDetails(1)).thenReturn(flow {
+                emit(listOf(entity))
+            })
             viewModel.dispatch(LoadCocktailInfo(DrinksByQueryEntity.DrinkEntity("name", "url", 1)))
             verify(observer).onChanged(State(true, false, null))
 

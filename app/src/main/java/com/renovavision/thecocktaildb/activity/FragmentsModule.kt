@@ -11,7 +11,9 @@ import com.renovavision.thecocktaildb.search.SearchFragment
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Module
 interface FragmentsModule {
 

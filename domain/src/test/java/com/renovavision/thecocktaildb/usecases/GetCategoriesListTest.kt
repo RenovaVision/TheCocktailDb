@@ -3,6 +3,8 @@ package com.renovavision.thecocktaildb.usecases
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity
 import com.renovavision.thecocktaildb.domain.repositories.CategoryRepository
 import com.renovavision.thecocktaildb.domain.usecases.GetCategoriesList
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -37,14 +39,17 @@ class GetCategoriesListTest {
             )
         )
         runBlocking {
-            `when`(categoriesRepo.loadCategories()).thenReturn(list)
-            val result = test.invoke()
-            assertEquals(
-                DrinksCategoryEntity.CategoryEntity(
-                    "One"
-                ),
-                result[0]
-            )
+            `when`(categoriesRepo.loadCategories()).thenReturn(flow {
+                emit(list)
+            })
+            test.invoke().collect {
+                assertEquals(
+                    DrinksCategoryEntity.CategoryEntity(
+                        "One"
+                    ),
+                    it[0]
+                )
+            }
         }
     }
 

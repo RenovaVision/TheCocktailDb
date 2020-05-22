@@ -25,6 +25,6 @@ internal object MockDispatcher : Dispatcher() {
     }
 
     private fun String.json(): String =
-        MockDispatcher::class.java.getResource("/$this.json").readText()
+        MockDispatcher::class.java.getResource("/$this.json")!!.readText()
 
 }

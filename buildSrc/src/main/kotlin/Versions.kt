@@ -11,8 +11,6 @@ object Deps {
         const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
         const val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
         const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
-        const val testCore = "androidx.test:core-ktx:${Versions.androidTest}"
-        const val testMonitor = "androidx.test:monitor:${Versions.androidTest}"
         const val junitKtx = "androidx.test.ext:junit-ktx:1.1.1"
         const val testRules = "androidx.test:rules:${Versions.androidTest}"
         const val testRunner = "androidx.test:runner:${Versions.androidTest}"
@@ -51,9 +49,18 @@ object Deps {
     }
 
     object Kotlin {
-        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
-        const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
-        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+        const val coroutines =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+        const val coroutinesAndroid =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+        const val coroutinesTest =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    }
+
+    object Database {
+        const val room = "androidx.room:room-runtime:${Versions.room}"
+        const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+        const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     }
 }
 
@@ -82,6 +89,7 @@ private object Versions {
     const val fragment = "1.2.3"
     const val okhttp = "4.4.1"
     const val retrofit = "2.8.1"
+    const val room = "2.2.5"
     const val coroutines = "1.3.6"
     const val espresso = "3.2.0"
     const val androidTest = "1.2.0"

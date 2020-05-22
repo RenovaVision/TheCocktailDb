@@ -66,7 +66,12 @@ dependencies {
     kapt(Deps.Google.daggerCompiler)
     kapt(Deps.Google.daggerAndroidProcessor)
 
+    // needs only for DI generation
     implementation(Deps.Square.retrofit)
+    implementation(Deps.Database.room)
+
+    implementation(Deps.Kotlin.coroutines)
+    implementation(Deps.Kotlin.coroutinesAndroid)
 
     androidTestImplementation(Deps.Test.junitExt)
     androidTestImplementation(Deps.Androidx.espressoContrib)

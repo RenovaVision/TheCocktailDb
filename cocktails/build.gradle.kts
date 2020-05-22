@@ -31,6 +31,7 @@ dependencies {
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Androidx.recyclerview)
     implementation(Deps.Androidx.constraintlayout)
+    implementation(Deps.Kotlin.coroutines)
     implementation(Deps.Kotlin.coroutinesAndroid)
     implementation(Deps.Square.picasso)
     implementation(Deps.Google.dagger)

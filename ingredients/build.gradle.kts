@@ -23,6 +23,8 @@ dependencies {
     implementation(project(":inject"))
     implementation(project(":ui"))
     implementation(project(":domain"))
+    implementation(Deps.Kotlin.coroutines)
+    implementation(Deps.Kotlin.coroutinesAndroid)
     implementation(Deps.Androidx.material)
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Androidx.constraintlayout)

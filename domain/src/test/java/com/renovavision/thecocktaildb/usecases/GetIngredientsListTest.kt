@@ -4,6 +4,8 @@ import com.nhaarman.mockitokotlin2.mock
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity
 import com.renovavision.thecocktaildb.domain.repositories.IngredientsRepository
 import com.renovavision.thecocktaildb.domain.usecases.GetIngredientsList
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -33,14 +35,17 @@ class GetIngredientsListTest {
             )
         )
         runBlocking {
-            `when`(ingredientsRepository.loadIngredients()).thenReturn(list)
-            val result = test.invoke()
-            assertEquals(
-                DrinksIngredientEntity.IngredientEntity(
-                    "One"
-                ),
-                result[0]
-            )
+            `when`(ingredientsRepository.loadIngredients()).thenReturn(flow {
+                emit(list)
+            })
+            test.invoke().collect {
+                assertEquals(
+                    DrinksIngredientEntity.IngredientEntity(
+                        "One"
+                    ),
+                    it[0]
+                )
+            }
         }
     }
 

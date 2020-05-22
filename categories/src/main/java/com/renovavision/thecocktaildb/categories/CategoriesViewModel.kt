@@ -9,6 +9,7 @@ import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,6 +45,7 @@ class CategoriesViewModel @Inject constructor(
             is LoadCategoriesFailed -> state.copy(isLoading = false, showError = true)
             is LoadCategoriesSuccess -> state.copy(
                 isLoading = false,
+                showError = false,
                 categories = action.categories
             )
             else -> state
@@ -59,9 +61,11 @@ class CategoriesViewModel @Inject constructor(
                         dispatch(LoadCategoriesFailed)
                     }) {
                         val categories = getCategoriesList.invoke()
-                        when (categories.isEmpty()) {
-                            true -> dispatch(LoadCategoriesFailed)
-                            else -> dispatch(LoadCategoriesSuccess(categories))
+                        categories.collect {
+                            when (it.isEmpty()) {
+                                true -> dispatch(LoadCategoriesFailed)
+                                else -> dispatch(LoadCategoriesSuccess(it))
+                            }
                         }
                     }
                 }

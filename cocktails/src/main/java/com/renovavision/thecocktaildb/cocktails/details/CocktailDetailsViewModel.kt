@@ -10,6 +10,7 @@ import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -58,9 +59,11 @@ class CocktailDetailsViewModel @Inject constructor(
                 dispatch(LoadCocktailInfoFailed)
             }) {
                 val cocktailInfo = getCocktails.loadCocktailDetails(cocktail.key)
-                when (cocktailInfo.isEmpty()) {
-                    true -> dispatch(LoadCocktailInfoFailed)
-                    else -> dispatch(LoadCocktailInfoSuccess(cocktailInfo.first()))
+                cocktailInfo.collect {
+                    when (it.isEmpty()) {
+                        true -> dispatch(LoadCocktailInfoFailed)
+                        else -> dispatch(LoadCocktailInfoSuccess(it.first()))
+                    }
                 }
             }
         }

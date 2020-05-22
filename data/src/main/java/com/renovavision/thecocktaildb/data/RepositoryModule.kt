@@ -10,7 +10,9 @@ import com.renovavision.thecocktaildb.domain.repositories.IngredientsRepository
 import com.renovavision.thecocktaildb.domain.repositories.SearchRepository
 import dagger.Binds
 import dagger.Module
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Module
 interface RepositoryModule {
 
