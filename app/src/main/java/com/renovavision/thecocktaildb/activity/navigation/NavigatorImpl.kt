@@ -11,13 +11,9 @@ import com.renovavision.thecocktaildb.cocktails.list.CocktailsListFragmentDirect
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity
-import com.renovavision.thecocktaildb.home.HomeFragmentDirections
-import com.renovavision.thecocktaildb.home.HomeNavigator
 import com.renovavision.thecocktaildb.categories.CategoriesNavigator
 import com.renovavision.thecocktaildb.ingredients.IngredientsFragmentDirections
 import com.renovavision.thecocktaildb.ingredients.IngredientsNavigator
-import com.renovavision.thecocktaildb.search.SearchFragmentDirections
-import com.renovavision.thecocktaildb.search.SearchNavigator
 import com.renovavision.thecocktaildb.ui.navigation.Navigator
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -25,7 +21,7 @@ import javax.inject.Singleton
 
 @Singleton
 class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator,
-    HomeNavigator, CategoriesNavigator, IngredientsNavigator, SearchNavigator {
+    CategoriesNavigator, IngredientsNavigator {
 
     private var activity: MainActivity? = null
 
@@ -64,16 +60,6 @@ class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator,
         }
     }
 
-    override fun navHomeToSearch() {
-        activity?.apply {
-            runOnUiThread {
-                findNavController(R.id.navHostFragment).navigate(
-                    HomeFragmentDirections.navigateToSearch()
-                )
-            }
-        }
-    }
-
     override fun navIngredientsToCocktailsList(ingredient: DrinksIngredientEntity.IngredientEntity) {
         activity?.apply {
             runOnUiThread {
@@ -95,16 +81,6 @@ class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator,
                         ingredient = null,
                         category = category
                     )
-                )
-            }
-        }
-    }
-
-    override fun navSearchToCocktailDetails(cocktail: DrinksByQueryEntity.DrinkEntity) {
-        activity?.apply {
-            runOnUiThread {
-                findNavController(R.id.navHostFragment).navigate(
-                    SearchFragmentDirections.navigateToCocktailDetails(cocktail)
                 )
             }
         }

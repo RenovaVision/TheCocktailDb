@@ -21,7 +21,6 @@ include(
     ":cocktails",
     ":categories",
     ":ingredients",
-    ":search",
     ":data",
     ":domain",
     ":ui",
