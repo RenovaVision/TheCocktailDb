@@ -1,6 +1,14 @@
 plugins {
-    kotlin("jvm")
+    id("com.android.library")
+    kotlin("android")
     kotlin("kapt")
+}
+
+android {
+    compileSdkVersion(AndroidConfig.compileSdkVersion)
+    defaultConfig {
+        minSdkVersion(AndroidConfig.minSdkVersion)
+    }
 }
 
 dependencies {
@@ -11,6 +19,9 @@ dependencies {
     implementation(Deps.Square.moshi)
     implementation(Deps.Square.moshiAdapters)
     implementation(Deps.Google.dagger)
+    implementation(Deps.Database.room)
+    implementation(Deps.Database.roomKtx)
+    kapt(Deps.Database.roomCompiler)
     kapt(Deps.Google.daggerCompiler)
     kapt(Deps.Square.moshiKotlinCodegen)
 }

@@ -7,6 +7,8 @@ import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +25,7 @@ data class State(
     val ingredients: List<IngredientEntity> = emptyList()
 )
 
+@ExperimentalCoroutinesApi
 class IngredientsViewModel @Inject constructor(
     private val getIngredientsList: GetIngredientsList,
     private val homeNavigator: IngredientsNavigator
@@ -36,6 +39,7 @@ class IngredientsViewModel @Inject constructor(
             is LoadIngredientsFailed -> state.copy(isLoading = false, showError = true)
             is LoadIngredientsSuccess -> state.copy(
                 isLoading = false,
+                showError = false,
                 ingredients = action.ingredients
             )
             else -> state
@@ -57,9 +61,11 @@ class IngredientsViewModel @Inject constructor(
             }) {
                 val ingredients = getIngredientsList.invoke()
 
-                when (ingredients.isEmpty()) {
-                    true -> dispatch(LoadIngredientsFailed)
-                    else -> dispatch(LoadIngredientsSuccess(ingredients))
+                ingredients.collect {
+                    when (it.isEmpty()) {
+                        true -> dispatch(LoadIngredientsFailed)
+                        else -> dispatch(LoadIngredientsSuccess(it))
+                    }
                 }
             }
         }

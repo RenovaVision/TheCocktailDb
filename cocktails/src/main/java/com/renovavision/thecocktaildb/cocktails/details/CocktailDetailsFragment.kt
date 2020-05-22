@@ -11,8 +11,10 @@ import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkE
 import com.renovavision.thecocktaildb.ui.utils.bindingDelegate
 import com.renovavision.thecocktaildb.ui.utils.observe
 import com.renovavision.thecocktaildb.ui.utils.onViewLifecycle
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class CocktailDetailsFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory
 ) : Fragment(R.layout.fragment_cocktail_details) {

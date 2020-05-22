@@ -11,8 +11,10 @@ import com.renovavision.thecocktaildb.categories.databinding.FragmentCategoryLis
 import com.renovavision.thecocktaildb.ui.utils.bindingDelegate
 import com.renovavision.thecocktaildb.ui.utils.observe
 import com.renovavision.thecocktaildb.ui.utils.onViewLifecycle
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class CategoriesFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory
 ) : Fragment(R.layout.fragment_category_list) {

@@ -30,7 +30,7 @@ class IngredientsAdapter(dispatch: Dispatch) :
             itemView.setOnClickListener {
                 item.let {
                     dispatch.invoke(
-                        com.renovavision.thecocktaildb.ingredients.IngredientClicked(
+                        IngredientClicked(
                             item
                         )
                     )

@@ -10,7 +10,9 @@ import com.renovavision.thecocktaildb.inject.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Module
 interface ViewModelsModule {
 

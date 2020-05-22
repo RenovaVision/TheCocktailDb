@@ -10,6 +10,8 @@ import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +29,7 @@ data class State(
     val cocktails: List<DrinkEntity> = emptyList()
 )
 
+@ExperimentalCoroutinesApi
 class CocktailsListViewModel @Inject constructor(
     private val getCocktails: GetCocktails,
     private val cocktailsNavigator: CocktailsNavigator
@@ -38,7 +41,11 @@ class CocktailsListViewModel @Inject constructor(
         when (action) {
             is LoadCocktailsStarted -> state.copy(isLoading = true)
             is LoadCocktailsFailed -> state.copy(isLoading = false, showError = true)
-            is LoadCocktailsSuccess -> state.copy(isLoading = false, cocktails = action.cocktails)
+            is LoadCocktailsSuccess -> state.copy(
+                isLoading = false,
+                showError = false,
+                cocktails = action.cocktails
+            )
             else -> state
         }
 
@@ -62,9 +69,11 @@ class CocktailsListViewModel @Inject constructor(
             }) {
                 val cocktails = getCocktails.loadCocktailsListByIngredient(ingredient.key)
 
-                when (cocktails.isEmpty()) {
-                    true -> dispatch(LoadCocktailsFailed)
-                    else -> dispatch(LoadCocktailsSuccess(cocktails))
+                cocktails.collect {
+                    when (it.isEmpty()) {
+                        true -> dispatch(LoadCocktailsFailed)
+                        else -> dispatch(LoadCocktailsSuccess(it))
+                    }
                 }
             }
         }
@@ -79,9 +88,11 @@ class CocktailsListViewModel @Inject constructor(
             }) {
                 val cocktails = getCocktails.loadCocktailsListByCategory(category.key)
 
-                when (cocktails.isEmpty()) {
-                    true -> dispatch(LoadCocktailsFailed)
-                    else -> dispatch(LoadCocktailsSuccess(cocktails))
+                cocktails.collect {
+                    when (it.isEmpty()) {
+                        true -> dispatch(LoadCocktailsFailed)
+                        else -> dispatch(LoadCocktailsSuccess(it))
+                    }
                 }
             }
         }
