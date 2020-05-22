@@ -67,6 +67,7 @@ dependencies {
     kapt(Deps.Google.daggerAndroidProcessor)
 
     implementation(Deps.Square.retrofit)
+    implementation(Deps.Database.room)
 
     androidTestImplementation(Deps.Test.junitExt)
     androidTestImplementation(Deps.Androidx.espressoContrib)

@@ -1,5 +1,8 @@
 package com.renovavision.thecocktaildb.data.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.renovavision.thecocktaildb.data.entities.CocktailInfo.Cocktail.Companion.TABLE_NAME
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -9,7 +12,9 @@ data class CocktailInfo(
 ) {
 
     @JsonClass(generateAdapter = true)
+    @Entity(tableName = TABLE_NAME)
     data class Cocktail(
+        @PrimaryKey
         val idDrink: Int,
         val strDrink: String,
         val strDrinkAlternate: String?,
@@ -63,5 +68,9 @@ data class CocktailInfo(
         val strMeasure15: String?,
         val strCreativeCommonsConfirmed: String?,
         val dateModified: String?
-    )
+    ) {
+        companion object {
+            const val TABLE_NAME = "CocktailInfo"
+        }
+    }
 }
