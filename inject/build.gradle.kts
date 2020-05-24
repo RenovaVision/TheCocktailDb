@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
 }
 
 android {
@@ -25,5 +24,4 @@ android {
 dependencies {
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Google.dagger)
-    kapt(Deps.Google.daggerCompiler)
 }

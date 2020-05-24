@@ -1,14 +1,10 @@
 plugins {
     kotlin("jvm")
-    kotlin("kapt")
 }
 
 dependencies {
-    implementation(Deps.Google.dagger)
+    implementation(Deps.Javax.inject)
     implementation(Deps.Kotlin.coroutines)
-    kapt(Deps.Google.daggerCompiler)
-    kapt(Deps.Square.moshiKotlinCodegen)
-
     testImplementation(Deps.Test.mockito)
     testImplementation(Deps.Test.mockitoKotlin)
     testImplementation(Deps.Test.junit)

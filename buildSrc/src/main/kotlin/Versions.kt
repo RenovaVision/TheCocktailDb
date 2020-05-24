@@ -26,6 +26,10 @@ object Deps {
             "com.google.dagger:dagger-android-processor:${Versions.dagger}"
     }
 
+    object Javax {
+        const val inject = "javax.inject:javax.inject:1"
+    }
+
     object Square {
         const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
         const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshi}"

@@ -1,7 +1,7 @@
 package com.renovavision.thecocktaildb.usecases
 
 import com.nhaarman.mockitokotlin2.mock
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity
+import com.renovavision.thecocktaildb.domain.entities.Ingredient
 import com.renovavision.thecocktaildb.domain.repositories.IngredientsRepository
 import com.renovavision.thecocktaildb.domain.usecases.GetIngredientsList
 import kotlinx.coroutines.flow.collect
@@ -27,12 +27,8 @@ class GetIngredientsListTest {
     @Test
     fun `should return list of ingredients`() {
         val list = listOf(
-            DrinksIngredientEntity.Ingredient(
-                "One"
-            ),
-            DrinksIngredientEntity.Ingredient(
-                "Two"
-            )
+            Ingredient("One"),
+            Ingredient("Two")
         )
         runBlocking {
             `when`(ingredientsRepository.loadIngredients()).thenReturn(flow {
@@ -40,9 +36,7 @@ class GetIngredientsListTest {
             })
             test.invoke().collect {
                 assertEquals(
-                    DrinksIngredientEntity.Ingredient(
-                        "One"
-                    ),
+                    Ingredient("One"),
                     it[0]
                 )
             }

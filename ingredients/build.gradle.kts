@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
 }
 
 android {
@@ -27,6 +26,5 @@ dependencies {
     implementation(Deps.Androidx.material)
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Androidx.constraintlayout)
-    implementation(Deps.Google.dagger)
-    kapt(Deps.Google.daggerCompiler)
+    implementation(Deps.Javax.inject)
 }

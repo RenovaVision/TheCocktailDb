@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
 }
 
 android {
@@ -33,8 +32,7 @@ dependencies {
     implementation(Deps.Kotlin.coroutines)
     implementation(Deps.Kotlin.coroutinesAndroid)
     implementation(Deps.Square.picasso)
-    implementation(Deps.Google.dagger)
-    kapt(Deps.Google.daggerCompiler)
+    implementation(Deps.Javax.inject)
 
     testImplementation(project(":ui-testutils"))
     testImplementation(Deps.Androidx.espressoContrib)

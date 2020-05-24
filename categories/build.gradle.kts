@@ -26,5 +26,5 @@ dependencies {
     implementation(Deps.Androidx.material)
     implementation(Deps.Androidx.fragment)
     implementation(Deps.Androidx.constraintlayout)
-    implementation(Deps.Google.dagger)
+    implementation(Deps.Javax.inject)
 }
