@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.data.local
+package com.renovavision.thecocktaildb.data.database
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

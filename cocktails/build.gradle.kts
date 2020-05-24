@@ -23,7 +23,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":style"))
     implementation(project(":inject"))
     implementation(project(":ui"))
     implementation(project(":domain"))

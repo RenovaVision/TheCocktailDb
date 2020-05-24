@@ -1,6 +1,5 @@
 package com.renovavision.thecocktaildb.domain.entities
 
-import com.renovavision.thecocktaildb.domain.Indexed
 import java.io.Serializable
 
 data class CocktailInfoEntity(
@@ -61,7 +60,8 @@ data class CocktailInfoEntity(
         val strMeasure15: String?,
         val strCreativeCommonsConfirmed: String?,
         val dateModified: String?
-    ) : Serializable, Indexed<Int> {
+    ) : Serializable,
+        Indexed<Int> {
 
         fun getIngredients(): String {
             val list = listOf(

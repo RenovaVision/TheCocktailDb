@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.data.local
+package com.renovavision.thecocktaildb.data.database
 
 import android.content.Context
 import androidx.room.Database
@@ -8,9 +8,9 @@ import com.renovavision.thecocktaildb.data.entities.CocktailInfo.*
 import com.renovavision.thecocktaildb.data.entities.DrinksByQuery.*
 import com.renovavision.thecocktaildb.data.entities.DrinksCategory.*
 import com.renovavision.thecocktaildb.data.entities.DrinksIngredient.*
-import com.renovavision.thecocktaildb.data.local.dao.CategoriesDao
-import com.renovavision.thecocktaildb.data.local.dao.CocktailsDao
-import com.renovavision.thecocktaildb.data.local.dao.IngredientsDao
+import com.renovavision.thecocktaildb.data.database.dao.CategoriesDao
+import com.renovavision.thecocktaildb.data.database.dao.CocktailsDao
+import com.renovavision.thecocktaildb.data.database.dao.IngredientsDao
 
 @Database(
     entities = [

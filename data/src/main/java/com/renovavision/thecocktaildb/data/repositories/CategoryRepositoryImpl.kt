@@ -2,11 +2,11 @@ package com.renovavision.thecocktaildb.data.repositories
 
 import com.renovavision.thecocktaildb.data.api.CocktailsApi
 import com.renovavision.thecocktaildb.data.entities.DrinksCategory.Category
-import com.renovavision.thecocktaildb.data.local.dao.CategoriesDao
+import com.renovavision.thecocktaildb.data.database.dao.CategoriesDao
 import com.renovavision.thecocktaildb.data.mapper.drinksCategoryToEntityMapper
+import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.repositories.CategoryRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -17,7 +17,8 @@ import javax.inject.Singleton
 @Singleton
 class CategoryRepositoryImpl @Inject constructor(
     private val cocktailsApi: CocktailsApi,
-    private val categoriesDao: CategoriesDao
+    private val categoriesDao: CategoriesDao,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : CategoryRepository {
 
     override suspend fun loadCategories() =
@@ -36,5 +37,5 @@ class CategoryRepositoryImpl @Inject constructor(
             override suspend fun fetchFromRemote() =
                 cocktailsApi.loadDrinksCategory().drinks
 
-        }.asFlow().flowOn(Dispatchers.IO)
+        }.asFlow().flowOn(coroutineDispatcherProvider.ioDispatcher())
 }

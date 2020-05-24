@@ -51,7 +51,6 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":categories"))
     implementation(project(":ingredients"))
-    implementation(project(":search"))
     implementation(project(":cocktails"))
     implementation(project(":ui"))
     implementation(Deps.Androidx.activity)

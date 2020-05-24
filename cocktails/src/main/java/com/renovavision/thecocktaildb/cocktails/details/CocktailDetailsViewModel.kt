@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
 import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
-import com.renovavision.thecocktaildb.ui.dispatcher.CoroutineDispatcherProvider
+import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.ui.utils.Action
 import com.renovavision.thecocktaildb.ui.utils.AsyncAction
 import com.renovavision.thecocktaildb.ui.utils.UniViewModel

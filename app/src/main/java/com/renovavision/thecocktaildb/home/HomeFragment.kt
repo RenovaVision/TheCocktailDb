@@ -14,8 +14,7 @@ import com.renovavision.thecocktaildb.ui.utils.onViewLifecycle
 import javax.inject.Inject
 
 class HomeFragment @Inject constructor(
-    private val viewModelFactory: ViewModelProvider.Factory,
-    private val homeNavigator: HomeNavigator
+    private val viewModelFactory: ViewModelProvider.Factory
 ) : Fragment(R.layout.fragment_home) {
 
     private val binding by bindingDelegate(FragmentHomeBinding::bind)
@@ -59,10 +58,6 @@ class HomeFragment @Inject constructor(
                             }
 
                         AppCompatDelegate.setDefaultNightMode(mode)
-                        true
-                    }
-                    R.id.action_search -> {
-                        homeNavigator.navHomeToSearch()
                         true
                     }
 

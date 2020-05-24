@@ -21,10 +21,8 @@ include(
     ":cocktails",
     ":categories",
     ":ingredients",
-    ":search",
     ":data",
     ":domain",
     ":ui",
-    ":ui-testutils",
-    ":style"
+    ":ui-testutils"
 )

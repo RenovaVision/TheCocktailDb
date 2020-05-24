@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.ui.dispatcher;
+package com.renovavision.thecocktaildb.domain;
 
 import kotlinx.coroutines.CoroutineDispatcher
 

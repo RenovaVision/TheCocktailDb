@@ -7,7 +7,6 @@ import com.renovavision.thecocktaildb.cocktails.list.CocktailsListFragment
 import com.renovavision.thecocktaildb.home.HomeFragment
 import com.renovavision.thecocktaildb.ingredients.IngredientsFragment
 import com.renovavision.thecocktaildb.inject.FragmentKey
-import com.renovavision.thecocktaildb.search.SearchFragment
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -21,11 +20,6 @@ interface FragmentsModule {
     @IntoMap
     @FragmentKey(HomeFragment::class)
     fun homeFragment(homeFragment: HomeFragment): Fragment
-
-    @Binds
-    @IntoMap
-    @FragmentKey(SearchFragment::class)
-    fun searchFragment(searchFragment: SearchFragment): Fragment
 
     @Binds
     @IntoMap

@@ -5,7 +5,6 @@ import com.renovavision.thecocktaildb.cocktails.details.CocktailDetailsViewModel
 import com.renovavision.thecocktaildb.cocktails.list.CocktailsListViewModel
 import com.renovavision.thecocktaildb.categories.CategoriesViewModel
 import com.renovavision.thecocktaildb.ingredients.IngredientsViewModel
-import com.renovavision.thecocktaildb.search.SearchViewModel
 import com.renovavision.thecocktaildb.inject.ViewModelKey
 import dagger.Binds
 import dagger.Module
@@ -15,11 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Module
 interface ViewModelsModule {
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SearchViewModel::class)
-    fun searchViewModel(searchViewModel: SearchViewModel): ViewModel
 
     @Binds
     @IntoMap
