@@ -10,15 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailsListBinding
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
+import com.renovavision.thecocktaildb.domain.entities.Category
+import com.renovavision.thecocktaildb.domain.entities.Ingredient
 import com.renovavision.thecocktaildb.ui.utils.bindingDelegate
 import com.renovavision.thecocktaildb.ui.utils.observe
 import com.renovavision.thecocktaildb.ui.utils.onViewLifecycle
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class CocktailsListFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory
 ) : Fragment(R.layout.fragment_cocktails_list) {
@@ -32,8 +30,8 @@ class CocktailsListFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val ingredient = arguments?.getSerializable("ingredient")?.let { it as IngredientEntity }
-        val category = arguments?.getSerializable("category")?.let { it as CategoryEntity }
+        val ingredient = arguments?.getSerializable("ingredient")?.let { it as Ingredient }
+        val category = arguments?.getSerializable("category")?.let { it as Category }
 
         onViewLifecycle({ binding.toolbar },
             {
@@ -76,7 +74,7 @@ class CocktailsListFragment @Inject constructor(
         }
     }
 
-    private fun loadCocktailsList(ingredient: IngredientEntity?, category: CategoryEntity?) {
+    private fun loadCocktailsList(ingredient: Ingredient?, category: Category?) {
         when {
             ingredient != null -> viewModel.dispatch(LoadCocktailsByIngredient(ingredient))
             category != null -> viewModel.dispatch(LoadCocktailsByCategory(category))

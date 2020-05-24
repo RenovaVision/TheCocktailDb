@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.activity.navigation
+package com.renovavision.thecocktaildb.activity
 
 import com.renovavision.thecocktaildb.categories.CategoriesNavigator
 import com.renovavision.thecocktaildb.cocktails.CocktailsNavigator

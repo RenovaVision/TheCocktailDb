@@ -1,4 +1,4 @@
-package com.renovavision.thecocktaildb.ui.utils
+package com.renovavision.thecocktaildb.ui.uni
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -37,7 +37,7 @@ typealias Dispatch = (dispatchable: Dispatchable) -> Unit
  * Store class, based on AndroidX ViewModel.
  * Contains State, Reducer and Middleware
  */
-@ExperimentalCoroutinesApi
+
 abstract class UniViewModel<S>(dispatcher: CoroutineDispatcher) :
     ViewModel() {
 
@@ -47,22 +47,26 @@ abstract class UniViewModel<S>(dispatcher: CoroutineDispatcher) :
 
     private val scope = CoroutineScope(dispatcher)
 
+    @ExperimentalCoroutinesApi
     open val dispatch: Dispatch = { actionsChannel.offer(it) }
 
     val state: LiveData<S> = stateChannel.receiveAsFlow().asLiveData()
 
     init {
-        _state = initState()
-        scope.launch {
-            actionsChannel.consumeEach {
-                when (it) {
-                    is Action -> {
-                        _state = reduce(_state, it)
-                        stateChannel.send(_state)
-                    }
-                    is AsyncAction -> {
-                        async(_state, it)
-                    }
+        _state = getDefaultState()
+        scope.launch { initStore() }
+    }
+
+    @ExperimentalCoroutinesApi
+    private suspend fun initStore() {
+        actionsChannel.consumeEach {
+            when (it) {
+                is Action -> {
+                    _state = reduce(_state, it)
+                    stateChannel.send(_state)
+                }
+                is AsyncAction -> {
+                    async(_state, it)
                 }
             }
         }
@@ -71,7 +75,8 @@ abstract class UniViewModel<S>(dispatcher: CoroutineDispatcher) :
     /***
      * Function, which return initial State of Store.
      */
-    abstract fun initState(): S
+    @ExperimentalCoroutinesApi
+    abstract fun getDefaultState(): S
 
     /***
      * Pure function - Reducer, which provide new state depends on incoming Action

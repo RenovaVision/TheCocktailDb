@@ -1,43 +1,46 @@
 package com.renovavision.thecocktaildb.categories
 
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetCategoriesList
 import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
-import com.renovavision.thecocktaildb.ui.utils.Action
-import com.renovavision.thecocktaildb.ui.utils.AsyncAction
-import com.renovavision.thecocktaildb.ui.utils.UniViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
+import com.renovavision.thecocktaildb.domain.entities.Category
+import com.renovavision.thecocktaildb.ui.uni.Action
+import com.renovavision.thecocktaildb.ui.uni.AsyncAction
+import com.renovavision.thecocktaildb.ui.uni.UniViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // Async actions
 object LoadCategories : AsyncAction
-data class CategoryClicked(val category: CategoryEntity) : AsyncAction
+data class CategoryClicked(val category: Category) :
+    AsyncAction
 
 // Actions
 object LoadCategoriesStarted : Action
 object LoadCategoriesFailed : Action
-data class LoadCategoriesSuccess(val categories: List<CategoryEntity>) : Action
+data class LoadCategoriesSuccess(val categories: List<Category>) :
+    Action
 
 // State
 data class State(
     val isLoading: Boolean,
     val showError: Boolean,
-    val categories: List<CategoryEntity> = emptyList()
+    val categories: List<Category> = emptyList()
 )
 
 // View model
-@ExperimentalCoroutinesApi
 class CategoriesViewModel @Inject constructor(
     private val getCategoriesList: GetCategoriesList,
     private val homeNavigator: CategoriesNavigator,
     provider: CoroutineDispatcherProvider
 ) : UniViewModel<State>(provider.ioDispatcher()) {
 
-    override fun initState() = State(isLoading = true, showError = false)
+
+    @ExperimentalCoroutinesApi
+    override fun getDefaultState() = State(isLoading = true, showError = false)
 
     override fun reduce(state: State, action: Action): State =
         when (action) {
@@ -51,22 +54,22 @@ class CategoriesViewModel @Inject constructor(
             else -> state
         }
 
+    @ExperimentalCoroutinesApi
     override fun async(state: State, asyncAction: AsyncAction) {
         when (asyncAction) {
             is CategoryClicked -> homeNavigator.navCategoriesToCocktailsList(asyncAction.category)
             is LoadCategories -> {
                 if (state.categories.isEmpty()) {
                     dispatch(LoadCategoriesStarted)
-                    viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-                        dispatch(LoadCategoriesFailed)
-                    }) {
-                        val categories = getCategoriesList.invoke()
-                        categories.collect {
-                            when (it.isEmpty()) {
-                                true -> dispatch(LoadCategoriesFailed)
-                                else -> dispatch(LoadCategoriesSuccess(it))
+                    viewModelScope.launch {
+                        getCategoriesList.invoke()
+                            .catch { dispatch(LoadCategoriesFailed) }
+                            .collect {
+                                when (it.isEmpty()) {
+                                    true -> dispatch(LoadCategoriesStarted)
+                                    false -> dispatch(LoadCategoriesSuccess(it))
+                                }
                             }
-                        }
                     }
                 }
             }

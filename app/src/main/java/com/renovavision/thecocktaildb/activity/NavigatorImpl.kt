@@ -1,17 +1,16 @@
-package com.renovavision.thecocktaildb.activity.navigation
+package com.renovavision.thecocktaildb.activity
 
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.renovavision.thecocktaildb.R
-import com.renovavision.thecocktaildb.activity.MainActivity
 import com.renovavision.thecocktaildb.categories.CategoriesFragmentDirections
 import com.renovavision.thecocktaildb.cocktails.CocktailsNavigator
 import com.renovavision.thecocktaildb.cocktails.list.CocktailsListFragmentDirections
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity
 import com.renovavision.thecocktaildb.categories.CategoriesNavigator
+import com.renovavision.thecocktaildb.domain.entities.Category
+import com.renovavision.thecocktaildb.domain.entities.Cocktail
+import com.renovavision.thecocktaildb.domain.entities.Ingredient
 import com.renovavision.thecocktaildb.ingredients.IngredientsFragmentDirections
 import com.renovavision.thecocktaildb.ingredients.IngredientsNavigator
 import com.renovavision.thecocktaildb.ui.navigation.Navigator
@@ -42,7 +41,7 @@ class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator,
     }
 
     override fun navCocktailsListToDetails(
-        cocktail: DrinksByQueryEntity.DrinkEntity,
+        cocktail: Cocktail,
         imageView: WeakReference<AppCompatImageView>
     ) {
         activity?.apply {
@@ -60,7 +59,7 @@ class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator,
         }
     }
 
-    override fun navIngredientsToCocktailsList(ingredient: DrinksIngredientEntity.IngredientEntity) {
+    override fun navIngredientsToCocktailsList(ingredient: Ingredient) {
         activity?.apply {
             runOnUiThread {
                 findNavController(R.id.navHostFragment).navigate(
@@ -73,7 +72,7 @@ class NavigatorImpl @Inject constructor() : Navigator, CocktailsNavigator,
         }
     }
 
-    override fun navCategoriesToCocktailsList(category: DrinksCategoryEntity.CategoryEntity) {
+    override fun navCategoriesToCocktailsList(category: Category) {
         activity?.apply {
             runOnUiThread {
                 findNavController(R.id.navHostFragment).navigate(

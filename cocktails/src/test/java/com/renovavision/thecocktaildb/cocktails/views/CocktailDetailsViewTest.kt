@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.renovavision.thecocktaildb.cocktails.R
-import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity
+import com.renovavision.thecocktaildb.domain.entities.CocktailDetails
 import com.renovavision.ui.testutils.view.ViewTestRule
 import org.junit.Before
 import org.junit.Rule
@@ -17,11 +17,11 @@ import uk.co.jemos.podam.api.PodamFactoryImpl
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class CocktailInfoViewTest {
+class CocktailDetailsViewTest {
 
     @JvmField
     @Rule
-    val rule = ViewTestRule.create<CocktailInfoView>()
+    val rule = ViewTestRule.create<CocktailDetailsView>()
 
     @Before
     fun setUp() {
@@ -39,6 +39,6 @@ class CocktailInfoViewTest {
     }
 
     private fun entityFactory() =
-        PodamFactoryImpl().manufacturePojo(CocktailInfoEntity.CocktailEntity::class.java)
+        PodamFactoryImpl().manufacturePojo(CocktailDetails::class.java)
 
 }

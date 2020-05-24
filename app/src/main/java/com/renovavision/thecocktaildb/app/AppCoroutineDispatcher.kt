@@ -6,8 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppCoroutineDispatcher @Inject constructor() :
-    CoroutineDispatcherProvider {
+class AppCoroutineDispatcher @Inject constructor() : CoroutineDispatcherProvider {
 
     override fun mainDispatcher() = Dispatchers.Main
 

@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.renovavision.thecocktaildb.cocktails.views.CocktailInfoView
+            <com.renovavision.thecocktaildb.cocktails.views.CocktailDetailsView
                 android:id="@+id/cocktailInfoView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

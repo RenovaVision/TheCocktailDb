@@ -7,10 +7,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.CocktailInfoViewBinding
-import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
+import com.renovavision.thecocktaildb.domain.entities.CocktailDetails
 import com.squareup.picasso.Picasso
 
-class CocktailInfoView @JvmOverloads constructor(
+class CocktailDetailsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -31,7 +31,7 @@ class CocktailInfoView @JvmOverloads constructor(
         }
 
     @get:JvmSynthetic
-    var info: CocktailEntity
+    var info: CocktailDetails
         get() = throw UnsupportedOperationException()
         set(value) {
             binding.categoryText.text = context.getString(R.string.category, value.strCategory)

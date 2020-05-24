@@ -8,14 +8,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionInflater
 import com.renovavision.thecocktaildb.cocktails.R
 import com.renovavision.thecocktaildb.cocktails.databinding.FragmentCocktailDetailsBinding
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
+import com.renovavision.thecocktaildb.domain.entities.Cocktail
 import com.renovavision.thecocktaildb.ui.utils.bindingDelegate
 import com.renovavision.thecocktaildb.ui.utils.observe
 import com.renovavision.thecocktaildb.ui.utils.onViewLifecycle
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class CocktailDetailsFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory
 ) : Fragment(R.layout.fragment_cocktail_details) {
@@ -30,7 +28,7 @@ class CocktailDetailsFragment @Inject constructor(
         sharedElementEnterTransition =
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
 
-        val cocktail = arguments?.getSerializable("cocktail") as DrinkEntity
+        val cocktail = arguments?.getSerializable("cocktail") as Cocktail
 
         onViewLifecycle({ binding.toolbar },
             {
@@ -44,13 +42,13 @@ class CocktailDetailsFragment @Inject constructor(
             {
                 errorMessage = getString(R.string.can_not_load_cocktail_details)
                 clickListener =
-                    View.OnClickListener { viewModel.dispatch(LoadCocktailInfo(cocktail)) }
+                    View.OnClickListener { viewModel.dispatch(LoadCocktailDetails(cocktail)) }
             }, {
                 clickListener = null
             }
         )
 
-        viewModel.dispatch(LoadCocktailInfo(cocktail))
+        viewModel.dispatch(LoadCocktailDetails(cocktail))
     }
 
     override fun onStart() {
@@ -59,7 +57,7 @@ class CocktailDetailsFragment @Inject constructor(
         viewModel.state.observe(this) {
             binding.cocktailInfoView.apply {
                 visibility = if (!it.showError) View.VISIBLE else View.GONE
-                it.cocktailInfo?.let { cocktailInfo ->
+                it.cocktailDetails?.let { cocktailInfo ->
                     info = cocktailInfo
                 }
             }

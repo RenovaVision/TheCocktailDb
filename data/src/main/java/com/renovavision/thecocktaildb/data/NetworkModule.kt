@@ -1,8 +1,6 @@
 package com.renovavision.thecocktaildb.data
 
-import com.renovavision.thecocktaildb.data.api.CocktailsApi
-import com.renovavision.thecocktaildb.data.repositories.CategoryRepositoryImpl
-import com.renovavision.thecocktaildb.domain.repositories.CategoryRepository
+import com.renovavision.thecocktaildb.data.network.Api
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -31,5 +29,5 @@ object NetworkModule {
         ).build()
 
     @Provides
-    fun provideCocktailApi(retrofit: Retrofit) = retrofit.create(CocktailsApi::class.java)
+    fun provideApi(retrofit: Retrofit) = retrofit.create(Api::class.java)
 }

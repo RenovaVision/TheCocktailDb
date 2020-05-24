@@ -3,46 +3,53 @@ package com.renovavision.thecocktaildb.cocktails.list
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.cocktails.CocktailsNavigator
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
-import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
+import com.renovavision.thecocktaildb.domain.usecases.GetCocktailsListByCategory
 import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
-import com.renovavision.thecocktaildb.ui.utils.Action
-import com.renovavision.thecocktaildb.ui.utils.AsyncAction
-import com.renovavision.thecocktaildb.ui.utils.UniViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
+import com.renovavision.thecocktaildb.domain.entities.Category
+import com.renovavision.thecocktaildb.domain.entities.Cocktail
+import com.renovavision.thecocktaildb.domain.entities.Ingredient
+import com.renovavision.thecocktaildb.domain.usecases.GetCocktailsListByIngredient
+import com.renovavision.thecocktaildb.ui.uni.Action
+import com.renovavision.thecocktaildb.ui.uni.AsyncAction
+import com.renovavision.thecocktaildb.ui.uni.UniViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-data class LoadCocktailsByIngredient(val ingredient: IngredientEntity) : AsyncAction
-data class LoadCocktailsByCategory(val category: CategoryEntity) : AsyncAction
+data class LoadCocktailsByIngredient(val ingredient: Ingredient) :
+    AsyncAction
+
+data class LoadCocktailsByCategory(val category: Category) :
+    AsyncAction
+
 class CocktailClicked(
-    val cocktail: DrinkEntity,
+    val cocktail: Cocktail,
     val imageView: WeakReference<AppCompatImageView>
 ) : AsyncAction
 
 object LoadCocktailsStarted : Action
 object LoadCocktailsFailed : Action
-data class LoadCocktailsSuccess(val cocktails: List<DrinkEntity>) : Action
+data class LoadCocktailsSuccess(val cocktails: List<Cocktail>) :
+    Action
 
 data class State(
     val isLoading: Boolean,
     val showError: Boolean,
-    val cocktails: List<DrinkEntity> = emptyList()
+    val cocktails: List<Cocktail> = emptyList()
 )
 
 @ExperimentalCoroutinesApi
 class CocktailsListViewModel @Inject constructor(
-    private val getCocktails: GetCocktails,
+    private val getCocktailsListByCategory: GetCocktailsListByCategory,
+    private val getCocktailsListByIngredient: GetCocktailsListByIngredient,
     private val cocktailsNavigator: CocktailsNavigator,
     provider: CoroutineDispatcherProvider
 ) : UniViewModel<State>(provider.ioDispatcher()) {
 
-    override fun initState() = State(isLoading = true, showError = false)
+    override fun getDefaultState() = State(isLoading = true, showError = false)
 
     override fun reduce(state: State, action: Action): State =
         when (action) {
@@ -58,7 +65,10 @@ class CocktailsListViewModel @Inject constructor(
 
     override fun async(state: State, asyncAction: AsyncAction) {
         when (asyncAction) {
-            is CocktailClicked -> cocktailsNavigator.navCocktailsListToDetails(asyncAction.cocktail, asyncAction.imageView)
+            is CocktailClicked -> cocktailsNavigator.navCocktailsListToDetails(
+                asyncAction.cocktail,
+                asyncAction.imageView
+            )
             is LoadCocktailsByIngredient -> loadCocktailsListByIngredient(
                 state,
                 asyncAction.ingredient
@@ -67,40 +77,24 @@ class CocktailsListViewModel @Inject constructor(
         }
     }
 
-    private fun loadCocktailsListByIngredient(state: State, ingredient: IngredientEntity) {
+    private fun loadCocktailsListByIngredient(state: State, ingredient: Ingredient) {
         if (state.cocktails.isEmpty()) {
             dispatch(LoadCocktailsStarted)
-
-            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-                dispatch(LoadCocktailsFailed)
-            }) {
-                val cocktails = getCocktails.loadCocktailsListByIngredient(ingredient.key)
-
-                cocktails.collect {
-                    when (it.isEmpty()) {
-                        true -> dispatch(LoadCocktailsFailed)
-                        else -> dispatch(LoadCocktailsSuccess(it))
-                    }
-                }
+            viewModelScope.launch {
+                getCocktailsListByIngredient.invoke(ingredient.key)
+                    .catch { dispatch(LoadCocktailsFailed) }
+                    .collect { dispatch(LoadCocktailsSuccess(it)) }
             }
         }
     }
 
-    private fun loadCocktailsListByCategory(state: State, category: CategoryEntity) {
+    private fun loadCocktailsListByCategory(state: State, category: Category) {
         if (state.cocktails.isEmpty()) {
             dispatch(LoadCocktailsStarted)
-
-            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-                dispatch(LoadCocktailsFailed)
-            }) {
-                val cocktails = getCocktails.loadCocktailsListByCategory(category.key)
-
-                cocktails.collect {
-                    when (it.isEmpty()) {
-                        true -> dispatch(LoadCocktailsFailed)
-                        else -> dispatch(LoadCocktailsSuccess(it))
-                    }
-                }
+            viewModelScope.launch {
+                getCocktailsListByCategory.invoke(category.key)
+                    .catch { dispatch(LoadCocktailsFailed) }
+                    .collect { dispatch(LoadCocktailsSuccess(it)) }
             }
         }
     }

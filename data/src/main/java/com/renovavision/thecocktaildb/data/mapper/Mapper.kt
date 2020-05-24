@@ -1,34 +1,35 @@
 package com.renovavision.thecocktaildb.data.mapper
 
-import com.renovavision.thecocktaildb.data.entities.CocktailInfo.Cocktail
-import com.renovavision.thecocktaildb.data.entities.DrinksByQuery.Drink
-import com.renovavision.thecocktaildb.data.entities.DrinksCategory.Category
-import com.renovavision.thecocktaildb.data.entities.DrinksIngredient.Ingredient
-import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity.CocktailEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
+import com.renovavision.thecocktaildb.data.entities.CategoryEntity
+import com.renovavision.thecocktaildb.data.entities.CocktailDetailsEntity
+import com.renovavision.thecocktaildb.data.entities.CocktailEntity
+import com.renovavision.thecocktaildb.data.entities.IngredientEntity
+import com.renovavision.thecocktaildb.domain.entities.Category
+import com.renovavision.thecocktaildb.domain.entities.Cocktail
+import com.renovavision.thecocktaildb.domain.entities.CocktailDetails
+import com.renovavision.thecocktaildb.domain.entities.Ingredient
 
 typealias FunctionMapper<F, T> = ((from: F) -> T)
 
-internal val drinksCategoryToEntityMapper: FunctionMapper<Category, CategoryEntity> = {
-    CategoryEntity(key = it.strCategory)
+internal val categoryMapper: FunctionMapper<CategoryEntity, Category> = {
+    Category(key = it.strCategory)
 }
 
-internal val drinksIngredientToEntityMapper: FunctionMapper<Ingredient, IngredientEntity> = {
-    IngredientEntity(key = it.strIngredient1)
+internal val ingredientMapper: FunctionMapper<IngredientEntity, Ingredient> = {
+    Ingredient(key = it.strIngredient1)
 }
 
-internal val drinksToEntityMapper: FunctionMapper<Drink, DrinkEntity> = {
-    DrinkEntity(
-        strDrink = it.strDrink,
-        strDrinkThumb = it.strDrinkThumb,
-        key = it.idDrink
-    )
-}
+internal val cocktailMapper: FunctionMapper<CocktailEntity, Cocktail> =
+    {
+        Cocktail(
+            key = it.idDrink,
+            strDrink = it.strDrink,
+            strDrinkThumb = it.strDrinkThumb
+        )
+    }
 
-internal val cocktailInfoToEntityMapper: FunctionMapper<Cocktail, CocktailEntity> = {
-    CocktailEntity(
+internal val cocktailDetailsMapper: FunctionMapper<CocktailDetailsEntity, CocktailDetails> = {
+    CocktailDetails(
         key = it.idDrink,
         strDrink = it.strDrink,
         strDrinkAlternate = it.strDrinkAlternate,

@@ -7,13 +7,13 @@ import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.renovavision.thecocktaildb.cocktails.details.CocktailDetailsViewModel
-import com.renovavision.thecocktaildb.cocktails.details.LoadCocktailInfo
+import com.renovavision.thecocktaildb.cocktails.details.LoadCocktailDetails
 import com.renovavision.thecocktaildb.cocktails.details.State
-import com.renovavision.thecocktaildb.domain.entities.CocktailInfoEntity
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity
 import com.renovavision.thecocktaildb.domain.repositories.CocktailsRepository
-import com.renovavision.thecocktaildb.domain.usecases.GetCocktails
 import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
+import com.renovavision.thecocktaildb.domain.entities.Cocktail
+import com.renovavision.thecocktaildb.domain.entities.CocktailDetails
+import com.renovavision.thecocktaildb.domain.usecases.GetCocktailDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -50,7 +50,7 @@ class CocktailDetailsViewModelTest {
     fun beforeTest() {
         Dispatchers.setMain(testDispatcher)
         `when`(dispatcherProvider.ioDispatcher()).thenReturn(testDispatcher)
-        viewModel = CocktailDetailsViewModel(GetCocktails(cocktailsRepo), dispatcherProvider)
+        viewModel = CocktailDetailsViewModel(GetCocktailDetails(cocktailsRepo), dispatcherProvider)
         viewModel.state.observeForever(observer)
     }
 
@@ -58,16 +58,14 @@ class CocktailDetailsViewModelTest {
     fun `success scenario`() {
         runBlockingTest {
             val entity = entityFactory(1)
-            `when`(cocktailsRepo.loadCocktailDetails(1)).thenReturn(flow {
-                emit(listOf(entity))
-            })
-            viewModel.dispatch(LoadCocktailInfo(DrinksByQueryEntity.DrinkEntity("name", "url", 1)))
+            `when`(cocktailsRepo.loadCocktailDetails(1)).thenReturn(flow { emit(entity) })
+            viewModel.dispatch(LoadCocktailDetails(Cocktail(1,"name", "url")))
             verify(observer).onChanged(State(true, false, null))
 
             val captor = ArgumentCaptor.forClass(State::class.java)
             captor.run {
                 verify(observer, times(2)).onChanged(capture())
-                assertEquals(entity, captor.value.cocktailInfo!!)
+                assertEquals(entity, captor.value.cocktailDetails!!)
             }
             verifyNoMoreInteractions(observer)
         }
@@ -77,7 +75,7 @@ class CocktailDetailsViewModelTest {
     fun `failed scenario`() {
         runBlockingTest {
             `when`(cocktailsRepo.loadCocktailDetails(1)).thenThrow(RuntimeException("Mock error"))
-            viewModel.dispatch(LoadCocktailInfo(DrinksByQueryEntity.DrinkEntity("name", "url", 1)))
+            viewModel.dispatch(LoadCocktailDetails(Cocktail(1, "name", "url")))
             verify(observer).onChanged(State(true, false, null))
             verify(observer).onChanged(State(false, true, null))
             verifyNoMoreInteractions(observer)
@@ -90,6 +88,5 @@ class CocktailDetailsViewModelTest {
     }
 
     private fun entityFactory(key: Int) =
-        PodamFactoryImpl().manufacturePojo(CocktailInfoEntity.CocktailEntity::class.java)
-            .copy(key = key)
+        PodamFactoryImpl().manufacturePojo(CocktailDetails::class.java).copy(key = key)
 }

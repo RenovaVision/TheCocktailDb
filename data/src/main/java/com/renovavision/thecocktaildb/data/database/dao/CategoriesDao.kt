@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.renovavision.thecocktaildb.data.entities.DrinksCategory.Category
+import com.renovavision.thecocktaildb.data.entities.CategoryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoriesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCategories(categories: List<Category>)
+    fun insertCategories(categories: List<CategoryEntity>)
 
-    @Query("DELETE FROM ${Category.TABLE_NAME}")
+    @Query("DELETE FROM ${CategoryEntity.TABLE_NAME}")
     fun deleteAllCategories()
 
-    @Query("SELECT * FROM ${Category.TABLE_NAME}")
-    fun getAllCategories(): Flow<List<Category>>
+    @Query("SELECT * FROM ${CategoryEntity.TABLE_NAME}")
+    fun getAllCategories(): Flow<List<CategoryEntity>>
 }

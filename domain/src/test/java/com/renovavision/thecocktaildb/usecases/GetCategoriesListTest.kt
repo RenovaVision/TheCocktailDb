@@ -1,7 +1,7 @@
 package com.renovavision.thecocktaildb.usecases
 
 import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity
-import com.renovavision.thecocktaildb.domain.repositories.CategoryRepository
+import com.renovavision.thecocktaildb.domain.repositories.CategoriesRepository
 import com.renovavision.thecocktaildb.domain.usecases.GetCategoriesList
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -19,7 +19,7 @@ import kotlin.test.assertFails
 class GetCategoriesListTest {
 
     @Mock
-    lateinit var categoriesRepo: CategoryRepository
+    lateinit var categoriesRepo: CategoriesRepository
 
     private lateinit var test: GetCategoriesList
 

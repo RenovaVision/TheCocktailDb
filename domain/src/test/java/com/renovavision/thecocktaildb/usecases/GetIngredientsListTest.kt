@@ -27,10 +27,10 @@ class GetIngredientsListTest {
     @Test
     fun `should return list of ingredients`() {
         val list = listOf(
-            DrinksIngredientEntity.IngredientEntity(
+            DrinksIngredientEntity.Ingredient(
                 "One"
             ),
-            DrinksIngredientEntity.IngredientEntity(
+            DrinksIngredientEntity.Ingredient(
                 "Two"
             )
         )
@@ -40,7 +40,7 @@ class GetIngredientsListTest {
             })
             test.invoke().collect {
                 assertEquals(
-                    DrinksIngredientEntity.IngredientEntity(
+                    DrinksIngredientEntity.Ingredient(
                         "One"
                     ),
                     it[0]

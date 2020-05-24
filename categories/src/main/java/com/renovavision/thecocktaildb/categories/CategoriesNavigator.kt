@@ -1,8 +1,8 @@
 package com.renovavision.thecocktaildb.categories
 
-import com.renovavision.thecocktaildb.domain.entities.DrinksCategoryEntity.CategoryEntity
+import com.renovavision.thecocktaildb.domain.entities.Category
 
 interface CategoriesNavigator {
 
-    fun navCategoriesToCocktailsList(category: CategoryEntity)
+    fun navCategoriesToCocktailsList(category: Category)
 }

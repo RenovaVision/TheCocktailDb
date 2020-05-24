@@ -4,28 +4,28 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.renovavision.thecocktaildb.data.entities.CocktailInfo.Cocktail
-import com.renovavision.thecocktaildb.data.entities.DrinksByQuery.Drink
+import com.renovavision.thecocktaildb.data.entities.CocktailDetailsEntity
+import com.renovavision.thecocktaildb.data.entities.CocktailEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CocktailsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDrinks(categories: List<Drink>)
+    fun insertCocktails(categories: List<CocktailEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCocktailInfo(cocktail: List<Cocktail>)
+    fun insertCocktailDetails(cocktail: List<CocktailDetailsEntity>)
 
-    @Query("SELECT * FROM ${Drink.TABLE_NAME} WHERE category = :param OR ingredient = :param")
-    fun getDrinks(param: String): Flow<List<Drink>>
+    @Query("SELECT * FROM ${CocktailEntity.TABLE_NAME} WHERE category = :param OR ingredient = :param")
+    fun getCocktails(param: String): Flow<List<CocktailEntity>>
 
-    @Query("SELECT * FROM ${Cocktail.TABLE_NAME} WHERE idDrink = :id")
-    fun getCocktailInfo(id: Int): Flow<List<Cocktail>>
+    @Query("SELECT * FROM ${CocktailDetailsEntity.TABLE_NAME} WHERE idDrink = :id")
+    fun getCocktailDetails(id: Int): Flow<CocktailDetailsEntity>
 
-    @Query("DELETE FROM ${Drink.TABLE_NAME}")
-    fun deleteAllDrinks()
+    @Query("DELETE FROM ${CocktailEntity.TABLE_NAME}")
+    fun deleteAllCocktails()
 
-    @Query("DELETE FROM ${Cocktail.TABLE_NAME}")
-    fun deleteAllCocktailsInfo()
+    @Query("DELETE FROM ${CocktailDetailsEntity.TABLE_NAME}")
+    fun deleteAllCocktailDetails()
 }

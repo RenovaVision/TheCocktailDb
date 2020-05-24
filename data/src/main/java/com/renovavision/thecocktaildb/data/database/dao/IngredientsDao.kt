@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.renovavision.thecocktaildb.data.entities.DrinksIngredient.Ingredient
+import com.renovavision.thecocktaildb.data.entities.IngredientEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface IngredientsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertIngredients(ingredients: List<Ingredient>)
+    fun insertIngredients(ingredients: List<IngredientEntity>)
 
-    @Query("DELETE FROM ${Ingredient.TABLE_NAME}")
+    @Query("DELETE FROM ${IngredientEntity.TABLE_NAME}")
     fun deleteAllIngredients()
 
-    @Query("SELECT * FROM ${Ingredient.TABLE_NAME}")
-    fun getAllIngredients(): Flow<List<Ingredient>>
+    @Query("SELECT * FROM ${IngredientEntity.TABLE_NAME}")
+    fun getAllIngredients(): Flow<List<IngredientEntity>>
 }

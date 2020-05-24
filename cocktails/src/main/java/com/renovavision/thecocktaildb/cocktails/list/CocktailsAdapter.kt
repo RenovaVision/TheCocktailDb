@@ -3,14 +3,14 @@ package com.renovavision.thecocktaildb.cocktails.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.renovavision.thecocktaildb.cocktails.databinding.ItemViewCocktailBinding
-import com.renovavision.thecocktaildb.domain.entities.DrinksByQueryEntity.DrinkEntity
+import com.renovavision.thecocktaildb.domain.entities.Cocktail
 import com.renovavision.thecocktaildb.ui.utils.BaseAdapter
 import com.renovavision.thecocktaildb.ui.utils.BaseViewHolder
-import com.renovavision.thecocktaildb.ui.utils.Dispatch
+import com.renovavision.thecocktaildb.ui.uni.Dispatch
 import java.lang.ref.WeakReference
 
 class CocktailsAdapter(dispatch: Dispatch) :
-    BaseAdapter<DrinkEntity, CocktailsAdapter.CocktailViewHolder>(dispatch) {
+    BaseAdapter<Cocktail, CocktailsAdapter.CocktailViewHolder>(dispatch) {
 
     override fun buildViewHolder(parent: ViewGroup, viewType: Int) =
         CocktailViewHolder(
@@ -21,11 +21,10 @@ class CocktailsAdapter(dispatch: Dispatch) :
             )
         )
 
-    override fun areItemsTheSame(oldItem: DrinkEntity, newItem: DrinkEntity) =
-        oldItem.key == newItem.key
+    override fun areItemsTheSame(oldItem: Cocktail, newItem: Cocktail) = oldItem.key == newItem.key
 
     inner class CocktailViewHolder(private val binding: ItemViewCocktailBinding) :
-        BaseViewHolder<DrinkEntity>(binding.root) {
+        BaseViewHolder<Cocktail>(binding.root) {
 
         override fun onCreate(dispatch: Dispatch) {
             super.onCreate(dispatch)
@@ -41,9 +40,8 @@ class CocktailsAdapter(dispatch: Dispatch) :
             }
         }
 
-        override fun onBind(item: DrinkEntity) {
+        override fun onBind(item: Cocktail) {
             super.onBind(item)
-
             binding.cocktailInfo.cocktail = item
         }
     }

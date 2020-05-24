@@ -1,39 +1,41 @@
 package com.renovavision.thecocktaildb.ingredients
 
 import androidx.lifecycle.viewModelScope
-import com.renovavision.thecocktaildb.domain.entities.DrinksIngredientEntity.IngredientEntity
 import com.renovavision.thecocktaildb.domain.usecases.GetIngredientsList
 import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
-import com.renovavision.thecocktaildb.ui.utils.Action
-import com.renovavision.thecocktaildb.ui.utils.AsyncAction
-import com.renovavision.thecocktaildb.ui.utils.UniViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
+import com.renovavision.thecocktaildb.domain.entities.Ingredient
+import com.renovavision.thecocktaildb.ui.uni.Action
+import com.renovavision.thecocktaildb.ui.uni.AsyncAction
+import com.renovavision.thecocktaildb.ui.uni.UniViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 object LoadIngredients : AsyncAction
-data class IngredientClicked(val ingredient: IngredientEntity) : AsyncAction
+data class IngredientClicked(val ingredient: Ingredient) :
+    AsyncAction
 
 object LoadIngredientsStarted : Action
 object LoadIngredientsFailed : Action
-data class LoadIngredientsSuccess(val ingredients: List<IngredientEntity>) : Action
+data class LoadIngredientsSuccess(val ingredients: List<Ingredient>) :
+    Action
 
 data class State(
     val isLoading: Boolean,
     val showError: Boolean,
-    val ingredients: List<IngredientEntity> = emptyList()
+    val ingredients: List<Ingredient> = emptyList()
 )
 
-@ExperimentalCoroutinesApi
 class IngredientsViewModel @Inject constructor(
     private val getIngredientsList: GetIngredientsList,
     private val homeNavigator: IngredientsNavigator,
     provider: CoroutineDispatcherProvider
 ) : UniViewModel<State>(provider.ioDispatcher()) {
 
-    override fun initState() = State(isLoading = true, showError = false)
+    @ExperimentalCoroutinesApi
+    override fun getDefaultState() = State(isLoading = true, showError = false)
 
     override fun reduce(state: State, action: Action): State =
         when (action) {
@@ -47,27 +49,21 @@ class IngredientsViewModel @Inject constructor(
             else -> state
         }
 
+    @ExperimentalCoroutinesApi
     override fun async(state: State, asyncAction: AsyncAction) {
         when (asyncAction) {
             is IngredientClicked -> homeNavigator.navIngredientsToCocktailsList(asyncAction.ingredient)
-            is LoadIngredients -> loadIngredients(state)
-        }
-    }
-
-    private fun loadIngredients(state: State) {
-        if (state.ingredients.isEmpty()) {
-            dispatch(LoadIngredientsStarted)
-
-            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
-                dispatch(LoadIngredientsFailed)
-            }) {
-                val ingredients = getIngredientsList.invoke()
-
-                ingredients.collect {
-                    when (it.isEmpty()) {
-                        true -> dispatch(LoadIngredientsFailed)
-                        else -> dispatch(LoadIngredientsSuccess(it))
-                    }
+            is LoadIngredients -> if (state.ingredients.isEmpty()) {
+                dispatch(LoadIngredientsStarted)
+                viewModelScope.launch {
+                    getIngredientsList.invoke()
+                        .catch { dispatch(LoadIngredientsFailed) }
+                        .collect {
+                            when (it.isEmpty()) {
+                                true -> dispatch(LoadIngredientsStarted)
+                                false -> dispatch(LoadIngredientsSuccess(it))
+                            }
+                        }
                 }
             }
         }
