@@ -1,5 +1,7 @@
 # TheCocktailDb
 
+![GitHub Logo](/screenshots/app_flow.gif)
+
 ## About
 It simply loads data from API and stores it in persistence storage (i.e. SQLite Database). Data will be always loaded from local database. Remote data (from API) and Local data is always synchronized.
 * User real [TheCocktailDB](https://www.thecocktaildb.com/) api.<br>
