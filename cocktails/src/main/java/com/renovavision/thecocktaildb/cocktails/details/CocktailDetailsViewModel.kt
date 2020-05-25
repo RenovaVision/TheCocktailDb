@@ -57,7 +57,7 @@ class CocktailDetailsViewModel @Inject constructor(
                 viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
                     dispatch(LoadCocktailInfoFailed)
                 }) {
-                    getCocktailDetails.loadCocktailDetails(asyncAction.drink.key)
+                    getCocktailDetails.invoke(asyncAction.drink.key)
                         .catch { LoadCocktailInfoFailed }
                         .collect { dispatch(LoadCocktailInfoSuccess(it)) }
                 }
