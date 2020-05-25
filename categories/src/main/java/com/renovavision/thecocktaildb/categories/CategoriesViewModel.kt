@@ -7,6 +7,7 @@ import com.renovavision.thecocktaildb.domain.entities.Category
 import com.renovavision.thecocktaildb.ui.uni.Action
 import com.renovavision.thecocktaildb.ui.uni.AsyncAction
 import com.renovavision.thecocktaildb.ui.uni.UniViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -38,7 +39,6 @@ class CategoriesViewModel @Inject constructor(
     provider: CoroutineDispatcherProvider
 ) : UniViewModel<State>(provider.ioDispatcher()) {
 
-
     @ExperimentalCoroutinesApi
     override fun getDefaultState() = State(isLoading = true, showError = false)
 
@@ -61,7 +61,9 @@ class CategoriesViewModel @Inject constructor(
             is LoadCategories -> {
                 if (state.categories.isEmpty()) {
                     dispatch(LoadCategoriesStarted)
-                    viewModelScope.launch {
+                    viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
+                        dispatch(LoadCategoriesFailed)
+                    }) {
                         getCategoriesList.invoke()
                             .catch { dispatch(LoadCategoriesFailed) }
                             .collect {

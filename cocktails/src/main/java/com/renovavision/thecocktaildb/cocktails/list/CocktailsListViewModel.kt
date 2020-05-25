@@ -3,15 +3,16 @@ package com.renovavision.thecocktaildb.cocktails.list
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.viewModelScope
 import com.renovavision.thecocktaildb.cocktails.CocktailsNavigator
-import com.renovavision.thecocktaildb.domain.usecases.GetCocktailsListByCategory
 import com.renovavision.thecocktaildb.domain.CoroutineDispatcherProvider
 import com.renovavision.thecocktaildb.domain.entities.Category
 import com.renovavision.thecocktaildb.domain.entities.Cocktail
 import com.renovavision.thecocktaildb.domain.entities.Ingredient
+import com.renovavision.thecocktaildb.domain.usecases.GetCocktailsListByCategory
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktailsListByIngredient
 import com.renovavision.thecocktaildb.ui.uni.Action
 import com.renovavision.thecocktaildb.ui.uni.AsyncAction
 import com.renovavision.thecocktaildb.ui.uni.UniViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -80,7 +81,9 @@ class CocktailsListViewModel @Inject constructor(
     private fun loadCocktailsListByIngredient(state: State, ingredient: Ingredient) {
         if (state.cocktails.isEmpty()) {
             dispatch(LoadCocktailsStarted)
-            viewModelScope.launch {
+            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
+                dispatch(LoadCocktailsFailed)
+            }) {
                 getCocktailsListByIngredient.invoke(ingredient.key)
                     .catch { dispatch(LoadCocktailsFailed) }
                     .collect { dispatch(LoadCocktailsSuccess(it)) }
@@ -91,7 +94,9 @@ class CocktailsListViewModel @Inject constructor(
     private fun loadCocktailsListByCategory(state: State, category: Category) {
         if (state.cocktails.isEmpty()) {
             dispatch(LoadCocktailsStarted)
-            viewModelScope.launch {
+            viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
+                dispatch(LoadCocktailsFailed)
+            }) {
                 getCocktailsListByCategory.invoke(category.key)
                     .catch { dispatch(LoadCocktailsFailed) }
                     .collect { dispatch(LoadCocktailsSuccess(it)) }

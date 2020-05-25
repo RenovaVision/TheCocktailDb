@@ -7,7 +7,9 @@ import com.renovavision.thecocktaildb.domain.entities.Ingredient
 import com.renovavision.thecocktaildb.ui.uni.Action
 import com.renovavision.thecocktaildb.ui.uni.AsyncAction
 import com.renovavision.thecocktaildb.ui.uni.UniViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -34,7 +36,6 @@ class IngredientsViewModel @Inject constructor(
     provider: CoroutineDispatcherProvider
 ) : UniViewModel<State>(provider.ioDispatcher()) {
 
-    @ExperimentalCoroutinesApi
     override fun getDefaultState() = State(isLoading = true, showError = false)
 
     override fun reduce(state: State, action: Action): State =
@@ -55,7 +56,9 @@ class IngredientsViewModel @Inject constructor(
             is IngredientClicked -> homeNavigator.navIngredientsToCocktailsList(asyncAction.ingredient)
             is LoadIngredients -> if (state.ingredients.isEmpty()) {
                 dispatch(LoadIngredientsStarted)
-                viewModelScope.launch {
+                viewModelScope.launch(CoroutineExceptionHandler { _, _ ->
+                    dispatch(LoadIngredientsFailed)
+                }) {
                     getIngredientsList.invoke()
                         .catch { dispatch(LoadIngredientsFailed) }
                         .collect {
