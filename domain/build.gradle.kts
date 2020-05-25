@@ -10,4 +10,5 @@ dependencies {
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.kotlinTest)
     testImplementation(Deps.Kotlin.coroutinesTest)
+    testImplementation(Deps.Test.podam)
 }

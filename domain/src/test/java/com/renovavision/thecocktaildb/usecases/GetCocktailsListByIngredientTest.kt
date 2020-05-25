@@ -12,6 +12,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
+import uk.co.jemos.podam.api.PodamFactoryImpl
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
@@ -31,14 +32,16 @@ class GetCocktailsListByIngredientTest {
     @Test
     fun `should return list of cocktails by ingredient`() {
         runBlocking {
+            val cocktails = listOf(entityFactory(15346))
+
             Mockito.`when`(cocktailsRepository.loadCocktailsListByIngredient(Mockito.anyString()))
                 .thenReturn(
                     flow {
-                        emit(cocktailsList)
+                        emit(cocktails)
                     })
             test.invoke(Mockito.anyString()).collect {
                 assertEquals(
-                    "155 Belmont", it[1].strDrink
+                    15346, it[0].key
                 )
             }
         }
@@ -54,4 +57,8 @@ class GetCocktailsListByIngredientTest {
             assertFails { test.invoke(Mockito.anyString()) }
         }
     }
+
+    private fun entityFactory(key: Int) =
+        PodamFactoryImpl().manufacturePojo(Cocktail::class.java)
+            .copy(key = key)
 }

@@ -1,5 +1,6 @@
 package com.renovavision.thecocktaildb.usecases
 
+import com.renovavision.thecocktaildb.domain.entities.CocktailDetails
 import com.renovavision.thecocktaildb.domain.repositories.CocktailsRepository
 import com.renovavision.thecocktaildb.domain.usecases.GetCocktailDetails
 import kotlinx.coroutines.flow.collect
@@ -12,6 +13,7 @@ import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
+import uk.co.jemos.podam.api.PodamFactoryImpl
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
@@ -31,6 +33,8 @@ class GetCocktailDetailsTest {
     @Test
     fun `should return cocktail details`() {
         runBlocking {
+            val cocktailDetails = entityFactory(11007, "Margarita")
+
             `when`(cocktailsRepository.loadCocktailDetails(anyInt())).thenReturn(
                 flow {
                     emit(cocktailDetails)
@@ -52,4 +56,8 @@ class GetCocktailDetailsTest {
             assertFails { test.invoke(anyInt()) }
         }
     }
+
+    private fun entityFactory(key: Int, drink: String) =
+        PodamFactoryImpl().manufacturePojo(CocktailDetails::class.java)
+            .copy(key = key, strDrink = drink)
 }
