@@ -1,8 +1,8 @@
 package com.renovavision.thecocktaildb.home
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.renovavision.thecocktaildb.R
 import com.renovavision.thecocktaildb.categories.CategoriesFragment
@@ -19,18 +19,10 @@ class HomeFragment @Inject constructor(
 
     private val binding by bindingDelegate(FragmentHomeBinding::bind)
 
+    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val appSettingPrefs = context?.getSharedPreferences("AppSettingPrefs", 0)
-        val sharedPrefsEdit = appSettingPrefs?.edit()
-        val isNightModeOn = appSettingPrefs?.getBoolean("NightMode", false)
-
-        if (isNightModeOn == true) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
 
         val tabAdapter = TabAdapter(childFragmentManager)
         tabAdapter.addFragment(
@@ -46,18 +38,8 @@ class HomeFragment @Inject constructor(
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_theme -> {
-                        val mode =
-                            if (isNightModeOn == false) {
-                                sharedPrefsEdit?.putBoolean("NightMode", true)
-                                sharedPrefsEdit?.apply()
-                                AppCompatDelegate.MODE_NIGHT_YES
-                            } else {
-                                sharedPrefsEdit?.putBoolean("NightMode", false)
-                                sharedPrefsEdit?.apply()
-                                AppCompatDelegate.MODE_NIGHT_NO
-                            }
+                        viewModel.dispatch(ChangeTheme)
 
-                        AppCompatDelegate.setDefaultNightMode(mode)
                         true
                     }
 

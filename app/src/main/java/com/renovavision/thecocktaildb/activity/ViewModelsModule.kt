@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.renovavision.thecocktaildb.cocktails.details.CocktailDetailsViewModel
 import com.renovavision.thecocktaildb.cocktails.list.CocktailsListViewModel
 import com.renovavision.thecocktaildb.categories.CategoriesViewModel
+import com.renovavision.thecocktaildb.home.HomeViewModel
 import com.renovavision.thecocktaildb.ingredients.IngredientsViewModel
 import com.renovavision.thecocktaildb.inject.ViewModelKey
 import dagger.Binds
@@ -14,6 +15,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Module
 interface ViewModelsModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HomeViewModel::class)
+    fun homeViewModel(homeViewModel: HomeViewModel): ViewModel
 
     @Binds
     @IntoMap
