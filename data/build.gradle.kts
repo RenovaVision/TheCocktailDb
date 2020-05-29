@@ -8,6 +8,8 @@ android {
     compileSdkVersion(AndroidConfig.compileSdkVersion)
     defaultConfig {
         minSdkVersion(AndroidConfig.minSdkVersion)
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -30,4 +32,6 @@ dependencies {
     testImplementation(Deps.Test.mockWebServer)
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.kotlinTest)
+    testImplementation(Deps.Test.mockito)
+    testImplementation(Deps.Test.mockitoKotlin)
 }
