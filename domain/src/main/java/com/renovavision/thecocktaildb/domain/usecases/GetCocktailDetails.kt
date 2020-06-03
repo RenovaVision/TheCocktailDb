@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class GetCocktailDetails @Inject constructor(private val cocktailsRepo: CocktailsRepository) {
 
-    suspend fun loadCocktailDetails(id: Int) = cocktailsRepo.loadCocktailDetails(id)
+    suspend fun invoke(id: Int) = cocktailsRepo.loadCocktailDetails(id)
 }
